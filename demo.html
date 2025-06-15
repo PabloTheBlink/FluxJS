@@ -38,6 +38,9 @@
         z-index: 1000;
         max-width: 300px;
         backdrop-filter: blur(10px);
+        /* Smooth scrolling for mobile */
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
       }
 
       .control-panel h3 {
@@ -136,27 +139,6 @@
         color: #ccc;
       }
 
-      .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        max-width: 800px;
-        margin-top: 50px;
-      }
-
-      .feature {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(0, 255, 136, 0.3);
-        backdrop-filter: blur(5px);
-      }
-
-      .feature h4 {
-        color: #00ff88;
-        margin-bottom: 10px;
-      }
-
       .toggle-panel {
         position: fixed;
         bottom: 20px;
@@ -174,28 +156,228 @@
         font-weight: bold;
       }
 
+      /* Media Queries para Responsividad */
+      @media (max-width: 1024px) {
+        .control-panel {
+          max-width: 280px;
+          right: 10px;
+          top: 10px;
+        }
+
+        .stats {
+          left: 10px;
+          top: 10px;
+        }
+      }
+
       @media (max-width: 768px) {
         .control-panel {
           position: fixed;
           top: auto;
-          bottom: 20px;
-          left: 20px;
-          right: 20px;
+          bottom: 0;
+          left: 0;
+          right: 0;
           max-width: none;
-          transform: translateY(calc(100% - 50px));
+          border-radius: 15px 15px 0 0;
+          max-height: 70vh;
+          overflow-y: auto;
+          transform: translateY(calc(100% - 60px));
           transition: transform 0.3s ease;
+          padding: 15px 20px 20px;
         }
 
         .control-panel.open {
           transform: translateY(0);
         }
 
+        .control-panel h3 {
+          position: relative;
+          padding-bottom: 10px;
+          border-bottom: 2px solid #333;
+          margin-bottom: 20px;
+        }
+
+        .control-panel h3::after {
+          content: "👆 Desliza hacia arriba";
+          position: absolute;
+          top: -25px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 10px;
+          color: #666;
+          font-weight: normal;
+        }
+
+        .control-panel.open h3::after {
+          content: "👇 Desliza hacia abajo";
+        }
+
+        .stats {
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          right: 10px;
+          font-size: 11px;
+          padding: 8px 10px;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          max-width: calc(100vw - 20px);
+          backdrop-filter: blur(10px);
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 8px;
+          z-index: 999;
+        }
+
+        .stats div {
+          margin: 2px 5px;
+          min-width: 45%;
+          font-size: 10px;
+        }
+
         .title {
           font-size: 2.5rem;
+          margin-bottom: 15px;
+          line-height: 1.1;
+        }
+
+        .subtitle {
+          font-size: 1.2rem;
+          margin-bottom: 20px;
+        }
+
+        .content {
+          padding: 120px 15px 20px;
         }
 
         .features {
           grid-template-columns: 1fr;
+          gap: 15px;
+          margin-top: 30px;
+        }
+
+        .feature {
+          padding: 15px;
+        }
+
+        .feature h4 {
+          font-size: 14px;
+        }
+
+        .feature p {
+          font-size: 12px;
+        }
+
+        .preset-buttons {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+
+        .preset-btn {
+          padding: 10px 5px;
+          font-size: 10px;
+        }
+
+        .control-group {
+          margin-bottom: 12px;
+        }
+
+        .control-group label {
+          font-size: 13px;
+        }
+
+        .control-group input,
+        .control-group select {
+          padding: 8px;
+          font-size: 14px;
+        }
+
+        .toggle-panel {
+          bottom: 15px;
+          right: 50%;
+          transform: translateX(50%);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .title {
+          font-size: 2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+
+        .content {
+          padding: 100px 10px 15px;
+        }
+
+        .features {
+          margin-top: 20px;
+        }
+
+        .stats {
+          font-size: 10px;
+          padding: 6px 8px;
+          max-height: 50px;
+          overflow: hidden;
+        }
+
+        .stats div {
+          min-width: 48%;
+          font-size: 9px;
+          margin: 1px 2px;
+        }
+
+        .preset-buttons {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .preset-btn {
+          font-size: 9px;
+          padding: 8px 4px;
+        }
+
+        .control-panel {
+          padding: 10px 15px 15px;
+        }
+
+        .control-group label {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 320px) {
+        .title {
+          font-size: 1.8rem;
+        }
+
+        .content {
+          padding: 90px 8px 12px;
+        }
+
+        .stats div {
+          min-width: 100%;
+          text-align: center;
+          margin: 1px 0;
+        }
+      }
+
+      /* Mejoras para interacción táctil */
+      @media (hover: none) and (pointer: coarse) {
+        .preset-btn {
+          padding: 12px 8px;
+          min-height: 44px;
+        }
+
+        .control-group input[type="range"] {
+          height: 44px;
+        }
+
+        .control-group input,
+        .control-group select {
+          min-height: 44px;
+          font-size: 16px; /* Evita zoom en iOS */
         }
       }
 
@@ -231,33 +413,6 @@
       <div class="content">
         <h1 class="title">FluxJS</h1>
         <p class="subtitle">Librería de Partículas Ultra Configurable</p>
-
-        <div class="features">
-          <div class="feature">
-            <h4>🎨 Colores Avanzados</h4>
-            <p>Sistema de colores con gradientes, arcoíris, paletas aleatorias y más</p>
-          </div>
-          <div class="feature">
-            <h4>⚡ Física Realista</h4>
-            <p>Gravedad, viento, fricción, rebotes y turbulencia configurable</p>
-          </div>
-          <div class="feature">
-            <h4>🖱️ Interacción Avanzada</h4>
-            <p>Mouse trails, magnetismo, atracción/repulsión y eventos personalizados</p>
-          </div>
-          <div class="feature">
-            <h4>✨ Efectos Especiales</h4>
-            <p>Glow, sombras, twinkle, pulse y efectos de opacidad</p>
-          </div>
-          <div class="feature">
-            <h4>🔵 Formas Personalizadas</h4>
-            <p>Círculos, cuadrados, estrellas, corazones y formas custom</p>
-          </div>
-          <div class="feature">
-            <h4>📱 Totalmente Responsive</h4>
-            <p>Adaptación automática a diferentes tamaños de pantalla</p>
-          </div>
-        </div>
       </div>
 
       <!-- Control Panel -->
@@ -337,11 +492,6 @@
         <div class="control-group">
           <label> <input type="checkbox" id="physics-toggle" /> Física (Gravedad) </label>
         </div>
-      </div>
-
-      <!-- Toggle Button for Mobile -->
-      <div class="toggle-panel">
-        <button class="toggle-btn" onclick="togglePanel()">⚙️</button>
       </div>
     </div>
 
@@ -566,10 +716,123 @@
         }
       }
 
-      // Mobile panel toggle
+      // Mobile panel toggle with gesture support
+      let touchStartY = 0;
+      let panelStartTransform = 0;
+      let isDragging = false;
+
       function togglePanel() {
         const panel = document.getElementById("control-panel");
         panel.classList.toggle("open");
+      }
+
+      // Enhanced mobile panel with swipe gestures
+      function initializeMobilePanel() {
+        const panel = document.getElementById("control-panel");
+
+        // Touch start
+        panel.addEventListener("touchstart", function (e) {
+          if (window.innerWidth <= 768) {
+            touchStartY = e.touches[0].clientY;
+            const transform = getComputedStyle(panel).transform;
+            if (transform !== "none") {
+              const matrix = new DOMMatrix(transform);
+              panelStartTransform = matrix.m42; // translateY value
+            } else {
+              panelStartTransform = panel.classList.contains("open") ? 0 : panel.offsetHeight - 60;
+            }
+            isDragging = true;
+            panel.style.transition = "none";
+          }
+        });
+
+        // Touch move
+        panel.addEventListener("touchmove", function (e) {
+          if (isDragging && window.innerWidth <= 768) {
+            e.preventDefault();
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchY - touchStartY;
+            const newTransform = Math.max(0, Math.min(panel.offsetHeight - 60, panelStartTransform + deltaY));
+
+            panel.style.transform = `translateY(${newTransform}px)`;
+          }
+        });
+
+        // Touch end
+        panel.addEventListener("touchend", function (e) {
+          if (isDragging && window.innerWidth <= 768) {
+            isDragging = false;
+            panel.style.transition = "transform 0.3s ease";
+
+            const currentTransform = parseFloat(panel.style.transform.replace("translateY(", "").replace("px)", "")) || 0;
+            const threshold = panel.offsetHeight * 0.3;
+
+            if (currentTransform < threshold) {
+              panel.classList.add("open");
+              panel.style.transform = "";
+            } else {
+              panel.classList.remove("open");
+              panel.style.transform = "";
+            }
+          }
+        });
+
+        // Prevent scrolling when panel is being dragged
+        document.addEventListener(
+          "touchmove",
+          function (e) {
+            if (isDragging && window.innerWidth <= 768) {
+              e.preventDefault();
+            }
+          },
+          { passive: false }
+        );
+      }
+
+      // Initialize mobile enhancements
+      function initializeMobileEnhancements() {
+        // Auto-hide control panel on mobile after 5 seconds of inactivity
+        let inactivityTimer;
+
+        function resetInactivityTimer() {
+          if (window.innerWidth <= 768) {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+              const panel = document.getElementById("control-panel");
+              if (panel.classList.contains("open")) {
+                panel.classList.remove("open");
+              }
+            }, 5000);
+          }
+        }
+
+        // Reset timer on any interaction
+        ["touchstart", "touchmove", "click"].forEach((event) => {
+          document.addEventListener(event, resetInactivityTimer);
+        });
+
+        // Handle orientation change
+        window.addEventListener("orientationchange", function () {
+          setTimeout(() => {
+            if (currentFlux) {
+              currentFlux.resize();
+              updateStatsDisplay();
+            }
+          }, 100);
+        });
+
+        // Optimize for mobile performance
+        if (window.innerWidth <= 768) {
+          // Reduce particle count on mobile for better performance
+          const slider = document.getElementById("particle-count-slider");
+          if (parseInt(slider.value) > 100) {
+            slider.value = 50;
+            document.getElementById("count-value").textContent = 50;
+            if (currentFlux) {
+              currentFlux.setCount(50);
+            }
+          }
+        }
       }
 
       // Special effects functions
@@ -629,7 +892,11 @@
       });
 
       // Initialize on page load
-      window.addEventListener("load", initFlux);
+      window.addEventListener("load", function () {
+        initFlux();
+        initializeMobilePanel();
+        initializeMobileEnhancements();
+      });
 
       // Handle window resize
       window.addEventListener("resize", function () {
@@ -659,10 +926,22 @@
       }, 5000);
 
       console.log("FluxJS Demo loaded!");
-      console.log("Keyboard shortcuts:");
-      console.log("1-6: Load presets");
-      console.log("Space: Play/Pause");
-      console.log("Double-click: Explosion effect");
+
+      // Mobile-specific instructions
+      if (window.innerWidth <= 768) {
+        console.log("📱 Modo móvil activado");
+        console.log("Instrucciones móviles:");
+        console.log("• Toca el botón ⚙️ para abrir controles");
+        console.log("• Desliza el panel hacia arriba/abajo");
+        console.log("• Toca dos veces para efectos de explosión");
+        console.log("• El panel se oculta automáticamente tras 5s");
+      } else {
+        console.log("🖥️ Modo escritorio");
+        console.log("Atajos de teclado:");
+        console.log("• 1-6: Cargar presets");
+        console.log("• Espacio: Pausar/Reanudar");
+        console.log("• Doble-click: Efecto explosión");
+      }
     </script>
   </body>
 </html>
