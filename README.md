@@ -81,7 +81,7 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 ### CDN (Recomendado)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@pablotheblink/fluxjs@latest/flux.js"></script>
+<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.0/flux.js"></script>
 ```
 
 ### Descarga Directa
