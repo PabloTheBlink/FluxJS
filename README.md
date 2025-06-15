@@ -354,12 +354,42 @@ Para ver todas las opciones disponibles, consulta [CONFIGURATION.md](CONFIGURATI
 
 ## 🤝 Contribuciones
 
-Las contribuciones son bienvenidas. Por favor:
+¡Las contribuciones son muy bienvenidas! FluxJS es un proyecto de código abierto y valoramos cada tipo de contribución.
 
-1. Fork del repositorio
-2. Crea una rama para tu feature
-3. Commit con mensajes descriptivos
-4. Push y crea un Pull Request
+### Formas de Contribuir
+
+- 🐛 **Reportar bugs**: Crea un issue describiendo el problema
+- 💡 **Proponer features**: Sugiere nuevas funcionalidades
+- 📝 **Mejorar documentación**: Ayuda con ejemplos y guías
+- 🔧 **Contribuir código**: Implementa fixes y nuevas características
+- 🎨 **Crear ejemplos**: Desarrolla demos y casos de uso
+- 🧪 **Testing**: Ayuda con pruebas y validaciones
+
+### Proceso de Contribución
+
+1. **Fork** del repositorio
+2. **Clona** tu fork: `git clone https://github.com/tu-usuario/FluxJS.git`
+3. **Crea una rama**: `git checkout -b feature/nueva-caracteristica`
+4. **Implementa** tus cambios
+5. **Testea** tu código
+6. **Commit**: `git commit -m "feat: descripción clara del cambio"`
+7. **Push**: `git push origin feature/nueva-caracteristica`
+8. **Crea un Pull Request**
+
+### Convenciones de Código
+
+- Usa **camelCase** para variables y funciones
+- Comenta código complejo
+- Mantén consistencia con el estilo existente
+- Incluye documentación para nuevos features
+
+Para más detalles, consulta [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 🏆 Colaboradores
+
+¡Gracias a todos los que han contribuido a FluxJS!
+
+<!-- Aquí se pueden agregar colaboradores automáticamente con tools como all-contributors -->
 
 ## 📄 Licencia
 
