@@ -78,6 +78,13 @@
           onClick: options.mouse?.onClick || null, // Función callback
           magnetism: options.mouse?.magnetism || false,
           magnetismStrength: options.mouse?.magnetismStrength || 0.02,
+          // Configuración táctil
+          touch: {
+            enabled: options.mouse?.touch?.enabled !== false,
+            multiTouch: options.mouse?.touch?.multiTouch || false,
+            touchDistance: options.mouse?.touch?.touchDistance || 200, // Mayor distancia para táctil
+            touchAttraction: options.mouse?.touch?.touchAttraction || 0.08, // Mayor atracción
+          },
         },
 
         // Configuración de gravedad y física
@@ -116,11 +123,12 @@
         responsive: {
           enabled: options.responsive?.enabled !== false,
           breakpoints: options.responsive?.breakpoints || {
-            mobile: { width: 768, particles: 0.3 },
-            tablet: { width: 1024, particles: 0.6 },
-            desktop: { width: 1920, particles: 1.0 },
+            mobile: { width: 768, particles: 0.15, maxFPS: 30, simplifyEffects: true },
+            tablet: { width: 1024, particles: 0.4, maxFPS: 45, simplifyEffects: false },
+            desktop: { width: 1920, particles: 1.0, maxFPS: 60, simplifyEffects: false },
           },
           scaleWithContainer: options.responsive?.scaleWithContainer || true,
+          detectDevice: options.responsive?.detectDevice !== false,
         },
 
         // Sistema de animaciones expandido
@@ -156,7 +164,14 @@
           enableWebGL: options.performance?.enableWebGL || false,
           optimizeConnections: options.performance?.optimizeConnections || true,
           pauseOnBlur: options.performance?.pauseOnBlur || true,
-          adaptiveQuality: options.performance?.adaptiveQuality || false,
+          adaptiveQuality: options.performance?.adaptiveQuality !== false,
+          // Optimizaciones móviles
+          mobile: {
+            reducedMotion: options.performance?.mobile?.reducedMotion || false,
+            batteryOptimization: options.performance?.mobile?.batteryOptimization !== false,
+            memoryLimit: options.performance?.mobile?.memoryLimit || 1000, // Límite de partículas en móvil
+            useTransform3d: options.performance?.mobile?.useTransform3d !== false,
+          },
         },
 
         // Eventos y callbacks
@@ -182,6 +197,15 @@
       this.turbulenceTime = 0;
       this.connectionAnimationOffset = 0;
 
+      // Estados móviles
+      this.isMobile = this.detectMobile();
+      this.devicePixelRatio = window.devicePixelRatio || 1;
+      this.touches = new Map(); // Para multi-touch
+      this.currentFPS = 0;
+      this.frameCount = 0;
+      this.lastFPSUpdate = 0;
+      this.performanceMode = "normal"; // 'normal', 'reduced', 'minimal'
+
       // Inicializar sistema de colores
       this.initColorSystem();
 
@@ -191,6 +215,41 @@
       }
 
       this.init();
+    }
+
+    detectMobile() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 768;
+
+      return isMobileUA || (isTouchDevice && isSmallScreen);
+    }
+
+    optimizeForDevice() {
+      if (this.isMobile) {
+        // Reducir partículas automáticamente en móviles
+        this.config.count = Math.min(this.config.count, this.config.performance.mobile.memoryLimit);
+
+        // Ajustar FPS para móviles
+        const breakpoint = this.getCurrentBreakpoint();
+        if (breakpoint && breakpoint.maxFPS) {
+          this.config.performance.maxFPS = breakpoint.maxFPS;
+        }
+
+        // Simplificar efectos si es necesario
+        if (breakpoint && breakpoint.simplifyEffects) {
+          this.config.effects.glow = false;
+          this.config.effects.shadow = false;
+          this.config.connections.animated = false;
+          this.config.mouse.trail = false;
+        }
+
+        // Optimización de batería
+        if (this.config.performance.mobile.batteryOptimization) {
+          this.setupBatteryOptimization();
+        }
+      }
     }
 
     initColorSystem() {
@@ -241,10 +300,49 @@
     }
 
     init() {
+      this.optimizeForDevice();
       this.createCanvas();
       this.setupEventListeners();
       this.createParticles();
       this.start();
+    }
+
+    getCurrentBreakpoint() {
+      const width = window.innerWidth;
+      const breakpoints = this.config.responsive.breakpoints;
+
+      if (width <= breakpoints.mobile.width) {
+        return breakpoints.mobile;
+      } else if (width <= breakpoints.tablet.width) {
+        return breakpoints.tablet;
+      } else {
+        return breakpoints.desktop;
+      }
+    }
+
+    setupBatteryOptimization() {
+      // Detectar estado de batería si está disponible
+      if ("getBattery" in navigator) {
+        navigator.getBattery().then((battery) => {
+          const updatePerformanceMode = () => {
+            if (battery.level < 0.2) {
+              this.performanceMode = "minimal";
+              this.config.performance.maxFPS = 15;
+            } else if (battery.level < 0.5) {
+              this.performanceMode = "reduced";
+              this.config.performance.maxFPS = 30;
+            } else {
+              this.performanceMode = "normal";
+              const breakpoint = this.getCurrentBreakpoint();
+              this.config.performance.maxFPS = breakpoint.maxFPS || 60;
+            }
+          };
+
+          battery.addEventListener("levelchange", updatePerformanceMode);
+          battery.addEventListener("chargingchange", updatePerformanceMode);
+          updatePerformanceMode();
+        });
+      }
     }
 
     createCanvas() {
@@ -253,6 +351,13 @@
       this.canvas.style.pointerEvents = this.config.mouse.interact ? "auto" : "none";
       this.canvas.style.background = this.config.canvas.background;
       this.canvas.style.opacity = this.config.canvas.opacity;
+
+      // Optimización para móviles con hardware acceleration
+      if (this.config.performance.mobile.useTransform3d && this.isMobile) {
+        this.canvas.style.transform = "translateZ(0)";
+        this.canvas.style.backfaceVisibility = "hidden";
+        this.canvas.style.perspective = "1000px";
+      }
 
       // Obtener contexto
       this.ctx = this.canvas.getContext("2d");
@@ -305,53 +410,16 @@
       };
       window.addEventListener("resize", resizeHandler);
 
-      // Seguimiento del mouse
+      // Manejar cambios de orientación en móviles
+      if (this.isMobile) {
+        window.addEventListener("orientationchange", () => {
+          setTimeout(resizeHandler, 100); // Pequeño delay para que la orientación se complete
+        });
+      }
+
+      // Seguimiento del mouse y táctil
       if (this.config.mouse.interact) {
-        const mouseHandler = (e) => {
-          if (this.config.container === document.body) {
-            this.mouse.x = e.clientX;
-            this.mouse.y = e.clientY;
-          } else {
-            const rect = this.config.container.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
-          }
-
-          // Manejar trail del mouse
-          if (this.config.mouse.trail) {
-            this.mouse.trail.push({ x: this.mouse.x, y: this.mouse.y, time: Date.now() });
-            if (this.mouse.trail.length > this.config.mouse.trailLength) {
-              this.mouse.trail.shift();
-            }
-          }
-        };
-
-        const clickHandler = (e) => {
-          if (this.config.mouse.onClick) {
-            this.config.mouse.onClick(e, this);
-          }
-
-          // Verificar click en partículas
-          if (this.config.events.onParticleClick) {
-            this.particles.forEach((particle) => {
-              const dx = this.mouse.x - particle.x;
-              const dy = this.mouse.y - particle.y;
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              if (distance <= particle.size + 5) {
-                this.config.events.onParticleClick(particle, this);
-              }
-            });
-          }
-        };
-
-        document.addEventListener("mousemove", mouseHandler);
-        document.addEventListener("click", clickHandler);
-
-        // También escuchar en el contenedor específico para mayor precisión
-        if (this.config.container !== document.body) {
-          this.config.container.addEventListener("mousemove", mouseHandler);
-          this.config.container.addEventListener("click", clickHandler);
-        }
+        this.setupPointerEvents();
       }
 
       // Pausar/reanudar cuando la ventana pierde/gana foco
@@ -360,25 +428,196 @@
         window.addEventListener("focus", () => this.start());
       }
 
+      // Manejar visibilidad de página (especialmente útil en móviles)
+      if (typeof document.hidden !== "undefined") {
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            this.stop();
+          } else {
+            this.start();
+          }
+        });
+      }
+
       // Responsive - ajustar partículas según el tamaño de pantalla
       if (this.config.responsive.enabled) {
         this.adjustParticleCount();
       }
+
+      // Detectar motion preference del usuario
+      if (window.matchMedia && this.config.performance.mobile.reducedMotion) {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (mediaQuery.matches) {
+          this.config.animation.speed *= 0.5;
+          this.config.performance.maxFPS = Math.min(this.config.performance.maxFPS, 30);
+        }
+      }
+    }
+
+    setupPointerEvents() {
+      const updatePointer = (x, y, pointerId = "mouse") => {
+        if (pointerId === "mouse") {
+          this.mouse.x = x;
+          this.mouse.y = y;
+        } else {
+          // Manejar múltiples toques
+          this.touches.set(pointerId, { x, y, time: Date.now() });
+        }
+
+        // Manejar trail del mouse/touch
+        if (this.config.mouse.trail) {
+          this.mouse.trail.push({ x, y, time: Date.now() });
+          if (this.mouse.trail.length > this.config.mouse.trailLength) {
+            this.mouse.trail.shift();
+          }
+        }
+      };
+
+      const getCoordinates = (e) => {
+        if (this.config.container === document.body) {
+          return { x: e.clientX, y: e.clientY };
+        } else {
+          const rect = this.config.container.getBoundingClientRect();
+          return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+      };
+
+      // Eventos de mouse (desktop)
+      const mouseHandler = (e) => {
+        const coords = getCoordinates(e);
+        updatePointer(coords.x, coords.y, "mouse");
+      };
+
+      // Eventos táctiles (móvil)
+      const touchStartHandler = (e) => {
+        e.preventDefault(); // Prevenir comportamientos por defecto
+
+        Array.from(e.changedTouches).forEach((touch) => {
+          const coords = getCoordinates(touch);
+          updatePointer(coords.x, coords.y, touch.identifier);
+
+          // Si no hay multi-touch, usar el primer toque como mouse
+          if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
+            this.mouse.x = coords.x;
+            this.mouse.y = coords.y;
+          }
+        });
+      };
+
+      const touchMoveHandler = (e) => {
+        e.preventDefault();
+
+        Array.from(e.changedTouches).forEach((touch) => {
+          const coords = getCoordinates(touch);
+          updatePointer(coords.x, coords.y, touch.identifier);
+
+          if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
+            this.mouse.x = coords.x;
+            this.mouse.y = coords.y;
+          }
+        });
+      };
+
+      const touchEndHandler = (e) => {
+        e.preventDefault();
+
+        Array.from(e.changedTouches).forEach((touch) => {
+          this.touches.delete(touch.identifier);
+        });
+
+        // Limpiar posición del mouse si no hay más toques
+        if (e.touches.length === 0) {
+          this.mouse.x = -1000;
+          this.mouse.y = -1000;
+        }
+      };
+
+      const clickHandler = (e) => {
+        if (this.config.mouse.onClick) {
+          this.config.mouse.onClick(e, this);
+        }
+
+        // Verificar click en partículas
+        if (this.config.events.onParticleClick) {
+          const coords = getCoordinates(e);
+          this.particles.forEach((particle) => {
+            const dx = coords.x - particle.x;
+            const dy = coords.y - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance <= particle.size + 5) {
+              this.config.events.onParticleClick(particle, this);
+            }
+          });
+        }
+      };
+
+      // Registrar eventos
+      if (!this.isMobile) {
+        document.addEventListener("mousemove", mouseHandler);
+      }
+
+      if (this.config.mouse.touch.enabled) {
+        document.addEventListener("touchstart", touchStartHandler, { passive: false });
+        document.addEventListener("touchmove", touchMoveHandler, { passive: false });
+        document.addEventListener("touchend", touchEndHandler, { passive: false });
+      }
+
+      document.addEventListener("click", clickHandler);
+
+      // También escuchar en el contenedor específico para mayor precisión
+      if (this.config.container !== document.body) {
+        if (!this.isMobile) {
+          this.config.container.addEventListener("mousemove", mouseHandler);
+        }
+
+        if (this.config.mouse.touch.enabled) {
+          this.config.container.addEventListener("touchstart", touchStartHandler, { passive: false });
+          this.config.container.addEventListener("touchmove", touchMoveHandler, { passive: false });
+          this.config.container.addEventListener("touchend", touchEndHandler, { passive: false });
+        }
+
+        this.config.container.addEventListener("click", clickHandler);
+      }
     }
 
     resize() {
+      let width, height;
+
       if (this.config.container === document.body) {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        width = window.innerWidth;
+        height = window.innerHeight;
       } else {
         const rect = this.config.container.getBoundingClientRect();
-        this.canvas.width = this.config.container.offsetWidth || rect.width;
-        this.canvas.height = this.config.container.offsetHeight || rect.height;
+        width = this.config.container.offsetWidth || rect.width;
+        height = this.config.container.offsetHeight || rect.height;
+      }
+
+      // Manejar dispositivos de alta densidad de píxeles
+      if (this.isMobile && window.devicePixelRatio > 1) {
+        // Configurar el canvas para alta densidad pero sin multiplicar por devicePixelRatio
+        // para mantener el rendimiento en móviles
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.canvas.style.width = width + "px";
+        this.canvas.style.height = height + "px";
+
+        // Solo escalar el contexto si no es móvil o si está explícitamente habilitado
+        if (!this.isMobile || this.devicePixelRatio <= 2) {
+          this.ctx.scale(1, 1); // No escalar en móviles para mejor rendimiento
+        }
+      } else {
+        this.canvas.width = width;
+        this.canvas.height = height;
       }
 
       // Recrear gradient después del resize
       if (this.config.color.type === "gradient") {
         this.gradientCache = null;
+      }
+
+      // Reajustar partículas responsive
+      if (this.config.responsive.enabled) {
+        this.adjustParticleCount();
       }
     }
 
@@ -756,25 +995,48 @@
     }
 
     updateMouseInteraction(particle) {
-      const dx = this.mouse.x - particle.x;
-      const dy = this.mouse.y - particle.y;
+      // Interacción con mouse/dedo principal
+      this.updatePointerInteraction(particle, this.mouse.x, this.mouse.y, "mouse");
+
+      // Interacción con múltiples toques si está habilitado
+      if (this.config.mouse.touch.multiTouch && this.touches.size > 0) {
+        this.touches.forEach((touch, touchId) => {
+          // Limpiar toques antiguos
+          if (Date.now() - touch.time > 1000) {
+            this.touches.delete(touchId);
+            return;
+          }
+
+          this.updatePointerInteraction(particle, touch.x, touch.y, "touch");
+        });
+      }
+    }
+
+    updatePointerInteraction(particle, pointerX, pointerY, pointerType) {
+      const dx = pointerX - particle.x;
+      const dy = pointerY - particle.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < this.config.mouse.distance) {
-        const force = (this.config.mouse.distance - distance) / this.config.mouse.distance;
+      // Usar distancia diferente para táctil
+      const interactionDistance = pointerType === "touch" ? this.config.mouse.touch.touchDistance : this.config.mouse.distance;
+
+      const attraction = pointerType === "touch" ? this.config.mouse.touch.touchAttraction : this.config.mouse.attraction;
+
+      if (distance < interactionDistance) {
+        const force = (interactionDistance - distance) / interactionDistance;
 
         // Atracción o repulsión
-        let attraction = this.config.mouse.attraction;
+        let attractionForce = attraction;
         if (this.config.mouse.repulsion) {
-          attraction = -this.config.mouse.repulsionForce;
+          attractionForce = -this.config.mouse.repulsionForce;
         }
 
-        attraction *= force;
+        attractionForce *= force;
 
-        particle.vx += dx * attraction;
-        particle.vy += dy * attraction;
+        particle.vx += dx * attractionForce;
+        particle.vy += dy * attractionForce;
 
-        // Aumentar opacidad cerca del mouse
+        // Aumentar opacidad cerca del puntero
         particle.opacity = Math.min(1, particle.originalOpacity + force * 0.3);
 
         // Magnetismo
@@ -789,12 +1051,27 @@
           this.config.events.onParticleHover(particle, this);
         }
       } else {
-        // Restaurar opacidad original
-        particle.opacity = particle.originalOpacity;
+        // Restaurar opacidad original solo si no está siendo afectada por otro puntero
+        let isAffectedByOtherPointer = false;
 
-        // Aplicar fricción para volver a velocidad normal
-        particle.vx *= 0.98;
-        particle.vy *= 0.98;
+        if (pointerType === "mouse" && this.touches.size > 0) {
+          // Verificar si algún toque está afectando esta partícula
+          this.touches.forEach((touch) => {
+            const touchDx = touch.x - particle.x;
+            const touchDy = touch.y - particle.y;
+            const touchDistance = Math.sqrt(touchDx * touchDx + touchDy * touchDy);
+            if (touchDistance < this.config.mouse.touch.touchDistance) {
+              isAffectedByOtherPointer = true;
+            }
+          });
+        }
+
+        if (!isAffectedByOtherPointer) {
+          particle.opacity = particle.originalOpacity;
+          // Aplicar fricción para volver a velocidad normal
+          particle.vx *= 0.98;
+          particle.vy *= 0.98;
+        }
       }
     }
 
@@ -1062,11 +1339,24 @@
     animate(currentTime = 0) {
       if (!this.isRunning) return;
 
-      // Control de FPS
+      // Control de FPS mejorado
       const targetFrameTime = 1000 / this.config.performance.maxFPS;
       if (currentTime - this.lastFrameTime < targetFrameTime) {
         this.animationId = requestAnimationFrame((time) => this.animate(time));
         return;
+      }
+
+      // Monitoreo de rendimiento
+      this.frameCount++;
+      if (currentTime - this.lastFPSUpdate > 1000) {
+        this.currentFPS = this.frameCount;
+        this.frameCount = 0;
+        this.lastFPSUpdate = currentTime;
+
+        // Ajuste adaptativo de calidad
+        if (this.config.performance.adaptiveQuality) {
+          this.adaptiveQualityAdjustment();
+        }
       }
 
       // Actualizar y dibujar
@@ -1075,6 +1365,44 @@
 
       // Continuar animación
       this.animationId = requestAnimationFrame((time) => this.animate(time));
+    }
+
+    adaptiveQualityAdjustment() {
+      const targetFPS = this.config.performance.maxFPS;
+      const currentFPS = this.currentFPS;
+
+      // Si el FPS está por debajo del 80% del objetivo, reducir calidad
+      if (currentFPS < targetFPS * 0.8) {
+        if (this.performanceMode === "normal") {
+          this.performanceMode = "reduced";
+          // Reducir número de partículas
+          if (this.particles.length > 20) {
+            this.particles = this.particles.slice(0, Math.floor(this.particles.length * 0.7));
+          }
+          // Desactivar algunos efectos
+          this.config.connections.animated = false;
+          this.config.mouse.trail = false;
+        } else if (this.performanceMode === "reduced") {
+          this.performanceMode = "minimal";
+          // Reducir aún más
+          if (this.particles.length > 10) {
+            this.particles = this.particles.slice(0, Math.floor(this.particles.length * 0.5));
+          }
+          // Desactivar más efectos
+          this.config.effects.glow = false;
+          this.config.effects.shadow = false;
+          this.config.connections.enabled = false;
+        }
+      }
+      // Si el FPS es bueno, intentar restaurar calidad gradualmente
+      else if (currentFPS > targetFPS * 0.95 && this.performanceMode !== "normal") {
+        // Restaurar gradualmente (esto se podría implementar con más sofisticación)
+        if (this.performanceMode === "minimal") {
+          this.performanceMode = "reduced";
+        } else if (this.performanceMode === "reduced") {
+          this.performanceMode = "normal";
+        }
+      }
     }
 
     // Métodos públicos mejorados
@@ -1143,6 +1471,23 @@
       }
     }
 
+    // Métodos de información y depuración
+    getPerformanceInfo() {
+      return {
+        fps: this.currentFPS,
+        maxFPS: this.config.performance.maxFPS,
+        particleCount: this.particles.length,
+        performanceMode: this.performanceMode,
+        isMobile: this.isMobile,
+        devicePixelRatio: this.devicePixelRatio,
+        touchCount: this.touches.size,
+        canvasSize: {
+          width: this.canvas.width,
+          height: this.canvas.height,
+        },
+      };
+    }
+
     // Métodos de control específicos
     setColor(color) {
       if (typeof color === "string") {
@@ -1193,6 +1538,28 @@
       if (index >= 0 && index < this.particles.length) {
         this.particles.splice(index, 1);
       }
+    }
+
+    // Métodos de optimización móvil
+    forceMobileOptimization() {
+      this.isMobile = true;
+      this.optimizeForDevice();
+      this.adjustParticleCount();
+
+      // Reconfigurar eventos
+      this.setupPointerEvents();
+    }
+
+    optimizeForLowEndDevice() {
+      this.performanceMode = "minimal";
+      this.config.performance.maxFPS = 15;
+      this.config.count = Math.min(this.config.count, 15);
+      this.config.effects.glow = false;
+      this.config.effects.shadow = false;
+      this.config.connections.enabled = false;
+      this.config.mouse.trail = false;
+
+      this.createParticles();
     }
 
     // Métodos de utilidad
