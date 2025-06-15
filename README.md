@@ -81,7 +81,7 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 ### CDN (Recomendado)
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tu-usuario/FluxJS/flux.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pablotheblink/fluxjs@latest/flux.js"></script>
 ```
 
 ### Descarga Directa
@@ -93,7 +93,7 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 ### NPM
 
 ```bash
-npm install fluxjs
+npm install @pablotheblink/fluxjs
 ```
 
 ## 🎯 Uso Rápido

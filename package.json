@@ -1,0 +1,40 @@
+{
+  "name": "@pablotheblink/fluxjs",
+  "version": "1.0.0",
+  "description": "Una librería de partículas animadas ultra configurable para fondos web interactivos, con más de 100 opciones de personalización",
+  "main": "flux.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "particles",
+    "animation",
+    "canvas",
+    "javascript",
+    "web",
+    "background",
+    "effects",
+    "interactive",
+    "particulas",
+    "animacion"
+  ],
+  "author": "Pablo Martínez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PabloTheBlink/FluxJS.git"
+  },
+  "homepage": "https://github.com/PabloTheBlink/FluxJS#readme",
+  "bugs": {
+    "url": "https://github.com/PabloTheBlink/FluxJS/issues"
+  },
+  "files": [
+    "flux.js",
+    "README.md",
+    "demo.html",
+    "examples.html"
+  ],
+  "browser": "flux.js",
+  "jsdelivr": "flux.js",
+  "unpkg": "flux.js"
+}
