@@ -572,12 +572,12 @@ flux.updateConfig({
       function initializeDemos() {
         // Verificar que los elementos existen
         const starsContainer = document.getElementById("demo-stars");
-        
+
         if (!starsContainer) {
           console.error("No se encontró el contenedor demo-stars");
           return;
         }
-        
+
         // Demo de estrellas - movimiento flotante suave
         demos.stars = new FluxJS({
           container: starsContainer,

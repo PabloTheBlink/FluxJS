@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FluxJS - Ejemplos Completos</title>
+
+    <!-- Prism.js CSS para syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+
     <style>
       * {
         margin: 0;
@@ -84,18 +89,110 @@
 
       .example-code {
         padding: 30px;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
         font-family: "Courier New", monospace;
         font-size: 14px;
         overflow-x: auto;
       }
 
       .code-block {
-        background: #1a1a1a;
-        padding: 20px;
+        background: #2d2d2d;
+        padding: 0;
         border-radius: 8px;
         border-left: 4px solid #00ff88;
         margin: 10px 0;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .code-block pre {
+        margin: 0;
+        padding: 20px;
+        background: transparent;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .code-block code {
+        font-family: "Fira Code", "Monaco", "Cascadia Code", "Roboto Mono", monospace;
+      }
+
+      .copy-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #00ff88;
+        color: #000;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .code-block:hover .copy-button {
+        opacity: 1;
+      }
+
+      .copy-button:hover {
+        background: #00cc6a;
+      }
+
+      .copy-button.copied {
+        background: #4caf50;
+        color: white;
+      }
+
+      /* Personalización del tema Prism */
+      .token.keyword {
+        color: #c792ea !important;
+      }
+
+      .token.string {
+        color: #c3e88d !important;
+      }
+
+      .token.number {
+        color: #f78c6c !important;
+      }
+
+      .token.boolean {
+        color: #ff5370 !important;
+      }
+
+      .token.property {
+        color: #82aaff !important;
+      }
+
+      .token.function {
+        color: #82aaff !important;
+      }
+
+      .token.operator {
+        color: #89ddff !important;
+      }
+
+      .token.punctuation {
+        color: #89ddff !important;
+      }
+
+      .token.comment {
+        color: #546e7a !important;
+        font-style: italic;
+      }
+
+      /* Números de línea */
+      .line-numbers .line-numbers-rows {
+        border-right: 1px solid #00ff88;
+        background: rgba(0, 255, 136, 0.1);
+      }
+
+      .line-numbers-rows > span:before {
+        color: #00ff88;
+        opacity: 0.6;
       }
 
       .controls {
@@ -161,7 +258,44 @@
           </div>
         </div>
         <div class="example-code">
-          <div class="code-block">const starField = new FluxJS({ container: document.getElementById('star-container'), count: 200, color: { type: "random", randomPalette: ["#FFD700", "#FFF8DC", "#F0F8FF", "#E6E6FA", "#FFFACD"] }, size: { min: 1, max: 4, distribution: "exponential" // Más estrellas pequeñas, pocas grandes }, speed: { min: 0.01, max: 0.08, turbulence: 0.1 }, effects: { twinkle: true, twinkleSpeed: 0.008, glow: true, glowSize: 8 }, shape: { type: "star" }, connections: { enabled: false }, mouse: { interact: true, distance: 100, attraction: 0.02 } });</div>
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+            <pre class="line-numbers"><code class="language-javascript">const starField = new FluxJS({
+  container: document.getElementById('star-container'),
+  count: 200,
+  color: {
+    type: "random",
+    randomPalette: ["#FFD700", "#FFF8DC", "#F0F8FF", "#E6E6FA", "#FFFACD"]
+  },
+  size: {
+    min: 1,
+    max: 4,
+    distribution: "exponential" // Más estrellas pequeñas, pocas grandes
+  },
+  speed: {
+    min: 0.01,
+    max: 0.08,
+    turbulence: 0.1
+  },
+  effects: {
+    twinkle: true,
+    twinkleSpeed: 0.008,
+    glow: true,
+    glowSize: 8
+  },
+  shape: {
+    type: "star"
+  },
+  connections: {
+    enabled: false
+  },
+  mouse: {
+    interact: true,
+    distance: 100,
+    attraction: 0.02
+  }
+});</code></pre>
+          </div>
         </div>
       </div>
 
@@ -186,7 +320,55 @@
           </div>
         </div>
         <div class="example-code">
-          <div class="code-block">const neuralNetwork = new FluxJS({ count: 60, color: { type: "gradient", gradient: ["#00ff88", "#0066cc", "#6600ff"] }, size: { min: 3, max: 8, pulse: true, pulseSpeed: 0.015, pulseIntensity: 0.4 }, speed: { min: 0.1, max: 0.4, turbulence: 0.2 }, connections: { enabled: true, distance: 120, animated: true, animationSpeed: 0.03, color: "#00ff88", opacity: 0.6, maxConnections: 3, width: 1.5 }, mouse: { interact: true, distance: 150, magnetism: true, magnetismStrength: 0.05, trail: true, trailLength: 15 }, effects: { glow: true, glowColor: "#00ff88", glowSize: 12 }, animation: { type: "float", speed: 0.8 } });</div>
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+            <pre class="line-numbers"><code class="language-javascript">const neuralNetwork = new FluxJS({
+  count: 60,
+  color: {
+    type: "gradient",
+    gradient: ["#00ff88", "#0066cc", "#6600ff"]
+  },
+  size: {
+    min: 3,
+    max: 8,
+    pulse: true,
+    pulseSpeed: 0.015,
+    pulseIntensity: 0.4
+  },
+  speed: {
+    min: 0.1,
+    max: 0.4,
+    turbulence: 0.2
+  },
+  connections: {
+    enabled: true,
+    distance: 120,
+    animated: true,
+    animationSpeed: 0.03,
+    color: "#00ff88",
+    opacity: 0.6,
+    maxConnections: 3,
+    width: 1.5
+  },
+  mouse: {
+    interact: true,
+    distance: 150,
+    magnetism: true,
+    magnetismStrength: 0.05,
+    trail: true,
+    trailLength: 15
+  },
+  effects: {
+    glow: true,
+    glowColor: "#00ff88",
+    glowSize: 12
+  },
+  animation: {
+    type: "float",
+    speed: 0.8
+  }
+});</code></pre>
+          </div>
         </div>
       </div>
 
@@ -211,7 +393,50 @@
           </div>
         </div>
         <div class="example-code">
-          <div class="code-block">const physicsDemo = new FluxJS({ count: 80, color: { type: "rainbow", rainbowSpeed: 0.02 }, size: { min: 4, max: 10, distribution: "gaussian" }, speed: { min: 0.5, max: 2, turbulence: 0.3, acceleration: 0.001 }, physics: { gravity: 0.12, gravityDirection: "down", friction: 0.015, bounce: 0.75, wind: 0.04, windDirection: Math.PI / 6 // 30 grados }, animation: { type: "bounce" }, effects: { glow: true, shadow: true, shadowBlur: 8, shadowOffset: { x: 2, y: 2 } }, mouse: { interact: true, repulsion: true, repulsionForce: 0.15, distance: 80 } });</div>
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+            <pre class="line-numbers"><code class="language-javascript">const physicsDemo = new FluxJS({
+  count: 80,
+  color: {
+    type: "rainbow",
+    rainbowSpeed: 0.02
+  },
+  size: {
+    min: 4,
+    max: 10,
+    distribution: "gaussian"
+  },
+  speed: {
+    min: 0.5,
+    max: 2,
+    turbulence: 0.3,
+    acceleration: 0.001
+  },
+  physics: {
+    gravity: 0.12,
+    gravityDirection: "down",
+    friction: 0.015,
+    bounce: 0.75,
+    wind: 0.04,
+    windDirection: Math.PI / 6 // 30 grados
+  },
+  animation: {
+    type: "bounce"
+  },
+  effects: {
+    glow: true,
+    shadow: true,
+    shadowBlur: 8,
+    shadowOffset: { x: 2, y: 2 }
+  },
+  mouse: {
+    interact: true,
+    repulsion: true,
+    repulsionForce: 0.15,
+    distance: 80
+  }
+});</code></pre>
+          </div>
         </div>
       </div>
 
@@ -236,7 +461,57 @@
           </div>
         </div>
         <div class="example-code">
-          <div class="code-block">const galaxy = new FluxJS({ count: 150, color: { type: "random", randomPalette: ["#FFD700", "#FFA500", "#FF69B4", "#9370DB", "#00CED1", "#32CD32"] }, size: { min: 1, max: 6, distribution: "exponential", pulse: true, pulseSpeed: 0.01 }, speed: { min: 0.02, max: 0.15 }, connections: { enabled: true, distance: 60, maxConnections: 2, opacity: 0.3, animated: true }, animation: { type: "orbit", orbit: { centerX: null, // Centro del canvas centerY: null, radius: 180, speed: 0.008 } }, effects: { twinkle: true, twinkleSpeed: 0.02, glow: true, glowSize: 10 }, shape: { type: "star" }, mouse: { interact: true, distance: 100, attraction: 0.03 } });</div>
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+            <pre class="line-numbers"><code class="language-javascript">const galaxy = new FluxJS({
+  count: 150,
+  color: {
+    type: "random",
+    randomPalette: ["#FFD700", "#FFA500", "#FF69B4", "#9370DB", "#00CED1", "#32CD32"]
+  },
+  size: {
+    min: 1,
+    max: 6,
+    distribution: "exponential",
+    pulse: true,
+    pulseSpeed: 0.01
+  },
+  speed: {
+    min: 0.02,
+    max: 0.15
+  },
+  connections: {
+    enabled: true,
+    distance: 60,
+    maxConnections: 2,
+    opacity: 0.3,
+    animated: true
+  },
+  animation: {
+    type: "orbit",
+    orbit: {
+      centerX: null, // Centro del canvas
+      centerY: null,
+      radius: 180,
+      speed: 0.008
+    }
+  },
+  effects: {
+    twinkle: true,
+    twinkleSpeed: 0.02,
+    glow: true,
+    glowSize: 10
+  },
+  shape: {
+    type: "star"
+  },
+  mouse: {
+    interact: true,
+    distance: 100,
+    attraction: 0.03
+  }
+});</code></pre>
+          </div>
         </div>
       </div>
 
@@ -261,13 +536,119 @@
           </div>
         </div>
         <div class="example-code">
-          <div class="code-block">const hearts = new FluxJS({ count: 40, color: { type: "gradient", gradient: ["#FF69B4", "#FF1493", "#DC143C", "#B22222"] }, size: { min: 5, max: 12, pulse: true, pulseSpeed: 0.02, pulseIntensity: 0.3 }, speed: { min: 0.08, max: 0.3 }, connections: { enabled: false }, animation: { type: "float", direction: "up", speed: 0.6 }, effects: { glow: true, glowColor: "#FF69B4", glowSize: 15, shadow: true, shadowColor: "rgba(255, 105, 180, 0.4)" }, shape: { type: "heart", rotation: true, rotationSpeed: 0.008 }, physics: { wind: 0.02, windDirection: Math.PI / 4, friction: 0.005 }, mouse: { interact: true, distance: 120, attraction: 0.08, onClick: (event, flux) => { // Crear corazones en el click for (let i = 0; i < 5; i++) { setTimeout(() => { flux.addParticle( event.clientX + (Math.random() - 0.5) * 100, event.clientY + (Math.random() - 0.5) * 100, { size: Math.random() * 8 + 4 } ); }, i * 200); } } } });</div>
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+            <pre class="line-numbers"><code class="language-javascript">const hearts = new FluxJS({
+  count: 40,
+  color: {
+    type: "gradient",
+    gradient: ["#FF69B4", "#FF1493", "#DC143C", "#B22222"]
+  },
+  size: {
+    min: 5,
+    max: 12,
+    pulse: true,
+    pulseSpeed: 0.02,
+    pulseIntensity: 0.3
+  },
+  speed: {
+    min: 0.08,
+    max: 0.3
+  },
+  connections: {
+    enabled: false
+  },
+  animation: {
+    type: "float",
+    direction: "up",
+    speed: 0.6
+  },
+  effects: {
+    glow: true,
+    glowColor: "#FF69B4",
+    glowSize: 15,
+    shadow: true,
+    shadowColor: "rgba(255, 105, 180, 0.4)"
+  },
+  shape: {
+    type: "heart",
+    rotation: true,
+    rotationSpeed: 0.008
+  },
+  physics: {
+    wind: 0.02,
+    windDirection: Math.PI / 4,
+    friction: 0.005
+  },
+  mouse: {
+    interact: true,
+    distance: 120,
+    attraction: 0.08,
+    onClick: (event, flux) => {
+      // Crear corazones en el click
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          flux.addParticle(
+            event.clientX + (Math.random() - 0.5) * 100,
+            event.clientY + (Math.random() - 0.5) * 100,
+            { size: Math.random() * 8 + 4 }
+          );
+        }, i * 200);
+      }
+    }
+  }
+});</code></pre>
+          </div>
         </div>
       </div>
     </div>
 
     <script src="flux.js"></script>
+
+    <!-- Prism.js Scripts para syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
     <script>
+      // Función para copiar código
+      function copyCode(button) {
+        const codeBlock = button.nextElementSibling.querySelector("code");
+        const text = codeBlock.textContent;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const originalText = button.textContent;
+            button.textContent = "✅ ¡Copiado!";
+            button.classList.add("copied");
+
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.classList.remove("copied");
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Error al copiar:", err);
+            // Fallback para navegadores más antiguos
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            const originalText = button.textContent;
+            button.textContent = "✅ ¡Copiado!";
+            button.classList.add("copied");
+
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.classList.remove("copied");
+            }, 2000);
+          });
+      }
+
       // Array para almacenar las instancias de FluxJS
       const examples = {};
       let isInitialized = false;
@@ -621,6 +1002,7 @@
 
       console.log("FluxJS Examples loaded!");
       console.log("Keyboard shortcuts: 1-5 to toggle examples, Space to pause/resume all");
+      console.log("💡 Syntax highlighting activo con Prism.js - Hover sobre código para copiar!");
     </script>
   </body>
 </html>
