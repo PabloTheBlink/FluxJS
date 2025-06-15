@@ -1,260 +1,366 @@
-# FluxJS 🌟
+# FluxJS ✨
 
-¿Cansado de fondos web tan aburridos que dan sueño? 😴 FluxJS es tu dosis de cafeína digital. Una librería tan traviesa que hará que tus partículas bailen, conspiren y seduzcan a tus visitantes hasta que no puedan apartar la mirada.
+Una librería de partículas animadas ultra configurable para fondos web interactivos, con más de 100 opciones de personalización.
 
-## ✨ Lo que te espera (prepárate para la diversión)
+## 🚀 Características Principales
 
-- 🚀 **Ridículamente fácil** - Si sabes escribir una línea, ya eres peligroso
-- 🎨 **Más personalizable que tu café matutino** - Colores, tamaños, velocidades... ¡tú mandas!
-- 📱 **Responsive por naturaleza** - Se adapta como un camaleón travieso
-- 🖱️ **Le gusta coquetear** - Las partículas persiguen tu cursor como cachorros
-- 🔗 **Conspiraciones visuales** - Líneas que conectan partículas como una red secreta
-- 🎭 **Múltiples personalidades** - Float, bounce, spiral... ¡cada una más loca que la anterior!
-- 📦 **Funciona en todos lados** - Script directo, ES6, CommonJS... es un todoterreno
-- ⚡ **Más rápido que tus excusas** - Optimizado para que no se queje ni tu abuela con su PC del 2010
+### 🎨 Sistema de Colores Avanzado
 
-## 🚀 Instalación (o cómo empezar la fiesta)
+- **Colores simples**: Color sólido tradicional
+- **Gradientes**: Gradientes lineales multicolor
+- **Arcoíris animado**: Cambio de color automático
+- **Paletas aleatorias**: Colores al azar de una paleta personalizada
 
-### Como Script Directo (para los impacientes)
+### ⚡ Física Realista
+
+- **Gravedad**: Configurable en 4 direcciones
+- **Viento**: Fuerza y dirección personalizables
+- **Fricción**: Simulación de resistencia del aire
+- **Rebotes**: Factor de rebote configurable
+- **Turbulencia**: Movimiento caótico realista
+
+### 🖱️ Interacción Avanzada con Mouse
+
+- **Atracción/Repulsión**: Fuerzas configurables
+- **Magnetismo**: Atracción instantánea
+- **Trail del mouse**: Rastro visual
+- **Eventos personalizados**: onClick, onHover callbacks
+- **Detección de partículas**: Click en partículas individuales
+
+### ✨ Efectos Especiales
+
+- **Glow**: Efecto de brillo configurable
+- **Sombras**: Sombras con desplazamiento y desenfoque
+- **Twinkle**: Efecto de centelleo
+- **Pulse**: Pulsación de tamaño
+- **Flicker**: Parpadeo de opacidad
+- **FadeIn**: Aparición gradual
+
+### 🔵 Formas Personalizadas
+
+- **Círculos**: Forma tradicional
+- **Cuadrados**: Formas angulares
+- **Triángulos**: Geometría básica
+- **Estrellas**: Estrellas de 5 puntas
+- **Corazones**: Formas románticas
+- **Polígonos**: Lados configurables
+- **Formas custom**: Función de dibujo personalizada
+
+### 🌊 Animaciones Avanzadas
+
+- **Float**: Movimiento libre
+- **Bounce**: Rebotes en bordes
+- **Spiral**: Movimiento espiral
+- **Wave**: Ondas sinusoidales
+- **Orbit**: Órbitas circulares
+- **Direcciones**: Up, down, left, right, random
+
+### 🕸️ Sistema de Conexiones Mejorado
+
+- **Conexiones animadas**: Líneas punteadas en movimiento
+- **Conexiones curvas**: Líneas no rectas
+- **Límite de conexiones**: Máximo por partícula
+- **Colores independientes**: Color separado de partículas
+- **Grosor configurable**: Ancho de líneas
+
+### 📱 Sistema Responsive Inteligente
+
+- **Breakpoints personalizables**: Mobile, tablet, desktop
+- **Ajuste automático**: Número de partículas según pantalla
+- **Escalado del contenedor**: Adaptación a contenedores
+
+### ⚙️ Optimización y Rendimiento
+
+- **Control de FPS**: Límite de cuadros por segundo
+- **Pausa automática**: Al perder foco de ventana
+- **Calidad adaptativa**: Ajuste automático de calidad
+- **Optimización de conexiones**: Algoritmos eficientes
+
+## 📦 Instalación
+
+### CDN (Recomendado)
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/tu-usuario/FluxJS/flux.js"></script>
+```
+
+### Descarga Directa
 
 ```html
 <script src="flux.js"></script>
-<script>
-  // ¡BAM! Partículas instantáneas
-  const flux = createFlux();
-</script>
 ```
 
-### Como Módulo ES6 (para los elegantes)
+### NPM
 
-```javascript
-import { FluxJS, createFlux } from "./flux.js";
-
-const flux = createFlux(); // Así de simple, así de travieso
+```bash
+npm install fluxjs
 ```
 
-### Como CommonJS (para los clásicos)
+## 🎯 Uso Rápido
+
+### Inicialización Básica
 
 ```javascript
-const { FluxJS, createFlux } = require("./flux.js");
+// Fondo simple
+const flux = new FluxJS();
 
-const flux = createFlux(); // Old school pero con estilo
-```
-
-## 📖 Uso Básico (o cómo hacer magia con pocas líneas)
-
-### Para los Perezosos (una línea y listo)
-
-```javascript
-// ¡BOOM! Todo el body se convierte en un parque de diversiones
-const flux = createFlux();
-```
-
-### Para los Controladores Obsesivos
-
-```javascript
-// Solo queremos partículas en NUESTRO territorio
-const container = document.getElementById("particles-container");
-const flux = createFlux({ container: container });
-```
-
-### Para los Perfeccionistas (a jugar con TODO)
-
-```javascript
-const flux = createFlux({
-  count: 100, // ¿100 partículas? ¡Suena a diversión!
-  color: "#00ff88", // Verde neón porque somos rebeldes
-  size: { min: 1, max: 4 }, // De pequeñitas a... no tan pequeñitas
-  speed: { min: 0.1, max: 0.5 }, // Velocidad: desde perezosa hasta hiperactiva
-  connections: {
-    enabled: true, // ¡Que conspiren entre ellas!
-    distance: 120, // Distancia social... pero no tanto
-    color: "#00ff88", // Misma conspiración, mismo color
-    opacity: 0.3, // Un poquito transparentes, como secretos
-  },
-  mouse: {
-    interact: true, // ¡Que te persigan como fans!
-    distance: 150, // ¿150px? Perfecto para el acoso amigable
-    attraction: 0.05, // Atracción sutil pero irresistible
-  },
-  animation: "float", // 'float', 'bounce', 'spiral' - elige tu locura
+// Con configuración básica
+const flux = new FluxJS({
+  container: document.getElementById("mi-contenedor"),
+  count: 100,
+  color: { type: "rainbow" },
 });
 ```
 
-## 🎨 Presets para Vagos (efectos instantáneos)
-
-¿No tienes tiempo para personalizar? Aquí tienes efectos pre-hechos que funcionan de inmediato:
-
-### Estrellas Traviesas ⭐
+### Usando Presets
 
 ```javascript
-const flux = createFlux.stars(); // Cielo nocturno instantáneo
+// Estrellas brillantes
+const stars = createFlux.stars(document.body, {
+  count: 200,
+  effects: { twinkle: true, glow: true },
+});
+
+// Red neural interactiva
+const network = createFlux.network(document.body, {
+  mouse: { magnetism: true },
+  connections: { animated: true },
+});
+
+// Burbujas con física
+const bubbles = createFlux.bubbles(document.body, {
+  physics: { gravity: 0.1, wind: 0.05 },
+});
+
+// Galaxia en órbita
+const galaxy = createFlux.galaxy(document.body, {
+  count: 300,
+  animation: { orbit: { radius: 250 } },
+});
 ```
 
-### Red Conspiratoria 🕸️
+## 🎨 Ejemplos de Configuración
+
+### Colores Avanzados
 
 ```javascript
-const flux = createFlux.network(); // Matrix vibes, but cooler
+const flux = new FluxJS({
+  color: {
+    type: "gradient",
+    gradient: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4"],
+  },
+});
+
+// Arcoíris dinámico
+const rainbow = new FluxJS({
+  color: {
+    type: "rainbow",
+    rainbowSpeed: 0.03,
+  },
+});
+
+// Paleta personalizada
+const custom = new FluxJS({
+  color: {
+    type: "random",
+    randomPalette: ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"],
+  },
+});
 ```
 
-### Burbujas Rebeldes 🫧
+### Física Completa
 
 ```javascript
-const flux = createFlux.bubbles(); // Diversión acuática digital
+const physics = new FluxJS({
+  physics: {
+    gravity: 0.15,
+    gravityDirection: "down",
+    friction: 0.02,
+    bounce: 0.8,
+    wind: 0.05,
+    windDirection: Math.PI / 4,
+  },
+  animation: { type: "bounce" },
+});
 ```
 
-### Espiral Hipnótica 🌀
+### Efectos Especiales
 
 ```javascript
-const flux = createFlux.spiral(); // ¡Cuidado! Puede causar adicción
-```
-
-## ⚙️ Configuración Completa (para los que lo quieren TODO)
-
-```javascript
-const flux = createFlux({
-  container: document.body, // Tu reino (por defecto: todo el body)
-  count: 50, // ¿Cuántas travesuras quieres?
-  color: "#ffffff", // El color de la diversión
-
-  // Tamaño: desde hormiguitas hasta monstruitos
+const magical = new FluxJS({
+  effects: {
+    glow: true,
+    glowColor: "#FFD700",
+    glowSize: 20,
+    twinkle: true,
+    shadow: true,
+  },
   size: {
-    min: 1, // Pequeñitas y tímidas
-    max: 3, // Grandes y atrevidas
+    pulse: true,
+    pulseIntensity: 0.8,
   },
-
-  // Velocidad: desde chill hasta hiperactivas
-  speed: {
-    min: 0.1, // Modo zen
-    max: 0.5, // Modo Red Bull
-  },
-
-  // Opacidad: desde fantasmitas hasta protagonistas
   opacity: {
-    min: 0.3, // Discretas
-    max: 0.8, // ¡Aquí estoy!
+    flicker: true,
+    fadeIn: true,
   },
+});
+```
 
-  // Conexiones: la red social de las partículas
-  connections: {
-    enabled: true, // ¿Quieres conspiración? ¡SÍ!
-    distance: 100, // Máxima distancia para chismorrear
-    color: "#ffffff", // Color de los chismes
-    opacity: 0.3, // Secretos semi-transparentes
+### Formas Personalizadas
+
+```javascript
+const hearts = new FluxJS({
+  shape: {
+    type: "heart",
+    rotation: true,
+    rotationSpeed: 0.02,
   },
+  color: { type: "gradient", gradient: ["#FF69B4", "#DC143C"] },
+});
 
-  // Mouse: el imán de la diversión
+// Forma completamente personalizada
+const custom = new FluxJS({
+  shape: {
+    type: "custom",
+    customPath: (ctx, particle) => {
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.moveTo(particle.x + particle.size, particle.y);
+      ctx.arc(particle.x, particle.y, particle.size * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+    },
+  },
+});
+```
+
+### Interacción Avanzada
+
+```javascript
+const interactive = new FluxJS({
   mouse: {
-    interact: true, // ¡Que te sigan como groupies!
-    distance: 150, // Radio de influencia
-    attraction: 0.05, // ¿Qué tan magnético eres?
+    interact: true,
+    distance: 200,
+    attraction: 0.1,
+    magnetism: true,
+    trail: true,
+    trailLength: 20,
+    onClick: (event, flux) => {
+      // Crear explosión en el punto de click
+      flux.explode(event.clientX, event.clientY, 10, 200);
+    },
   },
-
-  responsive: true, // Se adapta como un camaleón
-  animation: "float", // Tu estilo de locura preferido
-  background: "transparent", // Fondo invisible = máxima integración
+  events: {
+    onParticleClick: (particle, flux) => {
+      // Cambiar color de partícula clickeada
+      particle.size *= 2;
+      setTimeout(() => (particle.size /= 2), 1000);
+    },
+  },
 });
 ```
 
-## 🎮 Métodos de Control (¡tú eres el jefe!)
+## 🛠️ API Completa
 
-### Dominio Total de la Diversión
+### Métodos de Control
 
 ```javascript
-flux.start(); // ¡ACCIÓN! 🎬
-flux.stop(); // Pausa para tomar aire
-flux.destroy(); // Adiós mundo cruel (pero puedes volver)
+flux.start(); // Iniciar animación
+flux.stop(); // Detener animación
+flux.destroy(); // Limpiar completamente
+
+// Configuración dinámica
+flux.updateConfig({ count: 200 });
+flux.setColor("#ff0000");
+flux.setAnimation("spiral");
+flux.setPhysics({ gravity: 0.1 });
 ```
 
-### Cambios sobre la Marcha (sin reiniciar la fiesta)
+### Métodos de Interacción
 
 ```javascript
-// Cambiar todo lo que quieras sin parar
-flux.updateConfig({
-  color: "#ff6b6b", // Nuevo look, misma actitud
-  count: 80, // Más partículas = más diversión
+// Añadir partícula personalizada
+flux.addParticle(x, y, {
+  size: 10,
+  color: "#ff0000",
+  vx: 2,
+  vy: -1,
 });
 
-// Cambios específicos porque eres exigente
-flux.setColor("#00ff88"); // Solo el color, por favor
-flux.setCount(100); // Solo la cantidad, gracias
+// Efectos dinámicos
+flux.explode(x, y, force, radius); // Explosión
+flux.attract(x, y, force, radius); // Atracción
+flux.removeParticle(index); // Eliminar partícula
 
-// Invocar una partícula donde TÚ quieras
-flux.addParticle(100, 200); // X=100, Y=200. ¡Aparece, criatura!
+// Utilidades
+const particle = flux.getParticleAt(x, y);
 ```
 
-## 🎯 Ejemplos de Uso (inspiración instantánea)
-
-### Fondo Estelar para Landing Page (porque todos necesitan magia)
+### Eventos Disponibles
 
 ```javascript
-createFlux.stars(document.body, {
-  count: 150, // Cielo lleno de estrellas traviesas
-  color: "#ffffff", // Blanco clásico, nunca falla
-  mouse: { interact: false }, // Que no molesten al usuario
-});
-```
-
-### Red Conspiratoria para Página Tech (Matrix style)
-
-```javascript
-createFlux.network(document.getElementById("hero"), {
-  color: "#00ff88", // Verde hacker, obvio
-  connections: { distance: 150 }, // Más conexiones = más conspiración
-});
-```
-
-### Burbujas Flotantes para Página Creativa (diversión acuática)
-
-```javascript
-createFlux.bubbles(document.querySelector(".creative-section"), {
-  count: 25, // No muchas, pero grandes
-  color: "#4FC3F7", // Azul agua cristalina
-  size: { min: 5, max: 15 }, // Desde gotitas hasta globos
+const flux = new FluxJS({
+  events: {
+    onInit: (flux) => console.log("Inicializado"),
+    onStart: (flux) => console.log("Iniciado"),
+    onStop: (flux) => console.log("Detenido"),
+    onResize: (flux) => console.log("Redimensionado"),
+    onParticleClick: (particle, flux) => console.log("Partícula clickeada"),
+    onParticleHover: (particle, flux) => console.log("Mouse sobre partícula"),
+  },
 });
 ```
 
-## 🎨 Tipos de Animación (elige tu personalidad)
+## 🎮 Presets Incluidos
 
-- **`float`** - Movimiento libre y relajado (zen mode activado)
-- **`bounce`** - Rebotes por todos lados (modo pinball)
-- **`spiral`** - Patrones hipnóticos (cuidado: puede causar adicción)
+- **stars**: Campo de estrellas con efecto twinkle
+- **network**: Red neural animada
+- **bubbles**: Burbujas con física realista
+- **spiral**: Partículas en movimiento espiral
+- **galaxy**: Simulación de galaxia en órbita
+- **matrix**: Efecto Matrix con caída
+- **hearts**: Corazones flotantes románticos
 
-## 📱 Responsive (se adapta como un ninja)
+## 📱 Responsive por Defecto
 
-FluxJS es más inteligente que tu promedio de JavaScript:
+```javascript
+const flux = new FluxJS({
+  responsive: {
+    enabled: true,
+    breakpoints: {
+      mobile: { width: 768, particles: 0.3 },
+      tablet: { width: 1024, particles: 0.6 },
+      desktop: { width: 1920, particles: 1.0 },
+    },
+  },
+});
+```
 
-- En pantallas pequeñas se pone modesto y reduce las partículas automáticamente
-- En móviles no mata la batería (tus usuarios te lo agradecerán)
-- Si eres rebelde, puedes desactivarlo con `responsive: false`
+## 💡 Tips de Rendimiento
 
-## 🎪 Casos de Uso (donde brillar con estilo)
+1. **Usa menos partículas en móviles**: El sistema responsive se encarga automáticamente
+2. **Limita las conexiones**: Usa `maxConnections` para optimizar
+3. **Controla el FPS**: Usa `performance.maxFPS` para dispositivos lentos
+4. **Pausa en blur**: `performance.pauseOnBlur` ahorra batería
 
-- **Landing Pages**: Fondos estelares que enamoran desde el primer scroll
-- **Portfolios**: Efectos tan cool que hablan por sí solos
-- **Páginas Tech**: Redes futuristas que gritan "soy desarrollador pro"
-- **Sitios Creativos**: Burbujas, espirales y efectos que despiertan la imaginación
-- **Presentaciones Web**: Fondos dinámicos que hacen que nadie se duerma
+## 🔧 Configuración Completa
 
-## ⚡ Rendimiento (rápido como un rayo, suave como la seda)
+Para ver todas las opciones disponibles, consulta [CONFIGURATION.md](CONFIGURATION.md) que incluye más de 100 opciones organizadas por categorías.
 
-- Usa `requestAnimationFrame` porque no somos animales
-- Maneja cientos de partículas sin hacer sudar a tu CPU
-- Canvas con `pointer-events: none` para no fastidiar la navegación
-- Se ajusta automáticamente según el tamaño de pantalla (smart, ¿verdad?)
+## 📖 Documentación Adicional
 
-## 🔧 Compatibilidad (funciona hasta en el microondas)
+- [Guía de Configuración Completa](CONFIGURATION.md)
+- [Demo Interactiva](demo.html)
+- Ejemplos avanzados en `/examples`
 
-- ✅ Chrome, Firefox, Safari, Edge (los usual suspects)
-- ✅ Dispositivos móviles (sí, también en tu Nokia 3310... ok, no tanto)
-- ✅ ES6+ & ES5 compatible (para todos los gustos)
-- ✅ CommonJS & AMD compatible (somos inclusivos)
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork del repositorio
+2. Crea una rama para tu feature
+3. Commit con mensajes descriptivos
+4. Push y crea un Pull Request
 
 ## 📄 Licencia
 
-MIT License - Libre como el viento. Úsalo, modifícalo, véndelo, regálalo... ¡haz lo que se te ocurra!
-
----
-
-**¡Convierte tu web de aburrida a adictiva con FluxJS!** ⚡✨  
-_Porque la vida es demasiado corta para fondos estáticos_ 😎
+MIT License - ve [LICENSE](LICENSE) para más detalles.

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FluxJS - Demostración Interactiva</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      .demo-container {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .control-panel {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        z-index: 1000;
+        max-width: 300px;
+        backdrop-filter: blur(10px);
+      }
+
+      .control-panel h3 {
+        margin-bottom: 15px;
+        color: #00ff88;
+        text-align: center;
+      }
+
+      .control-group {
+        margin-bottom: 15px;
+      }
+
+      .control-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #ccc;
+      }
+
+      .control-group input,
+      .control-group select {
+        width: 100%;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid #555;
+        border-radius: 3px;
+        color: #fff;
+      }
+
+      .control-group input[type="range"] {
+        accent-color: #00ff88;
+      }
+
+      .preset-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        margin-bottom: 15px;
+      }
+
+      .preset-btn {
+        padding: 8px;
+        background: linear-gradient(45deg, #00ff88, #0066cc);
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 11px;
+        transition: transform 0.2s;
+      }
+
+      .preset-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .stats {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        font-family: monospace;
+        font-size: 12px;
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+      }
+
+      .content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .title {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #00ff88, #0066cc, #ff006e);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        color: #ccc;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        max-width: 800px;
+        margin-top: 50px;
+      }
+
+      .feature {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 255, 136, 0.3);
+        backdrop-filter: blur(5px);
+      }
+
+      .feature h4 {
+        color: #00ff88;
+        margin-bottom: 10px;
+      }
+
+      .toggle-panel {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1001;
+      }
+
+      .toggle-btn {
+        background: #00ff88;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 50px;
+        color: #000;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      @media (max-width: 768px) {
+        .control-panel {
+          position: fixed;
+          top: auto;
+          bottom: 20px;
+          left: 20px;
+          right: 20px;
+          max-width: none;
+          transform: translateY(calc(100% - 50px));
+          transition: transform 0.3s ease;
+        }
+
+        .control-panel.open {
+          transform: translateY(0);
+        }
+
+        .title {
+          font-size: 2.5rem;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <!-- Stats Panel -->
+      <div class="stats" id="stats">
+        <div>FPS: <span id="fps">60</span></div>
+        <div>Partículas: <span id="particle-count">50</span></div>
+        <div>Conexiones: <span id="connections">Sí</span></div>
+        <div>Animación: <span id="animation-type">float</span></div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <h1 class="title">FluxJS</h1>
+        <p class="subtitle">Librería de Partículas Ultra Configurable</p>
+
+        <div class="features">
+          <div class="feature">
+            <h4>🎨 Colores Avanzados</h4>
+            <p>Sistema de colores con gradientes, arcoíris, paletas aleatorias y más</p>
+          </div>
+          <div class="feature">
+            <h4>⚡ Física Realista</h4>
+            <p>Gravedad, viento, fricción, rebotes y turbulencia configurable</p>
+          </div>
+          <div class="feature">
+            <h4>🖱️ Interacción Avanzada</h4>
+            <p>Mouse trails, magnetismo, atracción/repulsión y eventos personalizados</p>
+          </div>
+          <div class="feature">
+            <h4>✨ Efectos Especiales</h4>
+            <p>Glow, sombras, twinkle, pulse y efectos de opacidad</p>
+          </div>
+          <div class="feature">
+            <h4>🔵 Formas Personalizadas</h4>
+            <p>Círculos, cuadrados, estrellas, corazones y formas custom</p>
+          </div>
+          <div class="feature">
+            <h4>📱 Totalmente Responsive</h4>
+            <p>Adaptación automática a diferentes tamaños de pantalla</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Panel -->
+      <div class="control-panel" id="control-panel">
+        <h3>Controles</h3>
+
+        <!-- Preset Buttons -->
+        <div class="preset-buttons">
+          <button class="preset-btn" onclick="loadPreset('stars')">⭐ Estrellas</button>
+          <button class="preset-btn" onclick="loadPreset('network')">🕸️ Red</button>
+          <button class="preset-btn" onclick="loadPreset('bubbles')">🫧 Burbujas</button>
+          <button class="preset-btn" onclick="loadPreset('spiral')">🌀 Espiral</button>
+          <button class="preset-btn" onclick="loadPreset('galaxy')">🌌 Galaxia</button>
+          <button class="preset-btn" onclick="loadPreset('matrix')">💚 Matrix</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="control-group">
+          <label for="particle-count-slider">Partículas: <span id="count-value">50</span></label>
+          <input type="range" id="particle-count-slider" min="10" max="300" value="50" />
+        </div>
+
+        <div class="control-group">
+          <label for="speed-slider">Velocidad: <span id="speed-value">0.3</span></label>
+          <input type="range" id="speed-slider" min="0.1" max="2.0" step="0.1" value="0.3" />
+        </div>
+
+        <div class="control-group">
+          <label for="size-slider">Tamaño: <span id="size-value">3</span></label>
+          <input type="range" id="size-slider" min="1" max="10" value="3" />
+        </div>
+
+        <div class="control-group">
+          <label for="color-type">Tipo de Color:</label>
+          <select id="color-type">
+            <option value="single">Simple</option>
+            <option value="gradient">Gradiente</option>
+            <option value="rainbow">Arcoíris</option>
+            <option value="random">Aleatorio</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="animation-type">Animación:</label>
+          <select id="animation-type">
+            <option value="float">Flotante</option>
+            <option value="bounce">Rebote</option>
+            <option value="spiral">Espiral</option>
+            <option value="wave">Onda</option>
+            <option value="orbit">Órbita</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="shape-type">Forma:</label>
+          <select id="shape-type">
+            <option value="circle">Círculo</option>
+            <option value="square">Cuadrado</option>
+            <option value="triangle">Triángulo</option>
+            <option value="star">Estrella</option>
+            <option value="heart">Corazón</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label> <input type="checkbox" id="connections-toggle" checked /> Conexiones </label>
+        </div>
+
+        <div class="control-group">
+          <label> <input type="checkbox" id="glow-toggle" /> Efecto Glow </label>
+        </div>
+
+        <div class="control-group">
+          <label> <input type="checkbox" id="pulse-toggle" /> Pulsación </label>
+        </div>
+
+        <div class="control-group">
+          <label> <input type="checkbox" id="physics-toggle" /> Física (Gravedad) </label>
+        </div>
+      </div>
+
+      <!-- Toggle Button for Mobile -->
+      <div class="toggle-panel">
+        <button class="toggle-btn" onclick="togglePanel()">⚙️</button>
+      </div>
+    </div>
+
+    <script src="flux.js"></script>
+    <script>
+      let currentFlux = null;
+      let stats = {
+        fps: 0,
+        frameCount: 0,
+        lastTime: performance.now(),
+      };
+
+      // Initialize with default configuration
+      function initFlux() {
+        if (currentFlux) {
+          currentFlux.destroy();
+        }
+
+        currentFlux = new FluxJS({
+          container: document.body,
+          count: 50,
+          color: {
+            type: "single",
+            value: "#00ff88",
+          },
+          size: {
+            min: 1,
+            max: 3,
+          },
+          speed: {
+            min: 0.1,
+            max: 0.5,
+          },
+          connections: {
+            enabled: true,
+            distance: 100,
+            color: "#00ff88",
+            opacity: 0.3,
+          },
+          mouse: {
+            interact: true,
+            distance: 150,
+            attraction: 0.05,
+            trail: true,
+          },
+          events: {
+            onStart: () => {
+              console.log("FluxJS started!");
+              startStatsMonitor();
+            },
+          },
+        });
+      }
+
+      // Load preset configurations
+      function loadPreset(presetName) {
+        if (currentFlux) {
+          currentFlux.destroy();
+        }
+
+        currentFlux = createFlux[presetName](document.body);
+        updateStatsDisplay();
+        updateControlsFromFlux();
+      }
+
+      // Update controls from current flux configuration
+      function updateControlsFromFlux() {
+        if (!currentFlux) return;
+
+        const config = currentFlux.config;
+
+        document.getElementById("particle-count-slider").value = config.count;
+        document.getElementById("count-value").textContent = config.count;
+
+        document.getElementById("speed-slider").value = (config.speed.min + config.speed.max) / 2;
+        document.getElementById("speed-value").textContent = ((config.speed.min + config.speed.max) / 2).toFixed(1);
+
+        document.getElementById("size-slider").value = config.size.max;
+        document.getElementById("size-value").textContent = config.size.max;
+
+        document.getElementById("color-type").value = config.color.type || "single";
+        document.getElementById("animation-type").value = config.animation.type || "float";
+        document.getElementById("connections-toggle").checked = config.connections.enabled;
+        document.getElementById("glow-toggle").checked = config.effects.glow || false;
+        document.getElementById("pulse-toggle").checked = config.size.pulse || false;
+      }
+
+      // Control event listeners
+      document.getElementById("particle-count-slider").addEventListener("input", function () {
+        const value = parseInt(this.value);
+        document.getElementById("count-value").textContent = value;
+        if (currentFlux) {
+          currentFlux.setCount(value);
+        }
+      });
+
+      document.getElementById("speed-slider").addEventListener("input", function () {
+        const value = parseFloat(this.value);
+        document.getElementById("speed-value").textContent = value.toFixed(1);
+        if (currentFlux) {
+          currentFlux.updateConfig({
+            speed: {
+              min: value * 0.5,
+              max: value * 1.5,
+            },
+          });
+        }
+      });
+
+      document.getElementById("size-slider").addEventListener("input", function () {
+        const value = parseInt(this.value);
+        document.getElementById("size-value").textContent = value;
+        if (currentFlux) {
+          currentFlux.updateConfig({
+            size: {
+              min: Math.max(1, value - 2),
+              max: value,
+            },
+          });
+        }
+      });
+
+      document.getElementById("color-type").addEventListener("change", function () {
+        if (!currentFlux) return;
+
+        const colorConfigs = {
+          single: { type: "single", value: "#00ff88" },
+          gradient: {
+            type: "gradient",
+            gradient: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4"],
+          },
+          rainbow: { type: "rainbow", rainbowSpeed: 0.02 },
+          random: {
+            type: "random",
+            randomPalette: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FECA57"],
+          },
+        };
+
+        currentFlux.setColor(colorConfigs[this.value]);
+      });
+
+      document.getElementById("animation-type").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.setAnimation(this.value);
+        }
+      });
+
+      document.getElementById("shape-type").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.updateConfig({
+            shape: { type: this.value },
+          });
+        }
+      });
+
+      document.getElementById("connections-toggle").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.updateConfig({
+            connections: { enabled: this.checked },
+          });
+        }
+      });
+
+      document.getElementById("glow-toggle").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.setEffects({
+            glow: this.checked,
+            glowColor: "#00ff88",
+            glowSize: 15,
+          });
+        }
+      });
+
+      document.getElementById("pulse-toggle").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.updateConfig({
+            size: {
+              pulse: this.checked,
+              pulseSpeed: 0.02,
+              pulseIntensity: 0.5,
+            },
+          });
+        }
+      });
+
+      document.getElementById("physics-toggle").addEventListener("change", function () {
+        if (currentFlux) {
+          currentFlux.setPhysics({
+            gravity: this.checked ? 0.05 : 0,
+            gravityDirection: "down",
+          });
+        }
+      });
+
+      // Stats monitoring
+      function startStatsMonitor() {
+        function updateStats() {
+          stats.frameCount++;
+          const now = performance.now();
+
+          if (now - stats.lastTime >= 1000) {
+            stats.fps = Math.round((stats.frameCount * 1000) / (now - stats.lastTime));
+            stats.frameCount = 0;
+            stats.lastTime = now;
+
+            updateStatsDisplay();
+          }
+
+          requestAnimationFrame(updateStats);
+        }
+
+        updateStats();
+      }
+
+      function updateStatsDisplay() {
+        document.getElementById("fps").textContent = stats.fps;
+
+        if (currentFlux) {
+          document.getElementById("particle-count").textContent = currentFlux.particles.length;
+          document.getElementById("connections").textContent = currentFlux.config.connections.enabled ? "Sí" : "No";
+          document.getElementById("animation-type").textContent = currentFlux.config.animation.type || "float";
+        }
+      }
+
+      // Mobile panel toggle
+      function togglePanel() {
+        const panel = document.getElementById("control-panel");
+        panel.classList.toggle("open");
+      }
+
+      // Special effects functions
+      function createExplosion(event) {
+        if (currentFlux) {
+          const rect = document.body.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+
+          currentFlux.explode(x, y, 8, 200);
+
+          // Add temporary particles for explosion effect
+          for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+              currentFlux.addParticle(x + (Math.random() - 0.5) * 100, y + (Math.random() - 0.5) * 100, {
+                size: Math.random() * 8 + 2,
+                opacity: 0.8,
+              });
+            }, i * 50);
+          }
+        }
+      }
+
+      // Double click for explosion effect
+      document.addEventListener("dblclick", createExplosion);
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", function (event) {
+        switch (event.key) {
+          case "1":
+            loadPreset("stars");
+            break;
+          case "2":
+            loadPreset("network");
+            break;
+          case "3":
+            loadPreset("bubbles");
+            break;
+          case "4":
+            loadPreset("spiral");
+            break;
+          case "5":
+            loadPreset("galaxy");
+            break;
+          case "6":
+            loadPreset("matrix");
+            break;
+          case " ":
+            event.preventDefault();
+            if (currentFlux.isRunning) {
+              currentFlux.stop();
+            } else {
+              currentFlux.start();
+            }
+            break;
+        }
+      });
+
+      // Initialize on page load
+      window.addEventListener("load", initFlux);
+
+      // Handle window resize
+      window.addEventListener("resize", function () {
+        if (currentFlux) {
+          setTimeout(() => {
+            updateStatsDisplay();
+          }, 100);
+        }
+      });
+
+      // Add some random effects periodically
+      setInterval(() => {
+        if (currentFlux && Math.random() < 0.1) {
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+
+          if (Math.random() < 0.5) {
+            currentFlux.attract(x, y, 2, 100);
+          } else {
+            // Add a special particle
+            currentFlux.addParticle(x, y, {
+              size: Math.random() * 10 + 5,
+              opacity: 0.8,
+            });
+          }
+        }
+      }, 5000);
+
+      console.log("FluxJS Demo loaded!");
+      console.log("Keyboard shortcuts:");
+      console.log("1-6: Load presets");
+      console.log("Space: Play/Pause");
+      console.log("Double-click: Explosion effect");
+    </script>
+  </body>
+</html>

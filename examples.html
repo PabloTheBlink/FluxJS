@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FluxJS - Ejemplos Completos</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: #000;
+        color: #fff;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        background: linear-gradient(45deg, #00ff88, #0066cc, #ff006e);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+      }
+
+      .example {
+        margin-bottom: 80px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 255, 136, 0.3);
+      }
+
+      .example-header {
+        padding: 20px 30px;
+        background: rgba(0, 255, 136, 0.1);
+        border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+      }
+
+      .example-title {
+        font-size: 1.5rem;
+        color: #00ff88;
+        margin-bottom: 10px;
+      }
+
+      .example-description {
+        color: #ccc;
+        margin-bottom: 15px;
+      }
+
+      .example-demo {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+      }
+
+      .example-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+      }
+
+      .example-code {
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.8);
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        overflow-x: auto;
+      }
+
+      .code-block {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #00ff88;
+        margin: 10px 0;
+      }
+
+      .controls {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 20;
+      }
+
+      .btn {
+        background: #00ff88;
+        color: #000;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 5px;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background: #00cc6a;
+      }
+
+      .stats {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 12px;
+        z-index: 20;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>FluxJS</h1>
+        <p>Ejemplos Completos y Configuraciones Avanzadas</p>
+      </div>
+
+      <!-- Ejemplo 1: Campo de Estrellas -->
+      <div class="example" id="example1">
+        <div class="example-header">
+          <h2 class="example-title">🌟 Campo de Estrellas Mágico</h2>
+          <p class="example-description">Campo de estrellas con efectos de twinkle, glow y distribución exponencial de tamaños.</p>
+        </div>
+        <div class="example-demo">
+          <div class="stats" id="stats1">
+            <div>Partículas: <span id="count1">200</span></div>
+            <div>Efectos: Twinkle + Glow</div>
+          </div>
+          <div class="controls">
+            <button class="btn" onclick="toggleExample(1)">Pausa/Play</button>
+            <button class="btn" onclick="resetExample(1)">Reset</button>
+          </div>
+          <div class="example-content">
+            <h3>✨ Estrellas Centelleantes</h3>
+            <p>Con efectos de brillo y tamaños realistas</p>
+          </div>
+        </div>
+        <div class="example-code">
+          <div class="code-block">const starField = new FluxJS({ container: document.getElementById('star-container'), count: 200, color: { type: "random", randomPalette: ["#FFD700", "#FFF8DC", "#F0F8FF", "#E6E6FA", "#FFFACD"] }, size: { min: 1, max: 4, distribution: "exponential" // Más estrellas pequeñas, pocas grandes }, speed: { min: 0.01, max: 0.08, turbulence: 0.1 }, effects: { twinkle: true, twinkleSpeed: 0.008, glow: true, glowSize: 8 }, shape: { type: "star" }, connections: { enabled: false }, mouse: { interact: true, distance: 100, attraction: 0.02 } });</div>
+        </div>
+      </div>
+
+      <!-- Ejemplo 2: Red Neural -->
+      <div class="example" id="example2">
+        <div class="example-header">
+          <h2 class="example-title">🧠 Red Neural Interactiva</h2>
+          <p class="example-description">Simulación de red neural con conexiones animadas, magnetismo y efectos de pulso.</p>
+        </div>
+        <div class="example-demo">
+          <div class="stats" id="stats2">
+            <div>Nodos: <span id="count2">60</span></div>
+            <div>Conexiones: Animadas</div>
+          </div>
+          <div class="controls">
+            <button class="btn" onclick="toggleExample(2)">Pausa/Play</button>
+            <button class="btn" onclick="addNeuron(2)">+ Neurona</button>
+          </div>
+          <div class="example-content">
+            <h3>🕸️ Red Neural</h3>
+            <p>Nodos conectados con inteligencia artificial</p>
+          </div>
+        </div>
+        <div class="example-code">
+          <div class="code-block">const neuralNetwork = new FluxJS({ count: 60, color: { type: "gradient", gradient: ["#00ff88", "#0066cc", "#6600ff"] }, size: { min: 3, max: 8, pulse: true, pulseSpeed: 0.015, pulseIntensity: 0.4 }, speed: { min: 0.1, max: 0.4, turbulence: 0.2 }, connections: { enabled: true, distance: 120, animated: true, animationSpeed: 0.03, color: "#00ff88", opacity: 0.6, maxConnections: 3, width: 1.5 }, mouse: { interact: true, distance: 150, magnetism: true, magnetismStrength: 0.05, trail: true, trailLength: 15 }, effects: { glow: true, glowColor: "#00ff88", glowSize: 12 }, animation: { type: "float", speed: 0.8 } });</div>
+        </div>
+      </div>
+
+      <!-- Ejemplo 3: Simulación de Física -->
+      <div class="example" id="example3">
+        <div class="example-header">
+          <h2 class="example-title">⚡ Simulación de Física Completa</h2>
+          <p class="example-description">Partículas con gravedad, viento, fricción y rebotes realistas.</p>
+        </div>
+        <div class="example-demo">
+          <div class="stats" id="stats3">
+            <div>Partículas: <span id="count3">80</span></div>
+            <div>Física: Completa</div>
+          </div>
+          <div class="controls">
+            <button class="btn" onclick="toggleExample(3)">Pausa/Play</button>
+            <button class="btn" onclick="explodeRandom(3)">💥 Explosión</button>
+          </div>
+          <div class="example-content">
+            <h3>🌪️ Física Realista</h3>
+            <p>Gravedad, viento y colisiones</p>
+          </div>
+        </div>
+        <div class="example-code">
+          <div class="code-block">const physicsDemo = new FluxJS({ count: 80, color: { type: "rainbow", rainbowSpeed: 0.02 }, size: { min: 4, max: 10, distribution: "gaussian" }, speed: { min: 0.5, max: 2, turbulence: 0.3, acceleration: 0.001 }, physics: { gravity: 0.12, gravityDirection: "down", friction: 0.015, bounce: 0.75, wind: 0.04, windDirection: Math.PI / 6 // 30 grados }, animation: { type: "bounce" }, effects: { glow: true, shadow: true, shadowBlur: 8, shadowOffset: { x: 2, y: 2 } }, mouse: { interact: true, repulsion: true, repulsionForce: 0.15, distance: 80 } });</div>
+        </div>
+      </div>
+
+      <!-- Ejemplo 4: Galaxia en Órbita -->
+      <div class="example" id="example4">
+        <div class="example-header">
+          <h2 class="example-title">🌌 Galaxia en Órbita</h2>
+          <p class="example-description">Simulación de galaxia con múltiples órbitas y efectos especiales.</p>
+        </div>
+        <div class="example-demo">
+          <div class="stats" id="stats4">
+            <div>Estrellas: <span id="count4">150</span></div>
+            <div>Órbitas: Múltiples</div>
+          </div>
+          <div class="controls">
+            <button class="btn" onclick="toggleExample(4)">Pausa/Play</button>
+            <button class="btn" onclick="changeGalaxySpeed(4)">⚡ Velocidad</button>
+          </div>
+          <div class="example-content">
+            <h3>🌠 Galaxia Espiral</h3>
+            <p>Órbitas concéntricas con estrellas brillantes</p>
+          </div>
+        </div>
+        <div class="example-code">
+          <div class="code-block">const galaxy = new FluxJS({ count: 150, color: { type: "random", randomPalette: ["#FFD700", "#FFA500", "#FF69B4", "#9370DB", "#00CED1", "#32CD32"] }, size: { min: 1, max: 6, distribution: "exponential", pulse: true, pulseSpeed: 0.01 }, speed: { min: 0.02, max: 0.15 }, connections: { enabled: true, distance: 60, maxConnections: 2, opacity: 0.3, animated: true }, animation: { type: "orbit", orbit: { centerX: null, // Centro del canvas centerY: null, radius: 180, speed: 0.008 } }, effects: { twinkle: true, twinkleSpeed: 0.02, glow: true, glowSize: 10 }, shape: { type: "star" }, mouse: { interact: true, distance: 100, attraction: 0.03 } });</div>
+        </div>
+      </div>
+
+      <!-- Ejemplo 5: Formas Personalizadas -->
+      <div class="example" id="example5">
+        <div class="example-header">
+          <h2 class="example-title">💝 Corazones Románticos</h2>
+          <p class="example-description">Corazones flotantes con rotación, gradientes y efectos románticos.</p>
+        </div>
+        <div class="example-demo">
+          <div class="stats" id="stats5">
+            <div>Corazones: <span id="count5">40</span></div>
+            <div>Rotación: Activa</div>
+          </div>
+          <div class="controls">
+            <button class="btn" onclick="toggleExample(5)">Pausa/Play</button>
+            <button class="btn" onclick="addHeart(5)">💖 + Corazón</button>
+          </div>
+          <div class="example-content">
+            <h3>💕 Amor en el Aire</h3>
+            <p>Corazones girando con amor</p>
+          </div>
+        </div>
+        <div class="example-code">
+          <div class="code-block">const hearts = new FluxJS({ count: 40, color: { type: "gradient", gradient: ["#FF69B4", "#FF1493", "#DC143C", "#B22222"] }, size: { min: 5, max: 12, pulse: true, pulseSpeed: 0.02, pulseIntensity: 0.3 }, speed: { min: 0.08, max: 0.3 }, connections: { enabled: false }, animation: { type: "float", direction: "up", speed: 0.6 }, effects: { glow: true, glowColor: "#FF69B4", glowSize: 15, shadow: true, shadowColor: "rgba(255, 105, 180, 0.4)" }, shape: { type: "heart", rotation: true, rotationSpeed: 0.008 }, physics: { wind: 0.02, windDirection: Math.PI / 4, friction: 0.005 }, mouse: { interact: true, distance: 120, attraction: 0.08, onClick: (event, flux) => { // Crear corazones en el click for (let i = 0; i < 5; i++) { setTimeout(() => { flux.addParticle( event.clientX + (Math.random() - 0.5) * 100, event.clientY + (Math.random() - 0.5) * 100, { size: Math.random() * 8 + 4 } ); }, i * 200); } } } });</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="flux.js"></script>
+    <script>
+      // Array para almacenar las instancias de FluxJS
+      const examples = {};
+      let isInitialized = false;
+
+      // Inicializar todos los ejemplos
+      function initExamples() {
+        if (isInitialized) return;
+
+        // Ejemplo 1: Campo de Estrellas
+        examples[1] = new FluxJS({
+          container: document.querySelector("#example1 .example-demo"),
+          count: 200,
+          color: {
+            type: "random",
+            randomPalette: ["#FFD700", "#FFF8DC", "#F0F8FF", "#E6E6FA", "#FFFACD"],
+          },
+          size: {
+            min: 1,
+            max: 4,
+            distribution: "exponential",
+          },
+          speed: {
+            min: 0.01,
+            max: 0.08,
+            turbulence: 0.1,
+          },
+          effects: {
+            twinkle: true,
+            twinkleSpeed: 0.008,
+            glow: true,
+            glowSize: 8,
+          },
+          shape: {
+            type: "star",
+          },
+          connections: {
+            enabled: false,
+          },
+          mouse: {
+            interact: true,
+            distance: 100,
+            attraction: 0.02,
+          },
+        });
+
+        // Ejemplo 2: Red Neural
+        examples[2] = new FluxJS({
+          container: document.querySelector("#example2 .example-demo"),
+          count: 60,
+          color: {
+            type: "gradient",
+            gradient: ["#00ff88", "#0066cc", "#6600ff"],
+          },
+          size: {
+            min: 3,
+            max: 8,
+            pulse: true,
+            pulseSpeed: 0.015,
+            pulseIntensity: 0.4,
+          },
+          speed: {
+            min: 0.1,
+            max: 0.4,
+            turbulence: 0.2,
+          },
+          connections: {
+            enabled: true,
+            distance: 120,
+            animated: true,
+            animationSpeed: 0.03,
+            color: "#00ff88",
+            opacity: 0.6,
+            maxConnections: 3,
+            width: 1.5,
+          },
+          mouse: {
+            interact: true,
+            distance: 150,
+            magnetism: true,
+            magnetismStrength: 0.05,
+            trail: true,
+            trailLength: 15,
+          },
+          effects: {
+            glow: true,
+            glowColor: "#00ff88",
+            glowSize: 12,
+          },
+          animation: {
+            type: "float",
+            speed: 0.8,
+          },
+        });
+
+        // Ejemplo 3: Física
+        examples[3] = new FluxJS({
+          container: document.querySelector("#example3 .example-demo"),
+          count: 80,
+          color: {
+            type: "rainbow",
+            rainbowSpeed: 0.02,
+          },
+          size: {
+            min: 4,
+            max: 10,
+            distribution: "gaussian",
+          },
+          speed: {
+            min: 0.5,
+            max: 2,
+            turbulence: 0.3,
+            acceleration: 0.001,
+          },
+          physics: {
+            gravity: 0.12,
+            gravityDirection: "down",
+            friction: 0.015,
+            bounce: 0.75,
+            wind: 0.04,
+            windDirection: Math.PI / 6,
+          },
+          animation: {
+            type: "bounce",
+          },
+          effects: {
+            glow: true,
+            shadow: true,
+            shadowBlur: 8,
+            shadowOffset: { x: 2, y: 2 },
+          },
+          mouse: {
+            interact: true,
+            repulsion: true,
+            repulsionForce: 0.15,
+            distance: 80,
+          },
+        });
+
+        // Ejemplo 4: Galaxia
+        examples[4] = new FluxJS({
+          container: document.querySelector("#example4 .example-demo"),
+          count: 150,
+          color: {
+            type: "random",
+            randomPalette: ["#FFD700", "#FFA500", "#FF69B4", "#9370DB", "#00CED1", "#32CD32"],
+          },
+          size: {
+            min: 1,
+            max: 6,
+            distribution: "exponential",
+            pulse: true,
+            pulseSpeed: 0.01,
+          },
+          speed: {
+            min: 0.02,
+            max: 0.15,
+          },
+          connections: {
+            enabled: true,
+            distance: 60,
+            maxConnections: 2,
+            opacity: 0.3,
+            animated: true,
+          },
+          animation: {
+            type: "orbit",
+            orbit: {
+              centerX: null,
+              centerY: null,
+              radius: 180,
+              speed: 0.008,
+            },
+          },
+          effects: {
+            twinkle: true,
+            twinkleSpeed: 0.02,
+            glow: true,
+            glowSize: 10,
+          },
+          shape: {
+            type: "star",
+          },
+          mouse: {
+            interact: true,
+            distance: 100,
+            attraction: 0.03,
+          },
+        });
+
+        // Ejemplo 5: Corazones
+        examples[5] = new FluxJS({
+          container: document.querySelector("#example5 .example-demo"),
+          count: 40,
+          color: {
+            type: "gradient",
+            gradient: ["#FF69B4", "#FF1493", "#DC143C", "#B22222"],
+          },
+          size: {
+            min: 5,
+            max: 12,
+            pulse: true,
+            pulseSpeed: 0.02,
+            pulseIntensity: 0.3,
+          },
+          speed: {
+            min: 0.08,
+            max: 0.3,
+          },
+          connections: {
+            enabled: false,
+          },
+          animation: {
+            type: "float",
+            direction: "up",
+            speed: 0.6,
+          },
+          effects: {
+            glow: true,
+            glowColor: "#FF69B4",
+            glowSize: 15,
+            shadow: true,
+            shadowColor: "rgba(255, 105, 180, 0.4)",
+          },
+          shape: {
+            type: "heart",
+            rotation: true,
+            rotationSpeed: 0.008,
+          },
+          physics: {
+            wind: 0.02,
+            windDirection: Math.PI / 4,
+            friction: 0.005,
+          },
+          mouse: {
+            interact: true,
+            distance: 120,
+            attraction: 0.08,
+            onClick: (event, flux) => {
+              for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                  flux.addParticle(event.clientX + (Math.random() - 0.5) * 100, event.clientY + (Math.random() - 0.5) * 100, { size: Math.random() * 8 + 4 });
+                }, i * 200);
+              }
+            },
+          },
+        });
+
+        isInitialized = true;
+      }
+
+      // Funciones de control
+      function toggleExample(id) {
+        const example = examples[id];
+        if (example) {
+          if (example.isRunning) {
+            example.stop();
+          } else {
+            example.start();
+          }
+        }
+      }
+
+      function resetExample(id) {
+        const example = examples[id];
+        if (example) {
+          example.destroy();
+          setTimeout(() => {
+            initExamples();
+          }, 100);
+        }
+      }
+
+      function addNeuron(id) {
+        const example = examples[id];
+        if (example) {
+          const container = example.canvas;
+          const x = Math.random() * container.width;
+          const y = Math.random() * container.height;
+          example.addParticle(x, y, {
+            size: Math.random() * 5 + 3,
+            opacity: 0.8,
+          });
+          document.getElementById("count2").textContent = example.particles.length;
+        }
+      }
+
+      function explodeRandom(id) {
+        const example = examples[id];
+        if (example) {
+          const x = Math.random() * example.canvas.width;
+          const y = Math.random() * example.canvas.height;
+          example.explode(x, y, 8, 150);
+        }
+      }
+
+      function changeGalaxySpeed(id) {
+        const example = examples[id];
+        if (example) {
+          const currentSpeed = example.config.animation.orbit.speed;
+          const newSpeed = currentSpeed > 0.01 ? 0.002 : 0.015;
+          example.updateConfig({
+            animation: {
+              orbit: { speed: newSpeed },
+            },
+          });
+        }
+      }
+
+      function addHeart(id) {
+        const example = examples[id];
+        if (example) {
+          const container = example.canvas;
+          const x = Math.random() * container.width;
+          const y = container.height + 20; // Desde abajo
+          example.addParticle(x, y, {
+            size: Math.random() * 8 + 6,
+            vy: -(Math.random() * 0.5 + 0.2), // Velocidad hacia arriba
+          });
+          document.getElementById("count5").textContent = example.particles.length;
+        }
+      }
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("load", () => {
+        setTimeout(initExamples, 500);
+      });
+
+      // Efectos adicionales con teclado
+      document.addEventListener("keydown", (e) => {
+        switch (e.key) {
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+            toggleExample(parseInt(e.key));
+            break;
+          case " ":
+            e.preventDefault();
+            // Pausar/reanudar todos
+            Object.values(examples).forEach((example) => {
+              if (example.isRunning) {
+                example.stop();
+              } else {
+                example.start();
+              }
+            });
+            break;
+        }
+      });
+
+      console.log("FluxJS Examples loaded!");
+      console.log("Keyboard shortcuts: 1-5 to toggle examples, Space to pause/resume all");
+    </script>
+  </body>
+</html>
