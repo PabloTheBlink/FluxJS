@@ -829,64 +829,6 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">⭐ Estrellas traviesas</h3>
-          <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-stars"></div>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
-  container: element,
-  count: 50,
-  color: '#ffffff',
-  size: { min: 0.5, max: 1.5 }
-});</code></pre>
-          </div>
-        </div>
-
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌐 Red conspiratoria</h3>
-          <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-network"></div>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
-  container: element,
-  count: 25,
-  color: '#00ff88',
-  connections: { distance: 80 }
-});</code></pre>
-          </div>
-        </div>
-
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🫧 Burbujas rebeldes</h3>
-          <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-bubbles"></div>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
-  container: element,
-  count: 15,
-  color: '#4FC3F7',
-  animation: 'bounce'
-});</code></pre>
-          </div>
-        </div>
-
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌀 Espiral hipnótica</h3>
-          <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-spiral"></div>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
-  container: element,
-  count: 20,
-  color: '#FF6B6B',
-  animation: 'spiral'
-});</code></pre>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Sección API -->
@@ -1300,14 +1242,6 @@ flux.updateConfig({
       let generatorFlux = null;
       let demos = {};
 
-      // Inicialización
-      document.addEventListener("DOMContentLoaded", function () {
-        initializeNavigation();
-        initializeDemos();
-        initializeGenerator();
-        initializeBackgroundEffect();
-      });
-
       // Navegación suave
       function initializeNavigation() {
         const navLinks = document.querySelectorAll(".nav-link");
@@ -1381,74 +1315,6 @@ flux.updateConfig({
             link.classList.add("active");
           }
         });
-      }
-
-      // Inicializar demos
-      function initializeDemos() {
-        // Verificar que los elementos existen
-        const starsContainer = document.getElementById("demo-stars");
-
-        if (!starsContainer) {
-          console.error("No se encontró el contenedor demo-stars");
-          return;
-        }
-
-        // Demo de estrellas - movimiento flotante suave
-        demos.stars = new FluxJS({
-          container: starsContainer,
-          count: 50,
-          color: "#ffffff",
-          size: { min: 0.5, max: 1.5 },
-          speed: { min: 0.05, max: 0.2 },
-          connections: { enabled: false },
-          animation: "float",
-          canvas: { background: "transparent", zIndex: 1 },
-        });
-
-        // Demo de red - movimiento ondulante
-        const networkContainer = document.getElementById("demo-network");
-        if (networkContainer) {
-          demos.network = new FluxJS({
-            container: networkContainer,
-            count: 25,
-            color: "#00ff88",
-            size: { min: 1, max: 2 },
-            speed: { min: 0.3, max: 0.6 },
-            connections: { enabled: true, distance: 80 },
-            animation: "wave",
-            canvas: { background: "transparent", zIndex: 1 },
-          });
-        }
-
-        // Demo de burbujas - rebotando
-        const bubblesContainer = document.getElementById("demo-bubbles");
-        if (bubblesContainer) {
-          demos.bubbles = new FluxJS({
-            container: bubblesContainer,
-            count: 15,
-            color: "#4FC3F7",
-            size: { min: 2, max: 5 },
-            speed: { min: 0.5, max: 1.2 },
-            animation: "bounce",
-            connections: { enabled: false },
-            canvas: { background: "transparent", zIndex: 1 },
-          });
-        }
-
-        // Demo de espiral - movimiento circular
-        const spiralContainer = document.getElementById("demo-spiral");
-        if (spiralContainer) {
-          demos.spiral = new FluxJS({
-            container: spiralContainer,
-            count: 20,
-            color: "#FF6B6B",
-            size: { min: 1, max: 3 },
-            speed: { min: 0.2, max: 0.5 },
-            animation: "spiral",
-            connections: { enabled: false },
-            canvas: { background: "transparent", zIndex: 1 },
-          });
-        }
       }
 
       // Inicializar generador
@@ -1621,7 +1487,6 @@ flux.updateConfig({
         try {
           initializeNavigation();
           initializeBackgroundEffect();
-          initializeDemos();
           initializeGenerator();
 
           // Mobile optimizations
