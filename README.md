@@ -16,7 +16,7 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 - **Paletas aleatorias**: Colores al azar de una paleta personalizada
 
 <p align="center">
-  <img src="captura1.png" alt="Icono de FluxJS">
+  <img src="captura2.png" alt="Icono de FluxJS">
 </p>
 
 ### ⚡ Física Realista
