@@ -1,6 +1,6 @@
 /**
  * FluxJS - Librería de partículas animadas ultra configurable
- * Versión: 1.0.1
+ * Versión: 1.0.2
  * Autor: Pablo Martínez
  */
 
