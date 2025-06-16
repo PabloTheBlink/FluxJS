@@ -378,8 +378,8 @@ flux.updateConfig({
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Cantidad de Partículas:</label>
-          <input type="range" id="gen-count" min="10" max="200" value="50" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
-          <span id="count-value" class="text-flux-blue font-semibold text-sm sm:text-base">50</span>
+          <input type="range" id="gen-count" min="10" max="200" value="100" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <span id="count-value" class="text-flux-blue font-semibold text-sm sm:text-base">100</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
@@ -395,14 +395,14 @@ flux.updateConfig({
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size-max">Tamaño Máximo:</label>
-          <input type="range" id="gen-size-max" min="1" max="10" step="0.1" value="3" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
-          <span id="size-max-value" class="text-flux-blue font-semibold text-sm sm:text-base">3</span>
+          <input type="range" id="gen-size-max" min="1" max="100" step="1" value="30" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <span id="size-max-value" class="text-flux-blue font-semibold text-sm sm:text-base">30</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad:</label>
-          <input type="range" id="gen-speed" min="0.01" max="1" step="0.01" value="0.3" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
-          <span id="speed-value" class="text-flux-blue font-semibold text-sm sm:text-base">0.3</span>
+          <input type="range" id="gen-speed" min="0.01" max="1" step="0.01" value="1" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <span id="speed-value" class="text-flux-blue font-semibold text-sm sm:text-base">1</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
@@ -957,6 +957,7 @@ flux.updateConfig({
           },
           mouse: {
             interact: document.getElementById("gen-mouse").checked,
+            trail: true,
           },
         };
       }
