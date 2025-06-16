@@ -138,7 +138,7 @@
   <body class="m-0 p-0 bg-gradient-flux text-white overflow-x-hidden">
     <!-- Navegación -->
     <header class="fixed top-0 w-full bg-black/95 backdrop-blur-lg z-50 border-b border-white/10 transition-all duration-300">
-      <nav class="max-w-6xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <a href="#inicio" class="text-xl sm:text-2xl font-bold text-flux-blue no-underline">✨ FluxJS</a>
 
         <!-- Botón menú móvil -->
@@ -152,6 +152,7 @@
         <ul class="hidden md:flex list-none gap-6 lg:gap-8">
           <li><a href="#inicio" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Inicio</a></li>
           <li><a href="#instalacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Instalación</a></li>
+          <li><a href="#implementacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Implementación</a></li>
           <li><a href="#ejemplos" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Ejemplos</a></li>
           <li><a href="#api" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">API</a></li>
           <li><a href="#generador" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Generador</a></li>
@@ -164,6 +165,7 @@
           <ul class="flex flex-col list-none py-4">
             <li><a href="#inicio" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Inicio</a></li>
             <li><a href="#instalacion" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Instalación</a></li>
+            <li><a href="#implementacion" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Implementación</a></li>
             <li><a href="#ejemplos" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Ejemplos</a></li>
             <li><a href="#api" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">API</a></li>
             <li><a href="#generador" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Generador</a></li>
@@ -175,7 +177,7 @@
     </header>
 
     <!-- Sección Inicio -->
-    <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-6xl mx-auto">
+    <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <div class="z-10 bg-white/5 p-6 sm:p-8 lg:p-12 rounded-3xl backdrop-blur-lg shadow-2xl border border-white/10 animate-fade-in-up w-full max-w-4xl">
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-text text-center mb-6 sm:mb-8 drop-shadow-lg">FluxJS</h1>
         <p class="text-lg sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto animate-fade-in-up-delay leading-relaxed">¿Aburrido de fondos estáticos? 😴 Despierta tu web con partículas tan traviesas que harán que tus visitantes no puedan apartar la mirada. Porque ser básico está sobrevalorado.</p>
@@ -187,25 +189,20 @@
     </section>
 
     <!-- Sección Instalación -->
-    <section id="instalacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-6xl mx-auto">
+    <section id="instalacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡A ensuciar las manos! 🛠️</h2>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 sm:mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8 sm:mb-12">
         <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">📦 CDN (Para los impacientes)</h3>
           <p class="mb-4 text-white/80 text-sm sm:text-base">¿Quieres diversión YA? Copia y pega, bebé:</p>
           <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
-            &lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js"&gt;&lt;/script&gt;
+            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">URL</span>
+            <pre><code class="language-html block text-center" style="font-size: 0.75rem !important;">https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js</code></pre>
           </div>
-        </div>
-
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">📥 Descarga (Old school)</h3>
-          <p class="mb-4 text-white/80 text-sm sm:text-base">Para los puristas que prefieren tener todo bajo control:</p>
           <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
-            &lt;script src="path/to/flux.js"&gt;&lt;/script&gt;
+            <pre><code class="language-html text-xs sm:text-sm">&lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js"&gt;&lt;/script&gt;</code></pre>
           </div>
         </div>
 
@@ -230,23 +227,327 @@
       </div>
 
       <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 sm:mb-6 font-semibold">Uso Básico (o cómo hacer magia con 3 líneas)</h3>
-      <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
-        <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-        <pre><code class="language-javascript text-xs sm:text-sm">// Crear partículas con configuración por defecto
-const flux = new FluxJS({ container: document.getElementById('mi-contenedor') });
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+        <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
+          <pre><code class="language-javascript text-xs sm:text-sm">// Crear partículas con configuración por defecto
+  const flux = new FluxJS({ container: document.getElementById('mi-contenedor') });
+
+  // O con opciones personalizadas
+  const flux = new FluxJS({
+    container: document.getElementById('mi-contenedor'),
+    count: 100,
+    color: '#00ff88',
+    size: { min: 1, max: 4 }
+  });
+
+
+</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
+          <pre><code class="language-javascript text-xs sm:text-sm">import { createFlux } from '@pablotheblink/fluxjs';
+
+// Crear partículas con configuración por defecto
+const flux = createFlux({ container: document.getElementById('mi-contenedor') });
 
 // O con opciones personalizadas
-const flux = new FluxJS({
+const flux = createFlux({
   container: document.getElementById('mi-contenedor'),
   count: 100,
   color: '#00ff88',
   size: { min: 1, max: 4 }
 });</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Implementación Fácil -->
+    <section id="implementacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡Implementación súper fácil! 🚀</h2>
+
+      <div class="bg-gradient-to-r from-flux-blue/10 to-purple-500/10 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg shadow-xl mb-8 sm:mb-12">
+        <p class="text-center text-lg sm:text-xl text-white/90 mb-4">
+          ¿Quieres añadir partículas a tu web pero no sabes por dónde empezar?
+          <br class="hidden sm:block" />
+          <span class="text-flux-blue font-semibold">¡Aquí tienes la guía más fácil del mundo! 👇</span>
+        </p>
+      </div>
+
+      <!-- Paso 1: Fondo de página completa -->
+      <div class="mb-12 sm:mb-16">
+        <h3 class="text-2xl sm:text-3xl text-flux-blue mb-6 font-bold flex items-center">
+          <span class="bg-flux-blue text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">1</span>
+          Fondo de página completa ✨
+        </h3>
+
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <p class="text-white/80 mb-6 text-sm sm:text-base"><strong>¿Qué hace?</strong> Crea un fondo de partículas que cubre toda tu página web, perfecto para landing pages o sitios personales.</p>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Añade esto a tu página:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
+                <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Div de fondo para las partículas --&gt;
+&lt;div id="fondo-particulas"&gt;&lt;/div&gt;
+
+&lt;!-- Tu contenido normal aquí --&gt;
+&lt;div class="contenido"&gt;
+  &lt;h1&gt;¡Mi página genial!&lt;/h1&gt;
+  &lt;p&gt;Contenido con partículas de fondo&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Script de FluxJS --&gt;
+&lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js"&gt;&lt;/script&gt;</code></pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">🎨 CSS - Estilos para el fondo:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CSS</span>
+                <pre><code class="language-css text-xs sm:text-sm">#fondo-particulas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Detrás del contenido */
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+}
+
+.contenido {
+  position: relative;
+  z-index: 1; /* Encima de las partículas */
+  padding: 2rem;
+}</code></pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - La magia:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
+                <pre><code class="language-javascript text-xs sm:text-sm">// Esperar a que la página cargue
+document.addEventListener('DOMContentLoaded', function() {
+  // Crear las partículas
+  const flux = new FluxJS({
+    container: document.getElementById('fondo-particulas'),
+    count: 80,
+    color: '#4fc3f7',
+    size: { min: 1, max: 3 },
+    connections: { enabled: true, distance: 120 }
+  });
+});</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2: Sección específica -->
+      <div class="mb-12 sm:mb-16">
+        <h3 class="text-2xl sm:text-3xl text-flux-blue mb-6 font-bold flex items-center">
+          <span class="bg-flux-blue text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">2</span>
+          Solo en una sección 🎯
+        </h3>
+
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <p class="text-white/80 mb-6 text-sm sm:text-base"><strong>¿Qué hace?</strong> Añade partículas solo a una parte específica de tu web, como un hero section o área destacada.</p>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Estructura básica:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
+                <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Sección con partículas --&gt;
+&lt;section class="hero-section"&gt;
+  &lt;div id="particulas-hero"&gt;&lt;/div&gt;
+  &lt;div class="hero-content"&gt;
+    &lt;h1&gt;¡Bienvenido!&lt;/h1&gt;
+    &lt;p&gt;Esta sección tiene partículas geniales&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- Resto de tu página sin partículas --&gt;
+&lt;section&gt;
+  &lt;h2&gt;Contenido normal&lt;/h2&gt;
+  &lt;p&gt;Sin partículas aquí&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">🎨 CSS - Estilos para la sección:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CSS</span>
+                <pre><code class="language-css text-xs sm:text-sm">.hero-section {
+  position: relative;
+  height: 100vh; /* Altura completa de la pantalla */
+  overflow: hidden;
+}
+
+#particulas-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* Encima de las partículas */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: white;
+}</code></pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - Solo para esa sección:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
+                <pre><code class="language-javascript text-xs sm:text-sm">document.addEventListener('DOMContentLoaded', function() {
+  const flux = new FluxJS({
+    container: document.getElementById('particulas-hero'),
+    count: 50,
+    color: '#ffffff',
+    size: { min: 0.5, max: 2 },
+    speed: { min: 0.1, max: 0.3 }
+  });
+});</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3: Múltiples contenedores -->
+      <div class="mb-12 sm:mb-16">
+        <h3 class="text-2xl sm:text-3xl text-flux-blue mb-6 font-bold flex items-center">
+          <span class="bg-flux-blue text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-4">3</span>
+          Varios efectos en una página 🌟
+        </h3>
+
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <p class="text-white/80 mb-6 text-sm sm:text-base"><strong>¿Qué hace?</strong> Crea diferentes efectos de partículas en distintas partes de tu página. ¡Cada sección con su personalidad!</p>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Múltiples contenedores:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
+                <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Header con estrellas --&gt;
+&lt;header&gt;
+  &lt;div id="estrellas-header"&gt;&lt;/div&gt;
+  &lt;h1&gt;Mi Sitio Espacial&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;!-- Sección de servicios con red --&gt;
+&lt;section class="servicios"&gt;
+  &lt;div id="red-servicios"&gt;&lt;/div&gt;
+  &lt;h2&gt;Nuestros Servicios&lt;/h2&gt;
+&lt;/section&gt;
+
+&lt;!-- Footer con burbujas --&gt;
+&lt;footer&gt;
+  &lt;div id="burbujas-footer"&gt;&lt;/div&gt;
+  &lt;p&gt;© 2025 Mi Empresa&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - Tres efectos diferentes:</h4>
+              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+                <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
+                <pre><code class="language-javascript text-xs sm:text-sm">document.addEventListener('DOMContentLoaded', function() {
+  // Estrellas en el header
+  new FluxJS({
+    container: document.getElementById('estrellas-header'),
+    count: 100,
+    color: '#ffffff',
+    size: { min: 0.5, max: 1.5 }
+  });
+
+  // Red de conexiones en servicios
+  new FluxJS({
+    container: document.getElementById('red-servicios'),
+    count: 30,
+    color: '#00ff88',
+    connections: { enabled: true, distance: 80 }
+  });
+
+  // Burbujas en el footer
+  new FluxJS({
+    container: document.getElementById('burbujas-footer'),
+    count: 20,
+    color: '#4FC3F7',
+    animation: 'bounce'
+  });
+});</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consejos pro -->
+      <div class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-6 sm:p-8 rounded-3xl border border-yellow-500/30 backdrop-blur-lg shadow-xl">
+        <h3 class="text-xl sm:text-2xl text-yellow-400 mb-4 font-bold flex items-center">💡 Consejos de experto</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <span class="text-yellow-400 font-bold">📱</span>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Responsive</h4>
+                <p class="text-white/80 text-sm">Usa menos partículas en móviles para mejor rendimiento: <code class="bg-black/30 px-2 py-1 rounded text-xs">count: window.innerWidth < 768 ? 30 : 80</code></p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <span class="text-yellow-400 font-bold">⚡</span>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Rendimiento</h4>
+                <p class="text-white/80 text-sm">Si tu página va lenta, reduce el número de partículas o desactiva las conexiones.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <span class="text-yellow-400 font-bold">🎨</span>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Colores</h4>
+                <p class="text-white/80 text-sm">Usa colores que combinen con tu diseño. Los colores claros se ven mejor en fondos oscuros.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <span class="text-yellow-400 font-bold">📏</span>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Z-index</h4>
+                <p class="text-white/80 text-sm">Usa <code class="bg-black/30 px-2 py-1 rounded text-xs">z-index: -1</code> para fondos y <code class="bg-black/30 px-2 py-1 rounded text-xs">z-index: 1</code> para efectos encima del contenido.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Sección Ejemplos -->
-    <section id="ejemplos" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-6xl mx-auto">
+    <section id="ejemplos" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Galería de travesuras ✨</h2>
 
       <!-- Enlaces a Demos Completas -->
@@ -321,7 +622,7 @@ const flux = new FluxJS({
     </section>
 
     <!-- Sección API -->
-    <section id="api" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-6xl mx-auto">
+    <section id="api" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Manual de travesuras 📚</h2>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
@@ -369,7 +670,7 @@ flux.updateConfig({
     </section>
 
     <!-- Sección Generador -->
-    <section id="generador" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-6xl mx-auto">
+    <section id="generador" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Laboratorio de experimentos 🧪</h2>
       <p class="text-center mb-6 sm:mb-8 text-white/80 text-sm sm:text-base">¡Juega, experimenta y desata el caos! Aquí puedes crear tu propia receta de travesuras digitales</p>
 
@@ -432,7 +733,7 @@ flux.updateConfig({
 
     <!-- Sección Opiniones -->
     <section id="opiniones" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-800/30 to-gray-900/30">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-8 sm:mb-12">
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-flux-blue mb-4">💬 Lo que Dice la Gente</h2>
           <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">Descubre qué piensan otros desarrolladores sobre FluxJS y cómo ha transformado sus proyectos.</p>
@@ -458,7 +759,7 @@ flux.updateConfig({
 
     <!-- Sección Contribuir -->
     <section id="contribuir" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-900/50 to-gray-800/50">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-8 sm:mb-12">
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-flux-blue mb-4">🤝 ¡Únete a la Travesura!</h2>
           <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">FluxJS es un proyecto de código abierto que crece gracias a desarrolladores como tú. ¿Listo para hacer que las partículas bailen aún mejor?</p>
@@ -716,6 +1017,7 @@ flux.updateConfig({
       <div class="flex justify-center gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 flex-wrap px-4">
         <a href="#inicio" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">Inicio</a>
         <a href="#instalacion" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">Instalación</a>
+        <a href="#implementacion" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">Implementación</a>
         <a href="#ejemplos" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">Ejemplos</a>
         <a href="#api" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">API</a>
         <a href="#generador" class="text-white/60 hover:text-flux-blue transition-colors no-underline text-sm sm:text-base">Generador</a>
