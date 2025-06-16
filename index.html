@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FluxJS - Partículas Animadas para Web</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="flux.js"></script>
 
     <!-- theme color-->
     <meta name="theme-color" content="#020202" />
+
+    <!-- icon-->
+    <link rel="icon" href="icon.png" type="image/png" />
 
     <!-- Prism.js para resaltado de sintaxis -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -139,7 +142,10 @@
     <!-- Navegación -->
     <header class="fixed top-0 w-full bg-black/95 backdrop-blur-lg z-50 border-b border-white/10 transition-all duration-300">
       <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <a href="#inicio" class="text-xl sm:text-2xl font-bold text-flux-blue no-underline">✨ FluxJS</a>
+        <a href="#inicio" class="flex align-center sm:text-2xl font-bold text-flux-blue no-underline">
+          <img src="icon.png" alt="Icono de FluxJS" class="inline-block w-8 h-8 mr-2" />
+          FluxJS
+        </a>
 
         <!-- Botón menú móvil -->
         <button id="mobile-menu-button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1">
