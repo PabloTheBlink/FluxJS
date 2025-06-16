@@ -401,10 +401,7 @@
     <!-- Navegación -->
     <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300">
       <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-colors">
-          <img src="icon.png" alt="Icono de FluxJS" class="inline-block w-8 h-8 mr-2" />
-          FluxJS
-        </a>
+        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-colors"> FluxJS </a>
 
         <!-- Botón menú móvil -->
         <button id="mobile-menu-button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1 hover:opacity-80 transition-opacity">
@@ -2118,44 +2115,42 @@ flux.updateConfig({
 
       // Initialize everything when DOM is ready
       document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-          try {
-            initializeNavigation();
-            initializeBackgroundEffect();
-            setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
-            setTimeout(initializeExamples, 100); // Initialize examples after a short delay
+        try {
+          initializeNavigation();
+          initializeBackgroundEffect();
+          setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
+          setTimeout(initializeExamples, 100); // Initialize examples after a short delay
 
-            // Mobile optimizations
-            const optimizeForMobile = () => {
-              if (window.innerWidth < 768) {
-                document.body.classList.add("mobile");
-              }
-            };
-            optimizeForMobile();
+          // Mobile optimizations
+          const optimizeForMobile = () => {
+            if (window.innerWidth < 768) {
+              document.body.classList.add("mobile");
+            }
+          };
+          optimizeForMobile();
 
-            // Throttled resize handler
-            let resizeTimeout;
-            window.addEventListener(
-              "resize",
-              () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                  Object.values(demos).forEach((demo) => {
-                    if (demo && demo.resize) demo.resize();
-                  });
-                  if (currentFlux && currentFlux.resize) currentFlux.resize();
-                  if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
-                  optimizeForMobile();
-                }, 250);
-              },
-              { passive: true }
-            );
+          // Throttled resize handler
+          let resizeTimeout;
+          window.addEventListener(
+            "resize",
+            () => {
+              clearTimeout(resizeTimeout);
+              resizeTimeout = setTimeout(() => {
+                Object.values(demos).forEach((demo) => {
+                  if (demo && demo.resize) demo.resize();
+                });
+                if (currentFlux && currentFlux.resize) currentFlux.resize();
+                if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
+                optimizeForMobile();
+              }, 250);
+            },
+            { passive: true }
+          );
 
-            console.log("🎉 FluxJS Index optimizado y listo!");
-          } catch (error) {
-            console.error("Error during initialization:", error);
-          }
-        }, 1000); // Delay to ensure all elements are loaded
+          console.log("🎉 FluxJS Index optimizado y listo!");
+        } catch (error) {
+          console.error("Error during initialization:", error);
+        }
       });
     </script>
   </body>
