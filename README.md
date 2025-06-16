@@ -81,7 +81,7 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 ### CDN (Recomendado)
 
 ```html
-<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.0/flux.js"></script>
+<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.1/flux.js"></script>
 ```
 
 ### Descarga Directa
@@ -94,6 +94,14 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 
 ```bash
 npm install @pablotheblink/fluxjs
+```
+
+```javascript
+// CommonJS
+const { FluxJS, createFlux } = require("@pablotheblink/fluxjs");
+
+// ES6 Modules / TypeScript
+import FluxJS, { createFlux } from "@pablotheblink/fluxjs";
 ```
 
 ## 🎯 Uso Rápido

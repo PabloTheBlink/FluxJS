@@ -196,7 +196,7 @@
           <p class="mb-4 text-white/80 text-sm sm:text-base">¿Quieres diversión YA? Copia y pega, bebé:</p>
           <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
-            &lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.0/flux.js"&gt;&lt;/script&gt;
+            &lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.1/flux.js"&gt;&lt;/script&gt;
           </div>
         </div>
 
@@ -216,9 +216,15 @@
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">BASH</span>
             npm install @pablotheblink/fluxjs
           </div>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">import { createFlux } from '@pablotheblink/fluxjs';</code></pre>
+          <div class="space-y-2">
+            <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">ES6/TS</span>
+              <pre><code class="language-javascript text-xs sm:text-sm">import FluxJS, { createFlux } from '@pablotheblink/fluxjs';</code></pre>
+            </div>
+            <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CommonJS</span>
+              <pre><code class="language-javascript text-xs sm:text-sm">const { FluxJS, createFlux } = require('@pablotheblink/fluxjs');</code></pre>
+            </div>
           </div>
         </div>
       </div>

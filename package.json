@@ -1,40 +1,58 @@
 {
   "name": "@pablotheblink/fluxjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Una librería de partículas animadas ultra configurable para fondos web interactivos, con más de 100 opciones de personalización",
   "main": "flux.js",
+  "module": "flux.js",
+  "browser": "flux.js",
+  "types": "flux.d.ts",
+  "files": [
+    "flux.js",
+    "flux.d.ts",
+    "README.md",
+    "demo.html",
+    "examples.html"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests specified\" && exit 0",
+    "prepublishOnly": "echo \"Preparando para publicar...\"",
+    "build": "echo \"Build completado\""
   },
   "keywords": [
     "particles",
     "animation",
     "canvas",
     "javascript",
+    "typescript",
     "web",
     "background",
     "effects",
     "interactive",
     "particulas",
-    "animacion"
+    "animacion",
+    "flux",
+    "webgl",
+    "html5",
+    "frontend"
   ],
   "author": "Pablo Martínez",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/PabloTheBlink/FluxJS.git"
+    "url": "git+https://github.com/PabloTheBlink/FluxJS.git"
   },
-  "homepage": "https://github.com/PabloTheBlink/FluxJS#readme",
   "bugs": {
     "url": "https://github.com/PabloTheBlink/FluxJS/issues"
   },
-  "files": [
-    "flux.js",
-    "README.md",
-    "demo.html",
-    "examples.html"
+  "homepage": "https://github.com/PabloTheBlink/FluxJS#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
   ],
-  "browser": "flux.js",
   "jsdelivr": "flux.js",
   "unpkg": "flux.js"
 }
