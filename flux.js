@@ -73,8 +73,13 @@
           attraction: options.mouse?.attraction || 0.05,
           repulsion: options.mouse?.repulsion || false,
           repulsionForce: options.mouse?.repulsionForce || 0.1,
-          trail: options.mouse?.trail || false,
-          trailLength: options.mouse?.trailLength || 10,
+          trail: options.mouse?.trail === true, // Desactivado por defecto
+          trailLength: options.mouse?.trailLength || 30, // Aumentado para mejor efecto
+          trailWidth: options.mouse?.trailWidth || 8, // Ancho del trail
+          trailColor: options.mouse?.trailColor || "#8B00FF", // Color morado por defecto
+          trailGlow: options.mouse?.trailGlow !== false, // Glow activado por defecto
+          trailFadeTime: options.mouse?.trailFadeTime || 1500, // Tiempo de desvanecimiento
+          sparkles: options.mouse?.sparkles !== false, // Partículas brillantes
           onClick: options.mouse?.onClick || null, // Función callback
           magnetism: options.mouse?.magnetism || false,
           magnetismStrength: options.mouse?.magnetismStrength || 0.02,
@@ -164,7 +169,7 @@
           enableWebGL: options.performance?.enableWebGL || false,
           optimizeConnections: options.performance?.optimizeConnections || true,
           pauseOnBlur: options.performance?.pauseOnBlur || true,
-          adaptiveQuality: options.performance?.adaptiveQuality !== false,
+          adaptiveQuality: options.performance?.adaptiveQuality === true,
           // Optimizaciones móviles
           mobile: {
             reducedMotion: options.performance?.mobile?.reducedMotion || false,
@@ -205,6 +210,9 @@
       this.frameCount = 0;
       this.lastFPSUpdate = 0;
       this.performanceMode = "normal"; // 'normal', 'reduced', 'minimal'
+
+      // Guardar configuración original para poder restaurarla
+      this.originalConfig = JSON.parse(JSON.stringify(this.config));
 
       // Inicializar sistema de colores
       this.initColorSystem();
@@ -463,9 +471,8 @@
           // Manejar múltiples toques
           this.touches.set(pointerId, { x, y, time: Date.now() });
         }
-
         // Manejar trail del mouse/touch
-        if (this.config.mouse.trail) {
+        if (this.config.mouse.trail && pointerId === "mouse") {
           this.mouse.trail.push({ x, y, time: Date.now() });
           if (this.mouse.trail.length > this.config.mouse.trailLength) {
             this.mouse.trail.shift();
@@ -553,7 +560,7 @@
 
       // Registrar eventos
       if (!this.isMobile) {
-        document.addEventListener("mousemove", mouseHandler);
+        document.addEventListener("mousemove", mouseHandler, { passive: true });
       }
 
       if (this.config.mouse.touch.enabled) {
@@ -567,7 +574,7 @@
       // También escuchar en el contenedor específico para mayor precisión
       if (this.config.container !== document.body) {
         if (!this.isMobile) {
-          this.config.container.addEventListener("mousemove", mouseHandler);
+          this.config.container.addEventListener("mousemove", mouseHandler, { passive: true });
         }
 
         if (this.config.mouse.touch.enabled) {
@@ -817,7 +824,7 @@
       // Limpiar trail del mouse
       if (this.config.mouse.trail) {
         const now = Date.now();
-        this.mouse.trail = this.mouse.trail.filter((point) => now - point.time < 1000);
+        this.mouse.trail = this.mouse.trail.filter((point) => now - point.time < this.config.mouse.trailFadeTime);
       }
     }
 
@@ -1095,37 +1102,135 @@
     }
 
     draw() {
-      // Limpiar canvas
+      // Limpiar canvas completamente
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      // Dibujar trail del mouse si está habilitado
-      if (this.config.mouse.trail && this.mouse.trail.length > 1) {
-        this.drawMouseTrail();
-      }
+      // Resetear completamente el contexto para evitar interferencias
+      this.ctx.save();
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.globalCompositeOperation = "source-over";
+      this.ctx.globalAlpha = 1;
+      this.ctx.shadowColor = "transparent";
+      this.ctx.shadowBlur = 0;
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
+      this.ctx.restore();
 
       // Dibujar conexiones primero (para que estén detrás de las partículas)
       this.drawConnections();
 
       // Dibujar partículas
       this.drawParticles();
+
+      // Dibujar trail del mouse al final (para que esté encima de todo)
+      if (this.config.mouse.trail && this.mouse.trail.length > 1) {
+        this.drawMouseTrail();
+      }
+
+      // Debug: log cada 120 frames si el trail está habilitado pero no se ve
+      if (this.frameCount % 120 === 0 && this.config.mouse.trail && this.mouse.trail.length === 0) {
+        console.warn("FluxJS: Trail del mouse habilitado pero sin puntos. Posición:", this.mouse.x, this.mouse.y);
+      }
     }
 
     drawMouseTrail() {
-      if (this.mouse.trail.length < 2) return;
+      if (this.mouse.trail.length < 3) return; // Necesitamos al menos 3 puntos para omitir el primero
 
       this.ctx.save();
-      this.ctx.strokeStyle = this.config.color.value || "#ffffff";
-      this.ctx.lineWidth = 2;
-      this.ctx.globalAlpha = 0.5;
 
-      this.ctx.beginPath();
-      this.ctx.moveTo(this.mouse.trail[0].x, this.mouse.trail[0].y);
+      const now = Date.now();
 
-      for (let i = 1; i < this.mouse.trail.length; i++) {
-        this.ctx.lineTo(this.mouse.trail[i].x, this.mouse.trail[i].y);
+      // Obtener el color base de las partículas
+      let baseColor = this.config.color.value || "#ffffff";
+      if (this.config.color.type === "single") {
+        baseColor = this.config.color.value;
+      } else if (this.config.color.type === "rainbow") {
+        baseColor = this.getRainbowColor({ x: this.mouse.x, y: this.mouse.y });
+      } else if (this.config.color.type === "random" && this.config.color.randomPalette) {
+        baseColor = this.config.color.randomPalette[0];
+      } else if (this.config.color.type === "gradient" && this.config.color.gradient) {
+        baseColor = this.config.color.gradient[0];
       }
 
-      this.ctx.stroke();
+      // Convertir color a RGB para manipulación
+      let r, g, b;
+      if (baseColor.startsWith("#")) {
+        const hex = baseColor.slice(1);
+        r = parseInt(hex.slice(0, 2), 16);
+        g = parseInt(hex.slice(2, 4), 16);
+        b = parseInt(hex.slice(4, 6), 16);
+      } else if (baseColor.startsWith("hsl(")) {
+        // Para colores HSL del rainbow, usar una aproximación
+        r = 100;
+        g = 150;
+        b = 255; // Azul-morado por defecto
+      } else {
+        r = 255;
+        g = 255;
+        b = 255; // Blanco por defecto
+      }
+
+      // Dibujar múltiples capas para efecto de glow
+      for (let layer = 0; layer < 3; layer++) {
+        this.ctx.save();
+
+        // Configurar blend mode para glow
+        this.ctx.globalCompositeOperation = layer === 0 ? "screen" : "lighter";
+
+        // Configurar glow según la capa
+        const glowSizes = [20, 12, 6];
+        const alphas = [0.1, 0.3, 0.8];
+        const widths = [8, 5, 2];
+
+        this.ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
+        this.ctx.shadowBlur = glowSizes[layer];
+        this.ctx.strokeStyle = baseColor;
+        this.ctx.lineWidth = widths[layer];
+        this.ctx.lineCap = "round";
+        this.ctx.lineJoin = "round";
+        this.ctx.globalAlpha = alphas[layer];
+
+        // Dibujar trail empezando desde el segundo punto para omitir el punto inicial
+        for (let i = 2; i < this.mouse.trail.length; i++) {
+          const point = this.mouse.trail[i];
+          const prevPoint = this.mouse.trail[i - 1];
+
+          // Calcular opacidad basada en el tiempo
+          const age = now - point.time;
+          const maxAge = 2000; // 2 segundos
+          const ageOpacity = Math.max(0, 1 - age / maxAge);
+
+          // Calcular opacidad basada en la posición en el trail (ajustada para omitir el primer punto)
+          const positionOpacity = (i - 1) / (this.mouse.trail.length - 1);
+
+          // Combinar opacidades
+          const finalOpacity = ageOpacity * positionOpacity * alphas[layer];
+
+          if (finalOpacity > 0.01) {
+            this.ctx.save();
+            this.ctx.globalAlpha = finalOpacity;
+
+            // Crear gradiente para cada segmento usando el color de las partículas
+            const gradient = this.ctx.createLinearGradient(prevPoint.x, prevPoint.y, point.x, point.y);
+            gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${finalOpacity * 0.5})`);
+            gradient.addColorStop(0.5, `rgba(${Math.min(255, r + 50)}, ${Math.min(255, g + 50)}, ${Math.min(255, b + 50)}, ${finalOpacity})`);
+            gradient.addColorStop(1, `rgba(${Math.min(255, r + 30)}, ${Math.min(255, g + 30)}, ${Math.min(255, b + 30)}, ${finalOpacity * 0.8})`);
+
+            this.ctx.strokeStyle = gradient;
+            this.ctx.lineWidth = widths[layer] * (0.5 + positionOpacity * 0.5);
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(prevPoint.x, prevPoint.y);
+            this.ctx.lineTo(point.x, point.y);
+            this.ctx.stroke();
+
+            this.ctx.restore();
+          }
+        }
+
+        this.ctx.restore();
+      }
+
       this.ctx.restore();
     }
 
@@ -1133,7 +1238,7 @@
       this.particles.forEach((particle) => {
         this.ctx.save();
 
-        // Aplicar efectos
+        // Aplicar efectos primero
         this.applyParticleEffects(particle);
 
         // Configurar color y opacidad
@@ -1142,6 +1247,12 @@
 
         // Dibujar según la forma
         this.drawParticleShape(particle);
+
+        // Importante: limpiar efectos después de cada partícula
+        this.ctx.shadowColor = "transparent";
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
 
         this.ctx.restore();
       });
@@ -1284,7 +1395,18 @@
     drawConnections() {
       if (!this.config.connections.enabled) return;
 
+      // Guardar y resetear completamente el contexto
+      this.ctx.save();
+      this.ctx.globalCompositeOperation = "source-over";
+      this.ctx.shadowColor = "transparent";
+      this.ctx.shadowBlur = 0;
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
+      this.ctx.setLineDash([]);
+      this.ctx.lineDashOffset = 0;
+
       const maxConnections = this.config.connections.maxConnections;
+      let totalConnections = 0;
 
       for (let i = 0; i < this.particles.length; i++) {
         let connectionCount = 0;
@@ -1299,8 +1421,8 @@
           if (distance < this.config.connections.distance) {
             const opacity = (this.config.connections.distance - distance) / this.config.connections.distance;
 
-            this.ctx.save();
-            this.ctx.globalAlpha = opacity * this.config.connections.opacity;
+            // Configurar estilos de línea
+            this.ctx.globalAlpha = Math.max(0.1, opacity * this.config.connections.opacity);
             this.ctx.strokeStyle = this.config.connections.color;
             this.ctx.lineWidth = this.config.connections.width;
 
@@ -1313,11 +1435,17 @@
             this.ctx.beginPath();
 
             if (this.config.connections.curve) {
-              // Conexiones curvas
+              // Conexiones curvas - usar un offset determinístico basado en los índices
               const midX = (this.particles[i].x + this.particles[j].x) / 2;
               const midY = (this.particles[i].y + this.particles[j].y) / 2;
-              const controlX = midX + (Math.random() - 0.5) * 50;
-              const controlY = midY + (Math.random() - 0.5) * 50;
+
+              // Usar un offset determinístico basado en los índices para evitar parpadeo
+              const seedOffset = (i * 1000 + j) * 0.001;
+              const controlOffsetX = Math.sin(seedOffset) * 25;
+              const controlOffsetY = Math.cos(seedOffset) * 25;
+
+              const controlX = midX + controlOffsetX;
+              const controlY = midY + controlOffsetY;
 
               this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
               this.ctx.quadraticCurveTo(controlX, controlY, this.particles[j].x, this.particles[j].y);
@@ -1328,11 +1456,19 @@
             }
 
             this.ctx.stroke();
-            this.ctx.restore();
 
             connectionCount++;
+            totalConnections++;
           }
         }
+      }
+
+      // Restaurar el contexto
+      this.ctx.restore();
+
+      // Debug: log cada 60 frames aprox
+      if (this.frameCount % 60 === 0 && totalConnections === 0 && this.particles.length > 0) {
+        console.warn("FluxJS: No se dibujaron conexiones. Partículas:", this.particles.length, "Distancia:", this.config.connections.distance);
       }
     }
 
@@ -1381,26 +1517,31 @@
           }
           // Desactivar algunos efectos
           this.config.connections.animated = false;
-          this.config.mouse.trail = false;
         } else if (this.performanceMode === "reduced") {
           this.performanceMode = "minimal";
           // Reducir aún más
           if (this.particles.length > 10) {
             this.particles = this.particles.slice(0, Math.floor(this.particles.length * 0.5));
           }
-          // Desactivar más efectos
+          // Desactivar más efectos pero mantener conexiones básicas
           this.config.effects.glow = false;
           this.config.effects.shadow = false;
-          this.config.connections.enabled = false;
+          // NO desactivar conexiones completamente - solo simplificarlas
+          this.config.connections.curve = false;
         }
       }
       // Si el FPS es bueno, intentar restaurar calidad gradualmente
       else if (currentFPS > targetFPS * 0.95 && this.performanceMode !== "normal") {
-        // Restaurar gradualmente (esto se podría implementar con más sofisticación)
+        // Restaurar gradualmente usando la configuración original
         if (this.performanceMode === "minimal") {
           this.performanceMode = "reduced";
+          this.config.effects.glow = this.originalConfig?.effects?.glow || false;
+          this.config.effects.shadow = this.originalConfig?.effects?.shadow || false;
+          this.config.connections.curve = this.originalConfig?.connections?.curve || false;
         } else if (this.performanceMode === "reduced") {
           this.performanceMode = "normal";
+          this.config.connections.animated = this.originalConfig?.connections?.animated || false;
+          this.config.mouse.trail = this.originalConfig?.mouse?.trail || false;
         }
       }
     }
