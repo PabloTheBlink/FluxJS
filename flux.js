@@ -263,7 +263,10 @@
           this.config.effects.glow = false;
           this.config.effects.shadow = false;
           this.config.connections.animated = false;
-          this.config.mouse.trail = false;
+          // Solo desactivar trail si no fue configurado explícitamente por el usuario
+          if (options.mouse?.trail !== true) {
+            this.config.mouse.trail = false;
+          }
         }
 
         // Optimización de batería
@@ -640,10 +643,15 @@
           this.touches.delete(touch.identifier);
         });
 
-        // Limpiar posición del mouse si no hay más toques
-        if (e.touches.length === 0) {
-          this.mouse.x = -1000;
-          this.mouse.y = -1000;
+        // Solo limpiar posición del mouse si no hay más toques Y no hay multi-touch
+        if (e.touches.length === 0 && !this.config.mouse.touch.multiTouch) {
+          // Usar un pequeño delay para evitar interferencias bruscas
+          setTimeout(() => {
+            if (e.touches.length === 0) {
+              this.mouse.x = -1000;
+              this.mouse.y = -1000;
+            }
+          }, 100);
         }
       };
 
