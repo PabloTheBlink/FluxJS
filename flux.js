@@ -410,19 +410,20 @@
 
     setupEventListeners() {
       // Redimensionar canvas
-      const resizeHandler = () => {
+      this.resizeHandler = () => {
         this.resize();
         if (this.config.events.onResize) {
           this.config.events.onResize(this);
         }
       };
-      window.addEventListener("resize", resizeHandler);
+      window.addEventListener("resize", this.resizeHandler);
 
       // Manejar cambios de orientación en móviles
       if (this.isMobile) {
-        window.addEventListener("orientationchange", () => {
-          setTimeout(resizeHandler, 100); // Pequeño delay para que la orientación se complete
-        });
+        this.orientationChangeHandler = () => {
+          setTimeout(this.resizeHandler, 100); // Pequeño delay para que la orientación se complete
+        };
+        window.addEventListener("orientationchange", this.orientationChangeHandler);
       }
 
       // Seguimiento del mouse y táctil
@@ -432,19 +433,22 @@
 
       // Pausar/reanudar cuando la ventana pierde/gana foco
       if (this.config.performance.pauseOnBlur) {
-        window.addEventListener("blur", () => this.stop());
-        window.addEventListener("focus", () => this.start());
+        this.blurHandler = () => this.stop();
+        this.focusHandler = () => this.start();
+        window.addEventListener("blur", this.blurHandler);
+        window.addEventListener("focus", this.focusHandler);
       }
 
       // Manejar visibilidad de página (especialmente útil en móviles)
       if (typeof document.hidden !== "undefined") {
-        document.addEventListener("visibilitychange", () => {
+        this.visibilityChangeHandler = () => {
           if (document.hidden) {
             this.stop();
           } else {
             this.start();
           }
-        });
+        };
+        document.addEventListener("visibilitychange", this.visibilityChangeHandler);
       }
 
       // Responsive - ajustar partículas según el tamaño de pantalla
@@ -490,43 +494,68 @@
       };
 
       // Eventos de mouse (desktop)
-      const mouseHandler = (e) => {
+      this.mouseHandler = (e) => {
         const coords = getCoordinates(e);
         updatePointer(coords.x, coords.y, "mouse");
       };
 
+      // Función para verificar si el toque está dentro del canvas
+      const isTouchInCanvas = (touch) => {
+        const coords = getCoordinates(touch);
+        const rect = this.canvas.getBoundingClientRect();
+        return coords.x >= 0 && coords.x <= rect.width && coords.y >= 0 && coords.y <= rect.height;
+      };
+
       // Eventos táctiles (móvil)
-      const touchStartHandler = (e) => {
-        e.preventDefault(); // Prevenir comportamientos por defecto
+      this.touchStartHandler = (e) => {
+        // Solo prevenir el comportamiento por defecto si el toque está en el canvas
+        const touchInCanvas = Array.from(e.changedTouches).some((touch) => isTouchInCanvas(touch));
+        if (touchInCanvas) {
+          e.preventDefault();
+        }
 
         Array.from(e.changedTouches).forEach((touch) => {
-          const coords = getCoordinates(touch);
-          updatePointer(coords.x, coords.y, touch.identifier);
+          if (isTouchInCanvas(touch)) {
+            const coords = getCoordinates(touch);
+            updatePointer(coords.x, coords.y, touch.identifier);
 
-          // Si no hay multi-touch, usar el primer toque como mouse
-          if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
-            this.mouse.x = coords.x;
-            this.mouse.y = coords.y;
+            // Si no hay multi-touch, usar el primer toque como mouse
+            if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
+              this.mouse.x = coords.x;
+              this.mouse.y = coords.y;
+            }
           }
         });
       };
 
-      const touchMoveHandler = (e) => {
-        e.preventDefault();
+      this.touchMoveHandler = (e) => {
+        // Solo prevenir si hay toques activos en el canvas
+        const activeTouches = Array.from(e.changedTouches).filter((touch) => this.touches.has(touch.identifier) || isTouchInCanvas(touch));
+
+        if (activeTouches.length > 0) {
+          e.preventDefault();
+        }
 
         Array.from(e.changedTouches).forEach((touch) => {
-          const coords = getCoordinates(touch);
-          updatePointer(coords.x, coords.y, touch.identifier);
+          if (this.touches.has(touch.identifier) || isTouchInCanvas(touch)) {
+            const coords = getCoordinates(touch);
+            updatePointer(coords.x, coords.y, touch.identifier);
 
-          if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
-            this.mouse.x = coords.x;
-            this.mouse.y = coords.y;
+            if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
+              this.mouse.x = coords.x;
+              this.mouse.y = coords.y;
+            }
           }
         });
       };
 
-      const touchEndHandler = (e) => {
-        e.preventDefault();
+      this.touchEndHandler = (e) => {
+        // Solo prevenir si teníamos toques activos
+        const hadActiveTouches = Array.from(e.changedTouches).some((touch) => this.touches.has(touch.identifier));
+
+        if (hadActiveTouches) {
+          e.preventDefault();
+        }
 
         Array.from(e.changedTouches).forEach((touch) => {
           this.touches.delete(touch.identifier);
@@ -539,7 +568,7 @@
         }
       };
 
-      const clickHandler = (e) => {
+      this.clickHandler = (e) => {
         if (this.config.mouse.onClick) {
           this.config.mouse.onClick(e, this);
         }
@@ -560,30 +589,26 @@
 
       // Registrar eventos
       if (!this.isMobile) {
-        document.addEventListener("mousemove", mouseHandler, { passive: true });
+        // Mouse events solo en el contenedor para mayor precisión
+        if (this.config.container === document.body) {
+          document.addEventListener("mousemove", this.mouseHandler, { passive: true });
+        } else {
+          this.config.container.addEventListener("mousemove", this.mouseHandler, { passive: true });
+        }
       }
 
+      // Touch events solo en el canvas para evitar interferir con el resto de la página
       if (this.config.mouse.touch.enabled) {
-        document.addEventListener("touchstart", touchStartHandler, { passive: false });
-        document.addEventListener("touchmove", touchMoveHandler, { passive: false });
-        document.addEventListener("touchend", touchEndHandler, { passive: false });
+        this.canvas.addEventListener("touchstart", this.touchStartHandler, { passive: false });
+        this.canvas.addEventListener("touchmove", this.touchMoveHandler, { passive: false });
+        this.canvas.addEventListener("touchend", this.touchEndHandler, { passive: false });
       }
 
-      document.addEventListener("click", clickHandler);
-
-      // También escuchar en el contenedor específico para mayor precisión
-      if (this.config.container !== document.body) {
-        if (!this.isMobile) {
-          this.config.container.addEventListener("mousemove", mouseHandler, { passive: true });
-        }
-
-        if (this.config.mouse.touch.enabled) {
-          this.config.container.addEventListener("touchstart", touchStartHandler, { passive: false });
-          this.config.container.addEventListener("touchmove", touchMoveHandler, { passive: false });
-          this.config.container.addEventListener("touchend", touchEndHandler, { passive: false });
-        }
-
-        this.config.container.addEventListener("click", clickHandler);
+      // Click events en el contenedor
+      if (this.config.container === document.body) {
+        document.addEventListener("click", this.clickHandler);
+      } else {
+        this.config.container.addEventListener("click", this.clickHandler);
       }
     }
 
@@ -1574,6 +1599,34 @@
 
     destroy() {
       this.stop();
+
+      // Limpiar event listeners
+      if (this.mouseHandler) {
+        if (this.config.container === document.body) {
+          document.removeEventListener("mousemove", this.mouseHandler);
+          document.removeEventListener("click", this.clickHandler);
+        } else {
+          this.config.container.removeEventListener("mousemove", this.mouseHandler);
+          this.config.container.removeEventListener("click", this.clickHandler);
+        }
+      }
+
+      if (this.touchStartHandler && this.config.mouse.touch.enabled) {
+        this.canvas.removeEventListener("touchstart", this.touchStartHandler);
+        this.canvas.removeEventListener("touchmove", this.touchMoveHandler);
+        this.canvas.removeEventListener("touchend", this.touchEndHandler);
+      }
+
+      // Limpiar otros event listeners globales
+      window.removeEventListener("resize", this.resizeHandler);
+      if (this.orientationChangeHandler) {
+        window.removeEventListener("orientationchange", this.orientationChangeHandler);
+      }
+      window.removeEventListener("blur", this.blurHandler);
+      window.removeEventListener("focus", this.focusHandler);
+      document.removeEventListener("visibilitychange", this.visibilityChangeHandler);
+
+      // Remover canvas
       if (this.canvas && this.canvas.parentNode) {
         this.canvas.parentNode.removeChild(this.canvas);
       }
@@ -1583,6 +1636,19 @@
       this.ctx = null;
       this.particles = [];
       this.mouse = { x: 0, y: 0, trail: [] };
+      this.touches.clear();
+
+      // Limpiar handlers
+      this.mouseHandler = null;
+      this.touchStartHandler = null;
+      this.touchMoveHandler = null;
+      this.touchEndHandler = null;
+      this.clickHandler = null;
+      this.resizeHandler = null;
+      this.orientationChangeHandler = null;
+      this.blurHandler = null;
+      this.focusHandler = null;
+      this.visibilityChangeHandler = null;
     }
 
     // Métodos de configuración dinámica mejorados
