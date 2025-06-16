@@ -1487,7 +1487,7 @@ flux.updateConfig({
         try {
           initializeNavigation();
           initializeBackgroundEffect();
-          initializeGenerator();
+          setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
 
           // Mobile optimizations
           const optimizeForMobile = () => {
