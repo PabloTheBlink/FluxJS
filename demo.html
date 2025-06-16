@@ -507,8 +507,8 @@
 
         <!-- Controls -->
         <div class="control-group">
-          <label for="particle-count-slider">Partículas: <span id="count-value">300</span></label>
-          <input type="range" id="particle-count-slider" min="10" max="500" value="300" />
+          <label for="particle-count-slider">Partículas: <span id="count-value">500</span></label>
+          <input type="range" id="particle-count-slider" min="10" max="500" value="500" />
         </div>
 
         <div class="control-group">
@@ -890,7 +890,7 @@
 
         // Get optimal particle count based on device capabilities
         const getOptimalParticleCount = () => {
-          const baseCount = 300;
+          const baseCount = 500;
           const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
           const pixelRatio = window.devicePixelRatio || 1;
           const screenArea = window.innerWidth * window.innerHeight;
