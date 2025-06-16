@@ -470,27 +470,105 @@
     </div>
 
     <!-- Navegación -->
-    <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300">
-      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-colors"> FluxJS </a>
+    <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300 group">
+      <!-- Línea decorativa animada en la parte superior -->
+      <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-flux-blue to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-        <!-- Botón menú móvil -->
-        <button id="mobile-menu-button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1 hover:opacity-80 transition-opacity">
-          <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
-          <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
-          <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
+      <!-- Efectos de partículas en el header -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-4 -right-4 w-8 h-8 bg-flux-blue/20 rounded-full blur-sm animate-pulse"></div>
+        <div class="absolute top-1/2 left-1/4 w-2 h-2 bg-flux-blue/30 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+        <div class="absolute top-3 right-1/3 w-1 h-1 bg-white/40 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+      </div>
+
+      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 relative">
+        <!-- Logo mejorado con efectos -->
+        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-all duration-300 group/logo relative">
+          <!-- Icono decorativo -->
+          <div class="w-8 h-8 mr-3 relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-flux-blue to-flux-blue-dark rounded-lg group-hover/logo:rotate-12 transition-transform duration-300"></div>
+            <div class="absolute inset-1 bg-black/20 rounded-md"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">✨</div>
+          </div>
+
+          <!-- Texto del logo con efecto de resplandor -->
+          <span class="relative">
+            FluxJS
+            <div class="absolute -inset-1 bg-flux-blue/20 blur-md opacity-0 group-hover/logo:opacity-100 transition-opacity duration-300 -z-10"></div>
+          </span>
+
+          <!-- Badge "v2.0" -->
+          <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-flux-blue/20 text-flux-blue rounded-full border border-flux-blue/30 animate-pulse">v1.0.2</span>
+        </a>
+
+        <!-- Botón menú móvil mejorado -->
+        <button id="mobile-menu-button" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group hover:bg-white/10 rounded-lg transition-all duration-300">
+          <!-- Efecto de resplandor -->
+          <div class="absolute inset-0 bg-flux-blue/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+
+          <!-- Líneas del hamburger con animación mejorada -->
+          <span class="block w-6 h-0.5 bg-white transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
+          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
+          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
+
+          <!-- Indicador de interactividad -->
+          <div class="absolute -top-1 -right-1 w-2 h-2 bg-flux-blue rounded-full opacity-0 group-hover:opacity-100 animate-ping transition-opacity duration-300"></div>
         </button>
 
-        <!-- Menú desktop -->
-        <ul class="hidden md:flex list-none gap-6 lg:gap-8">
-          <li><a href="#inicio" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Inicio</a></li>
-          <li><a href="#instalacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Instalación</a></li>
-          <li><a href="#implementacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Implementación</a></li>
-          <li><a href="#ejemplos" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Ejemplos</a></li>
-          <li><a href="#api" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">API</a></li>
-          <li><a href="#generador" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Generador</a></li>
-          <li><a href="#opiniones" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Opiniones</a></li>
-          <li><a href="#contribuir" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Contribuir</a></li>
+        <!-- Menú desktop mejorado -->
+        <ul class="hidden md:flex list-none gap-2 lg:gap-4">
+          <li>
+            <a href="#inicio" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Inicio
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#instalacion" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Instalación
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#implementacion" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Implementación
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#ejemplos" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Ejemplos
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#api" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              API
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#generador" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              <span class="relative">
+                Generador
+                <!-- Badge "Nuevo" -->
+                <span class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+              </span>
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#opiniones" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Opiniones
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#contribuir" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+              Contribuir
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </a>
+          </li>
         </ul>
 
         <!-- Menú móvil -->
