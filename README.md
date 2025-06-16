@@ -366,7 +366,6 @@ Para ver todas las opciones disponibles, consulta [CONFIGURATION.md](CONFIGURATI
 
 - [Guía de Configuración Completa](CONFIGURATION.md)
 - [Demo Interactiva](demo.html)
-- Ejemplos avanzados en `/examples`
 
 ## 🤝 Contribuciones
 

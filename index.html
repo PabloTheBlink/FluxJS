@@ -2,44 +2,141 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FluxJS - Haz que tus fondos se descontrolen 😈✨</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="flux.js"></script>
-
-    <!-- theme color-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#020202" />
+    <meta name="description" content="FluxJS - Librería de partículas animadas ultra configurable para crear fondos espectaculares" />
+    <meta name="keywords" content="particles, javascript, animation, canvas, effects, flux, library" />
+    <title>FluxJS - Librería de Partículas Ultra Configurable ✨</title>
 
-    <!-- icon-->
+    <!-- Preload critical resources -->
+    <link rel="preload" href="flux.js" as="script" />
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script" />
+
+    <!-- Critical CSS first -->
+    <style>
+      /* Critical CSS - inline for fastest loading */
+      body {
+        margin: 0;
+        background: #020202;
+        color: white;
+        font-family: system-ui;
+      }
+      .loading {
+        opacity: 0;
+      }
+      .loaded {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+    </style>
+
+    <!-- External resources with performance optimizations -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="flux.js" defer></script>
+
+    <!-- Icons and theme -->
     <link rel="icon" href="icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="icon.png" />
 
     <!-- Prism.js para resaltado de sintaxis -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              "flux-blue": "#4fc3f7",
-              "flux-blue-dark": "#29b6f6",
-            },
-            animation: {
-              "fade-in-up": "fadeInUp 1s ease-out",
-              "fade-in-up-delay": "fadeInUp 1s ease-out 0.3s both",
-              "fade-in-up-delay-2": "fadeInUp 1s ease-out 0.6s both",
+      // Configuración optimizada de Tailwind con sistema de design unificado
+      if (typeof tailwind !== "undefined") {
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                "flux-blue": "#4fc3f7",
+                "flux-blue-dark": "#29b6f6",
+                "flux-glass": {
+                  light: "rgba(255, 255, 255, 0.05)",
+                  medium: "rgba(255, 255, 255, 0.1)",
+                  dark: "rgba(0, 0, 0, 0.95)",
+                },
+              },
+              spacing: {
+                xs: "0.5rem",
+                sm: "1rem",
+                md: "1.5rem",
+                lg: "2rem",
+                xl: "3rem",
+                "2xl": "4rem",
+              },
+              borderRadius: {
+                "flux-sm": "0.75rem",
+                "flux-md": "1rem",
+                "flux-lg": "1.5rem",
+                "flux-xl": "2rem",
+                "flux-2xl": "2.5rem",
+              },
+              animation: {
+                "fade-in-up": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+                "fade-in-up-delay": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both",
+                "fade-in-up-delay-2": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both",
+              },
+              boxShadow: {
+                "flux-sm": "0 2px 8px rgba(0, 0, 0, 0.2)",
+                "flux-md": "0 4px 16px rgba(0, 0, 0, 0.3)",
+                "flux-lg": "0 8px 32px rgba(0, 0, 0, 0.4)",
+                "flux-xl": "0 16px 48px rgba(0, 0, 0, 0.5)",
+              },
             },
           },
-        },
-      };
+        };
+      }
     </script>
+
     <style>
+      /* Variables CSS para consistencia */
+      :root {
+        --flux-primary: #4fc3f7;
+        --flux-primary-dark: #29b6f6;
+        --flux-bg-primary: #020202;
+        --flux-bg-secondary: #0c0c0c;
+        --flux-bg-tertiary: #1a1a1a;
+
+        --flux-text-primary: #ffffff;
+        --flux-text-secondary: rgba(255, 255, 255, 0.9);
+        --flux-text-muted: rgba(255, 255, 255, 0.8);
+        --flux-text-disabled: rgba(255, 255, 255, 0.6);
+
+        --flux-glass-light: rgba(255, 255, 255, 0.05);
+        --flux-glass-medium: rgba(255, 255, 255, 0.1);
+        --flux-glass-dark: rgba(0, 0, 0, 0.95);
+
+        --flux-border-light: rgba(255, 255, 255, 0.1);
+        --flux-border-medium: rgba(255, 255, 255, 0.2);
+
+        --flux-radius-sm: 0.75rem;
+        --flux-radius-md: 1rem;
+        --flux-radius-lg: 1.5rem;
+        --flux-radius-xl: 2rem;
+        --flux-radius-2xl: 2.5rem;
+
+        --flux-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+        --flux-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+        --flux-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+        --flux-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+        --flux-spacing-xs: 0.5rem;
+        --flux-spacing-sm: 1rem;
+        --flux-spacing-md: 1.5rem;
+        --flux-spacing-lg: 2rem;
+        --flux-spacing-xl: 3rem;
+        --flux-spacing-2xl: 4rem;
+
+        --flux-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --flux-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
       @keyframes fadeInUp {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
@@ -47,15 +144,181 @@
         }
       }
 
+      /* Mobile optimizations mejoradas */
+      @media (max-width: 768px) {
+        :root {
+          --flux-spacing-xs: 0.375rem;
+          --flux-spacing-sm: 0.75rem;
+          --flux-spacing-md: 1rem;
+          --flux-spacing-lg: 1.5rem;
+          --flux-spacing-xl: 2rem;
+          --flux-spacing-2xl: 2.5rem;
+        }
+
+        .container {
+          padding: var(--flux-spacing-sm);
+        }
+
+        .text-6xl {
+          font-size: 2.5rem !important;
+        }
+
+        .text-4xl {
+          font-size: 1.8rem !important;
+        }
+      }
+
+      /* Performance optimizations */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* High DPI optimizations */
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .backdrop-blur-md {
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+      }
+
+      /* Accessibility improvements */
+      @media (prefers-contrast: high) {
+        .bg-black\/50 {
+          background-color: rgba(0, 0, 0, 0.9) !important;
+        }
+
+        .border-gray-700 {
+          border-color: #fff !important;
+        }
+      }
+
+      /* Loading states mejorados */
+      .flux-loading {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .flux-loading::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--flux-glass-medium), transparent);
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      /* Canvas optimizations */
+      canvas {
+        will-change: transform;
+      }
+
+      /* Base styles mejorados */
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Gradientes consistentes */
       .bg-gradient-flux {
-        background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        background: linear-gradient(135deg, var(--flux-bg-secondary) 0%, var(--flux-bg-tertiary) 100%);
       }
 
       .bg-gradient-text {
-        background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+      }
+
+      /* Componentes de cristal consistentes */
+      .flux-glass {
+        background: var(--flux-glass-light);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--flux-border-light);
+      }
+
+      .flux-glass-dark {
+        background: var(--flux-glass-dark);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--flux-border-light);
+      }
+
+      /* Botones consistentes */
+      .flux-btn {
+        padding: var(--flux-spacing-sm) var(--flux-spacing-lg);
+        border-radius: var(--flux-radius-xl);
+        font-weight: 600;
+        transition: var(--flux-transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .flux-btn-primary {
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
+        color: var(--flux-text-primary);
+        box-shadow: var(--flux-shadow-md), 0 0 20px rgba(79, 195, 247, 0.3);
+      }
+
+      .flux-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--flux-shadow-lg), 0 0 32px rgba(79, 195, 247, 0.4);
+      }
+
+      .flux-btn-secondary {
+        background: transparent;
+        color: var(--flux-primary);
+        border: 2px solid var(--flux-primary);
+        box-shadow: var(--flux-shadow-md), 0 0 20px rgba(79, 195, 247, 0.2);
+      }
+
+      .flux-btn-secondary:hover {
+        background: var(--flux-primary);
+        color: var(--flux-text-primary);
+        transform: translateY(-2px);
+        box-shadow: var(--flux-shadow-lg), 0 0 32px rgba(79, 195, 247, 0.4);
+      }
+
+      /* Cards consistentes */
+      .flux-card {
+        background: var(--flux-glass-light);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--flux-border-light);
+        border-radius: var(--flux-radius-2xl);
+        padding: var(--flux-spacing-lg);
+        box-shadow: var(--flux-shadow-md);
+        transition: var(--flux-transition);
+      }
+
+      .flux-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--flux-shadow-lg);
+        border-color: var(--flux-border-medium);
       }
 
       /* Estilos personalizados para Prism.js */
@@ -140,15 +403,15 @@
   </head>
   <body class="m-0 p-0 bg-gradient-flux text-white overflow-x-hidden">
     <!-- Navegación -->
-    <header class="fixed top-0 w-full bg-black/95 backdrop-blur-lg z-50 border-b border-white/10 transition-all duration-300">
+    <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300">
       <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <a href="#inicio" class="flex align-center sm:text-2xl font-bold text-flux-blue no-underline">
+        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-colors">
           <img src="icon.png" alt="Icono de FluxJS" class="inline-block w-8 h-8 mr-2" />
           FluxJS
         </a>
 
         <!-- Botón menú móvil -->
-        <button id="mobile-menu-button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1">
+        <button id="mobile-menu-button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1 hover:opacity-80 transition-opacity">
           <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
           <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
           <span class="block w-6 h-0.5 bg-white transition-all duration-300"></span>
@@ -156,18 +419,18 @@
 
         <!-- Menú desktop -->
         <ul class="hidden md:flex list-none gap-6 lg:gap-8">
-          <li><a href="#inicio" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Inicio</a></li>
-          <li><a href="#instalacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Instalación</a></li>
-          <li><a href="#implementacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Implementación</a></li>
-          <li><a href="#ejemplos" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Ejemplos</a></li>
-          <li><a href="#api" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">API</a></li>
-          <li><a href="#generador" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Generador</a></li>
-          <li><a href="#opiniones" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Opiniones</a></li>
-          <li><a href="#contribuir" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline">Contribuir</a></li>
+          <li><a href="#inicio" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Inicio</a></li>
+          <li><a href="#instalacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Instalación</a></li>
+          <li><a href="#implementacion" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Implementación</a></li>
+          <li><a href="#ejemplos" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Ejemplos</a></li>
+          <li><a href="#api" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">API</a></li>
+          <li><a href="#generador" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Generador</a></li>
+          <li><a href="#opiniones" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Opiniones</a></li>
+          <li><a href="#contribuir" class="nav-link text-white/80 font-medium hover:text-flux-blue transition-colors no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">Contribuir</a></li>
         </ul>
 
         <!-- Menú móvil -->
-        <div id="mobile-menu" class="md:hidden fixed top-full left-0 w-full bg-black/95 backdrop-blur-lg border-b border-white/10 transform -translate-y-full opacity-0 invisible transition-all duration-300 z-40">
+        <div id="mobile-menu" class="md:hidden fixed top-full left-0 w-full flux-glass-dark border-b border-flux-border-light transform -translate-y-full opacity-0 invisible transition-all duration-300 z-40">
           <ul class="flex flex-col list-none py-4">
             <li><a href="#inicio" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Inicio</a></li>
             <li><a href="#instalacion" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Instalación</a></li>
@@ -184,12 +447,12 @@
 
     <!-- Sección Inicio -->
     <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <div class="z-10 bg-white/5 p-6 sm:p-8 lg:p-12 rounded-3xl backdrop-blur-lg shadow-2xl border border-white/10 animate-fade-in-up w-full max-w-4xl">
+      <div class="z-10 flux-card w-full max-w-4xl animate-fade-in-up">
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-text text-center mb-6 sm:mb-8 drop-shadow-lg">FluxJS</h1>
         <p class="text-lg sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto animate-fade-in-up-delay leading-relaxed">¿Aburrido de fondos estáticos? 😴 Despierta tu web con partículas tan traviesas que harán que tus visitantes no puedan apartar la mirada. Porque ser básico está sobrevalorado.</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up-delay-2">
-          <a href="#instalacion" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-flux-blue/30 text-center">¡Quiero travesuras!</a>
-          <a href="#generador" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-transparent text-flux-blue border-2 border-flux-blue rounded-full font-semibold hover:bg-flux-blue hover:text-white hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-flux-blue/30 text-center">Jugar con fuego 🔥</a>
+          <a href="#instalacion" class="flux-btn flux-btn-primary w-full sm:w-auto">¡Quiero travesuras!</a>
+          <a href="#generador" class="flux-btn flux-btn-secondary w-full sm:w-auto">Jugar con fuego 🔥</a>
         </div>
       </div>
     </section>
@@ -199,32 +462,32 @@
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡A ensuciar las manos! 🛠️</h2>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8 sm:mb-12">
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">📦 CDN (Para los impacientes)</h3>
           <p class="mb-4 text-white/80 text-sm sm:text-base">¿Quieres diversión YA? Copia y pega, bebé:</p>
-          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border">
+          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-xs sm:text-sm relative border border-white/10">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">URL</span>
             <pre><code class="language-html block text-center" style="font-size: 0.75rem !important;">https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js</code></pre>
           </div>
-          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border">
+          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-xs sm:text-sm relative border border-white/10 mt-4">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
             <pre><code class="language-html text-xs sm:text-sm">&lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js"&gt;&lt;/script&gt;</code></pre>
           </div>
         </div>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">📦 NPM (Para los pros)</h3>
           <p class="mb-4 text-white/80 text-sm sm:text-base">Si eres de los que se las sabe todas:</p>
-          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-lg overflow-x-auto font-mono text-xs sm:text-sm relative border mb-2">
+          <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-xs sm:text-sm relative border border-white/10 mb-4">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">BASH</span>
             npm install @pablotheblink/fluxjs
           </div>
-          <div class="space-y-2">
-            <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="space-y-3">
+            <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10">
               <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">ES6/TS</span>
               <pre><code class="language-javascript text-xs sm:text-sm">import { createFlux } from '@pablotheblink/fluxjs';</code></pre>
             </div>
-            <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+            <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10">
               <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CommonJS</span>
               <pre><code class="language-javascript text-xs sm:text-sm">const { createFlux } = require('@pablotheblink/fluxjs');</code></pre>
             </div>
@@ -235,7 +498,7 @@
       <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 sm:mb-6 font-semibold">Uso Básico (o cómo hacer magia con 3 líneas)</h3>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
-        <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+        <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
           <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
           <pre><code class="language-javascript text-xs sm:text-sm">// Crear partículas con configuración por defecto
   const flux = new FluxJS({ container: document.getElementById('mi-contenedor') });
@@ -252,7 +515,7 @@
 </code></pre>
         </div>
 
-        <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+        <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
           <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
           <pre><code class="language-javascript text-xs sm:text-sm">import { createFlux } from '@pablotheblink/fluxjs';
 
@@ -274,7 +537,7 @@ const flux = createFlux({
     <section id="implementacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡Implementación súper fácil! 🚀</h2>
 
-      <div class="bg-gradient-to-r from-flux-blue/10 to-purple-500/10 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg shadow-xl mb-8 sm:mb-12">
+      <div class="flux-card bg-gradient-to-r from-flux-blue/10 to-purple-500/10 border-flux-blue/30 mb-8 sm:mb-12">
         <p class="text-center text-lg sm:text-xl text-white/90 mb-4">
           ¿Quieres añadir partículas a tu web pero no sabes por dónde empezar?
           <br class="hidden sm:block" />
@@ -289,13 +552,13 @@ const flux = createFlux({
           Fondo de página completa ✨
         </h3>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <p class="text-white/80 mb-6 text-sm sm:text-base"><strong>¿Qué hace?</strong> Crea un fondo de partículas que cubre toda tu página web, perfecto para landing pages o sitios personales.</p>
 
           <div class="space-y-4">
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Añade esto a tu página:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
                 <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Div de fondo para las partículas --&gt;
 &lt;div id="fondo-particulas"&gt;&lt;/div&gt;
@@ -313,7 +576,7 @@ const flux = createFlux({
 
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">🎨 CSS - Estilos para el fondo:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CSS</span>
                 <pre><code class="language-css text-xs sm:text-sm">#fondo-particulas {
   position: fixed;
@@ -335,7 +598,7 @@ const flux = createFlux({
 
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - La magia:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
                 <pre><code class="language-javascript text-xs sm:text-sm">// Esperar a que la página cargue
 document.addEventListener('DOMContentLoaded', function() {
@@ -361,13 +624,13 @@ document.addEventListener('DOMContentLoaded', function() {
           Solo en una sección 🎯
         </h3>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <p class="text-white/80 mb-6 text-sm sm:text-base"><strong>¿Qué hace?</strong> Añade partículas solo a una parte específica de tu web, como un hero section o área destacada.</p>
 
           <div class="space-y-4">
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Estructura básica:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
                 <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Sección con partículas --&gt;
 &lt;section class="hero-section"&gt;
@@ -388,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">🎨 CSS - Estilos para la sección:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border border-white/10 p-4 sm:p-6">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">CSS</span>
                 <pre><code class="language-css text-xs sm:text-sm">.hero-section {
   position: relative;
@@ -421,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - Solo para esa sección:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
                 <pre><code class="language-javascript text-xs sm:text-sm">document.addEventListener('DOMContentLoaded', function() {
   const flux = new FluxJS({
@@ -451,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="space-y-4">
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">📝 HTML - Múltiples contenedores:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML</span>
                 <pre><code class="language-html text-xs sm:text-sm">&lt;!-- Header con estrellas --&gt;
 &lt;header&gt;
@@ -475,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div>
               <h4 class="text-flux-blue font-semibold mb-2">⚡ JavaScript - Tres efectos diferentes:</h4>
-              <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+              <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
                 <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
                 <pre><code class="language-javascript text-xs sm:text-sm">document.addEventListener('DOMContentLoaded', function() {
   // Estrellas en el header
@@ -559,20 +822,19 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- Enlaces a Demos Completas -->
       <div class="mb-12 text-center">
         <div class="bg-gradient-to-r from-flux-blue/10 to-purple-500/10 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg shadow-xl">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🚀 Demos Completas</h3>
-          <p class="text-white/80 mb-6 text-sm sm:text-base">Explora todas las capacidades de FluxJS con nuestras demos interactivas</p>
+          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🚀 Demo Completa</h3>
+          <p class="text-white/80 mb-6 text-sm sm:text-base">Explora todas las capacidades de FluxJS con nuestra demo interactiva</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="demo.html" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-flux-blue/30 text-center"> 🎮 Demo Interactiva </a>
-            <a href="examples.html" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-purple-500/30 text-center"> ⚡ Ejemplos Avanzados </a>
+            <a href="demo.html" class="w-full bg-blue-500 d sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-flux-blue/30 text-center"> 🎮 Demo Interactiva </a>
           </div>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">⭐ Estrellas traviesas</h3>
           <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-stars"></div>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
   container: element,
@@ -583,10 +845,10 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌐 Red conspiratoria</h3>
           <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-network"></div>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
   container: element,
@@ -597,10 +859,10 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🫧 Burbujas rebeldes</h3>
           <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-bubbles"></div>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
   container: element,
@@ -611,10 +873,10 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌀 Espiral hipnótica</h3>
           <div class="relative h-48 sm:h-64 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-4" id="demo-spiral"></div>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">new FluxJS({
   container: element,
@@ -634,7 +896,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Los secretos del control</h3>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">{
   container: element, // Contenedor
@@ -657,7 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Órdenes para dominar</h3>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto relative border">
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
             <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
             <pre><code class="language-javascript text-xs sm:text-sm">// Control básico
 flux.start(); // Iniciar
@@ -685,30 +947,30 @@ flux.updateConfig({
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Cantidad de Partículas:</label>
-          <input type="range" id="gen-count" min="10" max="200" value="100" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <input type="range" id="gen-count" min="10" max="200" value="100" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
           <span id="count-value" class="text-flux-blue font-semibold text-sm sm:text-base">100</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color">Color:</label>
-          <input type="color" id="gen-color" value="#ffffff" class="w-full h-10 sm:h-12 rounded-lg border border-gray-600 bg-gray-700" />
+          <input type="color" id="gen-color" value="#ffffff" class="w-full h-10 sm:h-12 rounded-flux-md border border-gray-600 bg-gray-700" />
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size-min">Tamaño Mínimo:</label>
-          <input type="range" id="gen-size-min" min="0.5" max="5" step="0.1" value="1" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <input type="range" id="gen-size-min" min="0.5" max="5" step="0.1" value="1" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
           <span id="size-min-value" class="text-flux-blue font-semibold text-sm sm:text-base">1</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size-max">Tamaño Máximo:</label>
-          <input type="range" id="gen-size-max" min="1" max="100" step="1" value="30" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <input type="range" id="gen-size-max" min="1" max="100" step="1" value="30" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
           <span id="size-max-value" class="text-flux-blue font-semibold text-sm sm:text-base">30</span>
         </div>
 
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad:</label>
-          <input type="range" id="gen-speed" min="0.01" max="1" step="0.01" value="1" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider" />
+          <input type="range" id="gen-speed" min="0.01" max="1" step="0.01" value="1" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
           <span id="speed-value" class="text-flux-blue font-semibold text-sm sm:text-base">1</span>
         </div>
 
@@ -729,11 +991,11 @@ flux.updateConfig({
 
       <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg">
         <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Tu fórmula mágica:</h3>
-        <div class="bg-gray-800 rounded-lg overflow-x-auto relative border mb-4" id="generated-code-output">
+        <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border mb-4" id="generated-code-output">
           <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
           <pre><code class="language-javascript text-xs sm:text-sm">// El código se generará aquí...</code></pre>
         </div>
-        <button class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30" onclick="copyGeneratedCode()">¡Robar código! 😈</button>
+        <button class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark bg-blue-500 text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30" onclick="copyGeneratedCode(event)">¡Robar código! 😈</button>
       </div>
     </section>
 
@@ -774,7 +1036,7 @@ flux.updateConfig({
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
           <!-- Reportar Bugs -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">🐛</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Reportar Bugs</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">¿Encontraste una partícula rebelde? ¡Ayúdanos a domesticarla!</p>
@@ -787,7 +1049,7 @@ flux.updateConfig({
           </div>
 
           <!-- Proponer Features -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">💡</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Proponer Ideas</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">¿Tienes una idea genial para nuevas animaciones o efectos?</p>
@@ -800,7 +1062,7 @@ flux.updateConfig({
           </div>
 
           <!-- Contribuir Código -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">🔧</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Contribuir Código</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">¿Programador? ¡Manos a la obra con el código!</p>
@@ -813,7 +1075,7 @@ flux.updateConfig({
           </div>
 
           <!-- Mejorar Docs -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">📚</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Mejorar Documentación</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">Ayuda a otros desarrolladores con mejores explicaciones y ejemplos.</p>
@@ -826,7 +1088,7 @@ flux.updateConfig({
           </div>
 
           <!-- Crear Ejemplos -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">🎨</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Crear Ejemplos</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">Diseña demos espectaculares que inspiren a otros desarrolladores.</p>
@@ -835,11 +1097,10 @@ flux.updateConfig({
               <li>• Casos de uso específicos</li>
               <li>• Tutoriales paso a paso</li>
             </ul>
-            <a href="https://github.com/pablotheblink/FluxJS/tree/main/examples" target="_blank" class="inline-block px-4 py-2 bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 rounded-full text-sm font-medium hover:bg-yellow-500/30 transition-all duration-300 no-underline">Ver Ejemplos</a>
           </div>
 
           <!-- Testing -->
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-all duration-300 border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <div class="text-4xl mb-4">🧪</div>
             <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Testing</h3>
             <p class="text-white/80 mb-4 text-sm sm:text-base">Ayuda a mantener la calidad probando en diferentes navegadores y dispositivos.</p>
@@ -1302,7 +1563,7 @@ flux.updateConfig({
         }
       }
 
-      function copyGeneratedCode() {
+      function copyGeneratedCode(event) {
         const codeElement = document.getElementById("generated-code-output").querySelector("code");
         const code = codeElement ? codeElement.textContent : "";
         navigator.clipboard.writeText(code).then(() => {
@@ -1319,30 +1580,80 @@ flux.updateConfig({
         });
       }
 
-      // Efecto de fondo para la página
+      // Optimized background effect with performance considerations
       function initializeBackgroundEffect() {
-        currentFlux = new FluxJS({
-          container: document.body,
-          count: 20,
-          color: "#4FC3F7",
-          size: { min: 1, max: 100 },
-          speed: { min: 0, max: 0 },
-          opacity: { min: 0.01, max: 0.5 },
-          connections: { enabled: true, distance: 100 },
-          mouse: {
-            interact: false,
-          },
-          canvas: { zIndex: -1 },
-        });
+        try {
+          currentFlux = new FluxJS({
+            container: document.body,
+            count: 2,
+            color: "#4FC3F7",
+            size: { min: 1, max: 200 },
+            speed: { min: 0, max: 0 },
+            opacity: { min: 0.01, max: 0.25 },
+            connections: { enabled: false },
+            mouse: { interact: false },
+            canvas: { zIndex: -1 },
+            performance: {
+              maxFPS: 30,
+              adaptiveQuality: true,
+            },
+          });
+        } catch (error) {
+          console.error("Error initializing background effect:", error);
+        }
       }
 
-      // Limpieza al salir de la página
+      // Enhanced cleanup with error handling
       window.addEventListener("beforeunload", function () {
-        if (currentFlux) currentFlux.destroy();
-        if (generatorFlux) generatorFlux.destroy();
-        Object.values(demos).forEach((demo) => {
-          if (demo && demo.destroy) demo.destroy();
-        });
+        try {
+          if (currentFlux) currentFlux.destroy();
+          if (generatorFlux) generatorFlux.destroy();
+          Object.values(demos).forEach((demo) => {
+            if (demo && demo.destroy) demo.destroy();
+          });
+        } catch (error) {
+          console.error("Error during cleanup:", error);
+        }
+      });
+
+      // Initialize everything when DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          initializeNavigation();
+          initializeBackgroundEffect();
+          initializeDemos();
+          initializeGenerator();
+
+          // Mobile optimizations
+          const optimizeForMobile = () => {
+            if (window.innerWidth < 768) {
+              document.body.classList.add("mobile");
+            }
+          };
+          optimizeForMobile();
+
+          // Throttled resize handler
+          let resizeTimeout;
+          window.addEventListener(
+            "resize",
+            () => {
+              clearTimeout(resizeTimeout);
+              resizeTimeout = setTimeout(() => {
+                Object.values(demos).forEach((demo) => {
+                  if (demo && demo.resize) demo.resize();
+                });
+                if (currentFlux && currentFlux.resize) currentFlux.resize();
+                if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
+                optimizeForMobile();
+              }, 250);
+            },
+            { passive: true }
+          );
+
+          console.log("🎉 FluxJS Index optimizado y listo!");
+        } catch (error) {
+          console.error("Error during initialization:", error);
+        }
       });
     </script>
   </body>

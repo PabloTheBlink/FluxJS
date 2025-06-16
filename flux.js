@@ -1575,6 +1575,14 @@
                 const p1 = this.particles[i];
                 const p2 = this.particles[j];
 
+                if (!p1 || !p2) continue; // Verificar existencia de partículas
+                if (p1 === p2) continue; // Evitar auto-conexiones
+                if (p1.opacity <= 0 || p2.opacity <= 0) continue; // Evitar partículas invisibles
+                if (p1.size <= 0 || p2.size <= 0) continue; // Evitar partículas sin tamaño
+                if (p1.x < 0 || p1.x > this.canvas.width || p1.y < 0 || p1.y > this.canvas.height || p2.x < 0 || p2.x > this.canvas.width || p2.y < 0 || p2.y > this.canvas.height) {
+                  continue; // Evitar partículas fuera del canvas
+                }
+
                 const dx = p1.x - p2.x;
                 const dy = p1.y - p2.y;
                 const distanceSq = dx * dx + dy * dy;

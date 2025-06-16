@@ -10,8 +10,7 @@
     "flux.js",
     "flux.d.ts",
     "README.md",
-    "demo.html",
-    "examples.html"
+    "demo.html"
   ],
   "scripts": {
     "test": "echo \"No tests specified\" && exit 0",

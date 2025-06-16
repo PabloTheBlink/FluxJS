@@ -362,7 +362,6 @@ Describe las pruebas que ejecutaste para verificar tus cambios.
 ```bash
 # Abre los archivos de ejemplo en diferentes navegadores
 open demo.html
-open examples.html
 open index.html
 ```
 
