@@ -170,50 +170,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              "flux-blue": "#4fc3f7",
-              "flux-blue-dark": "#29b6f6",
-              "flux-glass": {
-                light: "rgba(255, 255, 255, 0.05)",
-                medium: "rgba(255, 255, 255, 0.1)",
-                dark: "rgba(0, 0, 0, 0.95)",
-              },
-            },
-            spacing: {
-              xs: "0.5rem",
-              sm: "1rem",
-              md: "1.5rem",
-              lg: "2rem",
-              xl: "3rem",
-              "2xl": "4rem",
-            },
-            borderRadius: {
-              "flux-sm": "0.75rem",
-              "flux-md": "1rem",
-              "flux-lg": "1.5rem",
-              "flux-xl": "2rem",
-              "flux-2xl": "2.5rem",
-            },
-            animation: {
-              "fade-in-up": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-              "fade-in-up-delay": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both",
-              "fade-in-up-delay-2": "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both",
-            },
-            boxShadow: {
-              "flux-sm": "0 2px 8px rgba(0, 0, 0, 0.2)",
-              "flux-md": "0 4px 16px rgba(0, 0, 0, 0.3)",
-              "flux-lg": "0 8px 32px rgba(0, 0, 0, 0.4)",
-              "flux-xl": "0 16px 48px rgba(0, 0, 0, 0.5)",
-            },
-          },
-        },
-      };
-    </script>
-
     <style>
       /* Variables CSS para consistencia */
       :root {
@@ -2285,8 +2241,8 @@ flux.updateConfig({
 
         try {
           initializeNavigation();
-          initializeBackgroundEffect();
-          setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
+          setTimeout(initializeBackgroundEffect, 100);
+          setTimeout(initializeGenerator, 100); // Delay to ensure background effect is ready
           setTimeout(initializeExamples, 100); // Initialize examples after a short delay
 
           // Mobile optimizations
