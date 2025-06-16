@@ -41,6 +41,8 @@
         /* Smooth scrolling for mobile */
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        max-height: 50rem;
       }
 
       .control-panel h3 {
@@ -117,20 +119,6 @@
         }
       }
 
-      .stats {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background: rgba(0, 0, 0, 0.8);
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #333;
-        font-family: monospace;
-        font-size: 12px;
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-      }
-
       .content {
         position: relative;
         z-index: 10;
@@ -160,36 +148,6 @@
         color: #ccc;
       }
 
-      .features {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      .feature {
-        background: rgba(0, 255, 136, 0.2);
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 0.9rem;
-        border: 1px solid rgba(0, 255, 136, 0.3);
-        backdrop-filter: blur(5px);
-        animation: featurePulse 3s ease-in-out infinite;
-      }
-
-      @keyframes featurePulse {
-        0%,
-        100% {
-          background: rgba(0, 255, 136, 0.2);
-          box-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
-        }
-        50% {
-          background: rgba(0, 255, 136, 0.3);
-          box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-        }
-      }
-
       .toggle-panel {
         position: fixed;
         bottom: 20px;
@@ -212,11 +170,6 @@
         .control-panel {
           max-width: 280px;
           right: 10px;
-          top: 10px;
-        }
-
-        .stats {
-          left: 10px;
           top: 10px;
         }
       }
@@ -263,29 +216,6 @@
           content: "👇 Desliza hacia abajo";
         }
 
-        .stats {
-          position: fixed;
-          top: 10px;
-          left: 10px;
-          right: 10px;
-          font-size: 11px;
-          padding: 8px 10px;
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          max-width: calc(100vw - 20px);
-          backdrop-filter: blur(10px);
-          background: rgba(0, 0, 0, 0.7);
-          border-radius: 8px;
-          z-index: 999;
-        }
-
-        .stats div {
-          margin: 2px 5px;
-          min-width: 45%;
-          font-size: 10px;
-        }
-
         .title {
           font-size: 2.5rem;
           margin-bottom: 15px;
@@ -299,24 +229,6 @@
 
         .content {
           padding: 120px 15px 20px;
-        }
-
-        .features {
-          grid-template-columns: 1fr;
-          gap: 15px;
-          margin-top: 30px;
-        }
-
-        .feature {
-          padding: 15px;
-        }
-
-        .feature h4 {
-          font-size: 14px;
-        }
-
-        .feature p {
-          font-size: 12px;
         }
 
         .preset-buttons {
@@ -363,23 +275,6 @@
           padding: 100px 10px 15px;
         }
 
-        .features {
-          margin-top: 20px;
-        }
-
-        .stats {
-          font-size: 10px;
-          padding: 6px 8px;
-          max-height: 50px;
-          overflow: hidden;
-        }
-
-        .stats div {
-          min-width: 48%;
-          font-size: 9px;
-          margin: 1px 2px;
-        }
-
         .preset-buttons {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -405,12 +300,6 @@
 
         .content {
           padding: 90px 8px 12px;
-        }
-
-        .stats div {
-          min-width: 100%;
-          text-align: center;
-          margin: 1px 0;
         }
       }
 
@@ -452,26 +341,9 @@
   </head>
   <body>
     <div class="demo-container">
-      <!-- Stats Panel -->
-      <div class="stats" id="stats">
-        <div>FPS: <span id="fps">60</span></div>
-        <div>Partículas: <span id="particle-count">50</span></div>
-        <div>Conexiones: <span id="connections">Sí</span></div>
-        <div>Animación: <span id="animation-type">float</span></div>
-      </div>
-
       <!-- Main Content -->
       <div class="content">
         <h1 class="title">FluxJS ✨ ULTRA</h1>
-        <p class="subtitle">Configuración Espectacular Completa - Todas las Funciones Activadas</p>
-        <div class="features">
-          <span class="feature">🌈 Arcoíris Dinámico</span>
-          <span class="feature">⚡ 250+ Partículas</span>
-          <span class="feature">🔗 Conexiones Curvas</span>
-          <span class="feature">✨ Efectos Glow</span>
-          <span class="feature">🎆 Trail Mágico</span>
-          <span class="feature">🌟 Rotación & Pulsos</span>
-        </div>
       </div>
 
       <!-- Control Panel -->
@@ -497,8 +369,8 @@
 
         <!-- Controls -->
         <div class="control-group">
-          <label for="particle-count-slider">Partículas: <span id="count-value">250</span></label>
-          <input type="range" id="particle-count-slider" min="10" max="500" value="250" />
+          <label for="particle-count-slider">Partículas: <span id="count-value">150</span></label>
+          <input type="range" id="particle-count-slider" min="10" max="500" value="150" />
         </div>
 
         <div class="control-group">
@@ -640,7 +512,7 @@
             speed: 2.0, // Velocidad máxima
             direction: "random",
             wave: { amplitude: 100, frequency: 0.025, speed: 0.04 },
-            orbit: { radius: 250, speed: 0.02 },
+            orbit: { radius: 150, speed: 0.02 },
           },
           effects: {
             glow: true,
@@ -709,7 +581,7 @@
           physics: { gravity: -0.02, wind: 0.03 },
           mouse: {
             interact: true,
-            distance: 250,
+            distance: 150,
             attraction: 0.12,
             trail: true,
             trailLength: 60,
@@ -827,7 +699,7 @@
         currentFlux = new FluxJS({
           // Configuración básica
           container: document.body,
-          count: 250, // Muchas partículas para efecto espectacular
+          count: 150, // Muchas partículas para efecto espectacular
 
           // Sistema de colores avanzado - Arcoíris
           color: {
@@ -899,7 +771,7 @@
             touch: {
               enabled: true,
               multiTouch: true, // Multi-touch para móviles
-              touchDistance: 250,
+              touchDistance: 150,
               touchAttraction: 0.1,
             },
           },
@@ -940,8 +812,8 @@
             enabled: true,
             breakpoints: {
               mobile: { width: 768, particles: 0.3, maxFPS: 30, simplifyEffects: false },
-              tablet: { width: 1024, particles: 0.6, maxFPS: 45, simplifyEffects: false },
-              desktop: { width: 1920, particles: 1.0, maxFPS: 60, simplifyEffects: false },
+              tablet: { width: 1024, particles: 0.6, maxFPS: 30, simplifyEffects: false },
+              desktop: { width: 1920, particles: 1.0, maxFPS: 30, simplifyEffects: false },
             },
             scaleWithContainer: true,
             detectDevice: true,
@@ -976,11 +848,11 @@
 
           // Configuración de rendimiento
           performance: {
-            maxFPS: 60,
-            enableWebGL: false,
-            optimizeConnections: true,
-            pauseOnBlur: true,
-            adaptiveQuality: true,
+            maxFPS: 30,
+            enableWebGL: true,
+            optimizeConnections: false,
+            pauseOnBlur: false,
+            adaptiveQuality: false,
             mobile: {
               reducedMotion: false,
               batteryOptimization: true,
@@ -998,7 +870,6 @@
             },
             onStart: () => {
               console.log("🚀 FluxJS started!");
-              startStatsMonitor();
             },
             onParticleClick: (particle, flux) => {
               console.log("🎯 Partícula clickeada!", particle);
@@ -1027,7 +898,6 @@
             events: {
               onStart: () => {
                 console.log(`🎨 Preset ${presetName} cargado!`);
-                startStatsMonitor();
               },
             },
           });
@@ -1036,7 +906,6 @@
           currentFlux = createFlux[presetName](document.body);
         }
 
-        updateStatsDisplay();
         updateControlsFromFlux();
       }
 
@@ -1254,36 +1123,6 @@
         }
       });
 
-      // Stats monitoring
-      function startStatsMonitor() {
-        function updateStats() {
-          stats.frameCount++;
-          const now = performance.now();
-
-          if (now - stats.lastTime >= 1000) {
-            stats.fps = Math.round((stats.frameCount * 1000) / (now - stats.lastTime));
-            stats.frameCount = 0;
-            stats.lastTime = now;
-
-            updateStatsDisplay();
-          }
-
-          requestAnimationFrame(updateStats);
-        }
-
-        updateStats();
-      }
-
-      function updateStatsDisplay() {
-        document.getElementById("fps").textContent = stats.fps;
-
-        if (currentFlux) {
-          document.getElementById("particle-count").textContent = currentFlux.particles.length;
-          document.getElementById("connections").textContent = currentFlux.config.connections.enabled ? "Sí" : "No";
-          document.getElementById("animation-type").textContent = currentFlux.config.animation.type || "float";
-        }
-      }
-
       // Mobile panel toggle with gesture support
       let touchStartY = 0;
       let panelStartTransform = 0;
@@ -1384,7 +1223,6 @@
           setTimeout(() => {
             if (currentFlux) {
               currentFlux.resize();
-              updateStatsDisplay();
             }
           }, 100);
         });
@@ -1427,114 +1265,12 @@
       // Double click for explosion effect
       document.addEventListener("dblclick", createExplosion);
 
-      // Keyboard shortcuts
-      document.addEventListener("keydown", function (event) {
-        switch (event.key) {
-          case "0": // Nuevo: ULTRA preset
-            loadPreset("ultra");
-            break;
-          case "1":
-            loadPreset("stars");
-            break;
-          case "2":
-            loadPreset("network");
-            break;
-          case "3":
-            loadPreset("bubbles");
-            break;
-          case "4":
-            loadPreset("spiral");
-            break;
-          case "5":
-            loadPreset("galaxy");
-            break;
-          case "6":
-            loadPreset("matrix");
-            break;
-          case "7":
-            loadPreset("hearts");
-            break;
-          case "8":
-            loadPreset("fireworks");
-            break;
-          case "9":
-            loadPreset("cosmic");
-            break;
-          case " ":
-            event.preventDefault();
-            if (currentFlux.isRunning) {
-              currentFlux.stop();
-            } else {
-              currentFlux.start();
-            }
-            break;
-        }
-      });
-
       // Initialize on page load
       window.addEventListener("load", function () {
         initFlux();
         initializeMobilePanel();
         initializeMobileEnhancements();
       });
-
-      // Handle window resize
-      window.addEventListener("resize", function () {
-        if (currentFlux) {
-          setTimeout(() => {
-            updateStatsDisplay();
-          }, 100);
-        }
-      });
-
-      // Add some random effects periodically
-      setInterval(() => {
-        if (currentFlux && Math.random() < 0.1) {
-          const x = Math.random() * window.innerWidth;
-          const y = Math.random() * window.innerHeight;
-
-          if (Math.random() < 0.5) {
-            currentFlux.attract(x, y, 2, 100);
-          } else {
-            // Add a special particle
-            currentFlux.addParticle(x, y, {
-              size: Math.random() * 10 + 5,
-              opacity: 0.8,
-            });
-          }
-        }
-      }, 5000);
-
-      console.log("🎆 FluxJS Demo ESPECTACULAR cargado!");
-      console.log("");
-      console.log("🚀 CONFIGURACIÓN INICIAL: ULTRA ESPECTACULAR");
-      console.log("✨ Todas las características activadas");
-      console.log("🌈 Colores arcoíris dinámicos");
-      console.log("⚡ 250+ partículas con efectos avanzados");
-      console.log("");
-
-      // Mobile-specific instructions
-      if (window.innerWidth <= 768) {
-        console.log("📱 Modo móvil optimizado");
-        console.log("Instrucciones móviles:");
-        console.log("• Toca el botón ⚙️ para abrir controles");
-        console.log("• Desliza el panel hacia arriba/abajo");
-        console.log("• Toca dos veces para efectos de explosión");
-        console.log("• Prueba el preset 🚀 ULTRA para máximo impacto");
-        console.log("• El panel se oculta automáticamente tras 5s");
-      } else {
-        console.log("🖥️ Modo escritorio con todas las funciones");
-        console.log("Atajos de teclado:");
-        console.log("• 0: 🚀 ULTRA (máximo espectacular)");
-        console.log("• 1-9: Presets espectaculares");
-        console.log("• Espacio: Pausar/Reanudar");
-        console.log("• Doble-click: Efecto explosión");
-        console.log("");
-        console.log("🎛️ Controles avanzados disponibles:");
-        console.log("• Turbulencia, conexiones curvas, efectos glow");
-        console.log("• Trail del mouse, rotación, centelleo");
-        console.log("• Física avanzada y configuración completa");
-      }
     </script>
   </body>
 </html>

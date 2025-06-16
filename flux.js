@@ -211,6 +211,19 @@
       this.lastFPSUpdate = 0;
       this.performanceMode = "normal"; // 'normal', 'reduced', 'minimal'
 
+      // Optimizaciones de rendimiento
+      this.frameTimeAccumulator = 0;
+      this.targetFrameTime = 1000 / this.config.performance.maxFPS;
+      this.colorCache = new Map();
+      this.distanceCache = new Map();
+      this.spatialGrid = new Map();
+      this.gridSize = 100; // Tamaño de celda para spatial partitioning
+      this.trailPool = []; // Pool de objetos para trail
+      this.maxTrailPoolSize = 100;
+      this.connectionPairs = []; // Cache de pares de conexión
+      this.lastConnectionUpdate = 0;
+      this.connectionUpdateInterval = 100; // Actualizar conexiones cada 100ms
+
       // Guardar configuración original para poder restaurarla
       this.originalConfig = JSON.parse(JSON.stringify(this.config));
 
@@ -272,17 +285,37 @@
     }
 
     getParticleColor(particle) {
+      // Cache de colores optimizado
+      const cacheKey = `${this.config.color.type}_${particle.x}_${particle.y}_${this.rainbow}`;
+      if (this.colorCache.has(cacheKey)) {
+        return this.colorCache.get(cacheKey);
+      }
+
+      let color;
       switch (this.config.color.type) {
         case "gradient":
-          return this.getGradientColor(particle);
+          color = this.getGradientColor(particle);
+          break;
         case "rainbow":
-          return this.getRainbowColor(particle);
+          color = this.getRainbowColor(particle);
+          break;
         case "random":
-          return this.getRandomPaletteColor(particle);
+          color = this.getRandomPaletteColor(particle);
+          break;
         case "single":
         default:
-          return this.config.color.value;
+          color = this.config.color.value;
+          break;
       }
+
+      // Limitar el cache para evitar memory leaks
+      if (this.colorCache.size > 1000) {
+        const firstKey = this.colorCache.keys().next().value;
+        this.colorCache.delete(firstKey);
+      }
+
+      this.colorCache.set(cacheKey, color);
+      return color;
     }
 
     getGradientColor(particle) {
@@ -367,8 +400,17 @@
         this.canvas.style.perspective = "1000px";
       }
 
-      // Obtener contexto
-      this.ctx = this.canvas.getContext("2d");
+      // Obtener contexto con optimizaciones
+      this.ctx = this.canvas.getContext("2d", {
+        alpha: this.config.canvas.background === "transparent",
+        desynchronized: true, // Para mejor rendimiento
+        powerPreference: this.isMobile ? "low-power" : "high-performance",
+      });
+
+      // Optimizaciones adicionales del contexto
+      if (this.ctx.imageSmoothingEnabled !== undefined) {
+        this.ctx.imageSmoothingEnabled = false; // Mejor rendimiento para partículas simples
+      }
 
       // Añadir al contenedor
       if (this.config.container === document.body) {
@@ -475,11 +517,26 @@
           // Manejar múltiples toques
           this.touches.set(pointerId, { x, y, time: Date.now() });
         }
-        // Manejar trail del mouse/touch
+        // Manejar trail del mouse/touch optimizado
         if (this.config.mouse.trail && pointerId === "mouse") {
-          this.mouse.trail.push({ x, y, time: Date.now() });
-          if (this.mouse.trail.length > this.config.mouse.trailLength) {
-            this.mouse.trail.shift();
+          let trailPoint;
+          if (this.trailPool.length > 0) {
+            trailPoint = this.trailPool.pop();
+            trailPoint.x = x;
+            trailPoint.y = y;
+            trailPoint.time = Date.now();
+          } else {
+            trailPoint = { x, y, time: Date.now() };
+          }
+
+          this.mouse.trail.push(trailPoint);
+
+          // Limitar trail length y reciclar objetos
+          while (this.mouse.trail.length > this.config.mouse.trailLength) {
+            const oldPoint = this.mouse.trail.shift();
+            if (this.trailPool.length < this.maxTrailPoolSize) {
+              this.trailPool.push(oldPoint);
+            }
           }
         }
       };
@@ -680,20 +737,27 @@
     }
 
     createParticlesWithCount(count) {
+      // Pre-calcular valores constantes
+      const canvasWidth = this.canvas.width;
+      const canvasHeight = this.canvas.height;
+      const speedRange = this.config.speed.max - this.config.speed.min;
+      const sizeRange = this.config.size.max - this.config.size.min;
+      const opacityRange = this.config.opacity.max - this.config.opacity.min;
+
       this.particles = [];
       for (let i = 0; i < count; i++) {
-        this.particles.push(this.createParticle());
+        this.particles.push(this.createParticleOptimized(canvasWidth, canvasHeight, speedRange, sizeRange, opacityRange));
       }
     }
 
-    createParticle() {
+    createParticleOptimized(canvasWidth, canvasHeight, speedRange, sizeRange, opacityRange) {
       const particle = {
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        vx: this.getRandomSpeed(),
-        vy: this.getRandomSpeed(),
-        size: this.getRandomSize(),
-        opacity: this.getRandomOpacity(),
+        x: Math.random() * canvasWidth,
+        y: Math.random() * canvasHeight,
+        vx: (Math.random() - 0.5) * speedRange + (Math.random() > 0.5 ? this.config.speed.max : this.config.speed.min),
+        vy: (Math.random() - 0.5) * speedRange + (Math.random() > 0.5 ? this.config.speed.max : this.config.speed.min),
+        size: Math.random() * sizeRange + this.config.size.min,
+        opacity: Math.random() * opacityRange + this.config.opacity.min,
         originalOpacity: 0,
         originalSize: 0,
         angle: Math.random() * Math.PI * 2,
@@ -714,6 +778,10 @@
       this.applyAnimationSettings(particle);
 
       return particle;
+    }
+
+    createParticle() {
+      return this.createParticleOptimized(this.canvas.width, this.canvas.height, this.config.speed.max - this.config.speed.min, this.config.size.max - this.config.size.min, this.config.opacity.max - this.config.opacity.min);
     }
 
     getRandomSpeed() {
@@ -796,15 +864,37 @@
     }
 
     update(currentTime) {
-      this.deltaTime = currentTime - this.lastFrameTime;
-      this.lastFrameTime = currentTime;
-
-      // Actualizar variables globales
-      this.rainbow += this.config.color.rainbowSpeed;
-      this.turbulenceTime += this.config.speed.turbulenceFrequency;
-      this.connectionAnimationOffset += this.config.connections.animationSpeed;
+      // Actualizar variables globales con menor frecuencia
+      if (this.frameCount % 2 === 0) {
+        // Cada 2 frames
+        this.rainbow += this.config.color.rainbowSpeed;
+        this.turbulenceTime += this.config.speed.turbulenceFrequency;
+        this.connectionAnimationOffset += this.config.connections.animationSpeed;
+      }
 
       this.updateParticles();
+
+      // Actualizar spatial grid menos frecuentemente
+      if (currentTime - this.lastConnectionUpdate > this.connectionUpdateInterval) {
+        this.updateSpatialGrid();
+        this.lastConnectionUpdate = currentTime;
+      }
+    }
+
+    updateSpatialGrid() {
+      this.spatialGrid.clear();
+
+      for (let i = 0; i < this.particles.length; i++) {
+        const particle = this.particles[i];
+        const gridX = Math.floor(particle.x / this.gridSize);
+        const gridY = Math.floor(particle.y / this.gridSize);
+        const key = `${gridX},${gridY}`;
+
+        if (!this.spatialGrid.has(key)) {
+          this.spatialGrid.set(key, []);
+        }
+        this.spatialGrid.get(key).push(i);
+      }
     }
 
     updateParticles() {
@@ -846,10 +936,26 @@
         }
       });
 
-      // Limpiar trail del mouse
+      // Limpiar trail del mouse optimizado
       if (this.config.mouse.trail) {
         const now = Date.now();
-        this.mouse.trail = this.mouse.trail.filter((point) => now - point.time < this.config.mouse.trailFadeTime);
+        const maxAge = this.config.mouse.trailFadeTime || 1500;
+
+        // Filtrar y reciclar objetos del trail
+        let i = 0;
+        while (i < this.mouse.trail.length) {
+          const point = this.mouse.trail[i];
+          if (now - point.time > maxAge) {
+            // Reciclar objeto
+            if (this.trailPool.length < this.maxTrailPoolSize) {
+              this.trailPool.push(this.mouse.trail.splice(i, 1)[0]);
+            } else {
+              this.mouse.trail.splice(i, 1);
+            }
+          } else {
+            i++;
+          }
+        }
       }
     }
 
@@ -1027,8 +1133,27 @@
     }
 
     updateMouseInteraction(particle) {
+      // Cache de distancias para optimizar cálculos
+      const cacheKey = `${Math.floor(particle.x)}_${Math.floor(particle.y)}_${Math.floor(this.mouse.x)}_${Math.floor(this.mouse.y)}`;
+
+      let mouseDistance;
+      if (this.distanceCache.has(cacheKey)) {
+        mouseDistance = this.distanceCache.get(cacheKey);
+      } else {
+        const dx = this.mouse.x - particle.x;
+        const dy = this.mouse.y - particle.y;
+        mouseDistance = Math.sqrt(dx * dx + dy * dy);
+
+        // Limitar cache de distancias
+        if (this.distanceCache.size > 500) {
+          const firstKey = this.distanceCache.keys().next().value;
+          this.distanceCache.delete(firstKey);
+        }
+        this.distanceCache.set(cacheKey, mouseDistance);
+      }
+
       // Interacción con mouse/dedo principal
-      this.updatePointerInteraction(particle, this.mouse.x, this.mouse.y, "mouse");
+      this.updatePointerInteraction(particle, this.mouse.x, this.mouse.y, "mouse", mouseDistance);
 
       // Interacción con múltiples toques si está habilitado
       if (this.config.mouse.touch.multiTouch && this.touches.size > 0) {
@@ -1044,18 +1169,20 @@
       }
     }
 
-    updatePointerInteraction(particle, pointerX, pointerY, pointerType) {
+    updatePointerInteraction(particle, pointerX, pointerY, pointerType, preCalculatedDistance = null) {
       const dx = pointerX - particle.x;
       const dy = pointerY - particle.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      const distanceSq = dx * dx + dy * dy;
 
       // Usar distancia diferente para táctil
       const interactionDistance = pointerType === "touch" ? this.config.mouse.touch.touchDistance : this.config.mouse.distance;
+      const interactionDistanceSq = interactionDistance * interactionDistance; // Evitar sqrt
 
       const attraction = pointerType === "touch" ? this.config.mouse.touch.touchAttraction : this.config.mouse.attraction;
 
-      if (distance < interactionDistance) {
-        const force = (interactionDistance - distance) / interactionDistance;
+      if (distanceSq < interactionDistanceSq) {
+        // Usar aproximación rápida para la fuerza
+        const force = (interactionDistanceSq - distanceSq) / interactionDistanceSq;
 
         // Atracción o repulsión
         let attractionForce = attraction;
@@ -1127,248 +1254,221 @@
     }
 
     draw() {
-      // Limpiar canvas completamente
+      // Culling: solo limpiar área visible
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      // Resetear completamente el contexto para evitar interferencias
-      this.ctx.save();
-      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      // Configurar contexto una sola vez
       this.ctx.globalCompositeOperation = "source-over";
       this.ctx.globalAlpha = 1;
+
+      // Resetear sombras una sola vez
       this.ctx.shadowColor = "transparent";
       this.ctx.shadowBlur = 0;
       this.ctx.shadowOffsetX = 0;
       this.ctx.shadowOffsetY = 0;
-      this.ctx.restore();
 
-      // Dibujar conexiones primero (para que estén detrás de las partículas)
-      this.drawConnections();
+      // Dibujar conexiones primero con optimización espacial
+      this.drawConnectionsOptimized();
 
-      // Dibujar partículas
-      this.drawParticles();
+      // Dibujar partículas con culling
+      this.drawParticlesOptimized();
 
-      // Dibujar trail del mouse al final (para que esté encima de todo)
+      // Dibujar trail del mouse al final
       if (this.config.mouse.trail && this.mouse.trail.length > 1) {
-        this.drawMouseTrail();
-      }
-
-      // Debug: log cada 120 frames si el trail está habilitado pero no se ve
-      if (this.frameCount % 120 === 0 && this.config.mouse.trail && this.mouse.trail.length === 0) {
-        console.warn("FluxJS: Trail del mouse habilitado pero sin puntos. Posición:", this.mouse.x, this.mouse.y);
+        this.drawMouseTrailOptimized();
       }
     }
 
-    drawMouseTrail() {
-      if (this.mouse.trail.length < 3) return; // Necesitamos al menos 3 puntos para omitir el primero
-
-      this.ctx.save();
+    drawMouseTrailOptimized() {
+      if (this.mouse.trail.length < 3) return;
 
       const now = Date.now();
+      const maxAge = this.config.mouse.trailFadeTime || 1500;
 
-      // Obtener el color base de las partículas
-      let baseColor = this.config.color.value || "#ffffff";
-      if (this.config.color.type === "single") {
-        baseColor = this.config.color.value;
-      } else if (this.config.color.type === "rainbow") {
-        baseColor = this.getRainbowColor({ x: this.mouse.x, y: this.mouse.y });
-      } else if (this.config.color.type === "random" && this.config.color.randomPalette) {
-        baseColor = this.config.color.randomPalette[0];
-      } else if (this.config.color.type === "gradient" && this.config.color.gradient) {
-        baseColor = this.config.color.gradient[0];
-      }
+      // Obtener color base una sola vez
+      let baseColor = this.config.mouse.trailColor || this.config.color.value || "#ffffff";
+      let r = 255,
+        g = 255,
+        b = 255;
 
-      // Convertir color a RGB para manipulación
-      let r, g, b;
       if (baseColor.startsWith("#")) {
         const hex = baseColor.slice(1);
         r = parseInt(hex.slice(0, 2), 16);
         g = parseInt(hex.slice(2, 4), 16);
         b = parseInt(hex.slice(4, 6), 16);
-      } else if (baseColor.startsWith("hsl(")) {
-        // Para colores HSL del rainbow, usar una aproximación
-        r = 100;
-        g = 150;
-        b = 255; // Azul-morado por defecto
-      } else {
-        r = 255;
-        g = 255;
-        b = 255; // Blanco por defecto
       }
 
-      // Dibujar múltiples capas para efecto de glow
-      for (let layer = 0; layer < 3; layer++) {
-        this.ctx.save();
+      // Configurar contexto una vez
+      this.ctx.lineCap = "round";
+      this.ctx.lineJoin = "round";
 
-        // Configurar blend mode para glow
-        this.ctx.globalCompositeOperation = layer === 0 ? "screen" : "lighter";
+      // Solo usar una capa para mejor rendimiento
+      this.ctx.globalCompositeOperation = "lighter";
+      this.ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
+      this.ctx.shadowBlur = 8;
 
-        // Configurar glow según la capa
-        const glowSizes = [20, 12, 6];
-        const alphas = [0.1, 0.3, 0.8];
-        const widths = [8, 5, 2];
+      // Dibujar trail optimizado
+      for (let i = 2; i < this.mouse.trail.length; i++) {
+        const point = this.mouse.trail[i];
+        const prevPoint = this.mouse.trail[i - 1];
 
-        this.ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
-        this.ctx.shadowBlur = glowSizes[layer];
-        this.ctx.strokeStyle = baseColor;
-        this.ctx.lineWidth = widths[layer];
-        this.ctx.lineCap = "round";
-        this.ctx.lineJoin = "round";
-        this.ctx.globalAlpha = alphas[layer];
+        const age = now - point.time;
+        if (age > maxAge) continue;
 
-        // Dibujar trail empezando desde el segundo punto para omitir el punto inicial
-        for (let i = 2; i < this.mouse.trail.length; i++) {
-          const point = this.mouse.trail[i];
-          const prevPoint = this.mouse.trail[i - 1];
+        const ageOpacity = 1 - age / maxAge;
+        const positionOpacity = (i - 1) / (this.mouse.trail.length - 1);
+        const opacity = ageOpacity * positionOpacity;
 
-          // Calcular opacidad basada en el tiempo
-          const age = now - point.time;
-          const maxAge = 2000; // 2 segundos
-          const ageOpacity = Math.max(0, 1 - age / maxAge);
+        if (opacity > 0.05) {
+          this.ctx.globalAlpha = opacity;
+          this.ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+          this.ctx.lineWidth = 3 * (0.5 + positionOpacity * 0.5);
 
-          // Calcular opacidad basada en la posición en el trail (ajustada para omitir el primer punto)
-          const positionOpacity = (i - 1) / (this.mouse.trail.length - 1);
-
-          // Combinar opacidades
-          const finalOpacity = ageOpacity * positionOpacity * alphas[layer];
-
-          if (finalOpacity > 0.01) {
-            this.ctx.save();
-            this.ctx.globalAlpha = finalOpacity;
-
-            // Crear gradiente para cada segmento usando el color de las partículas
-            const gradient = this.ctx.createLinearGradient(prevPoint.x, prevPoint.y, point.x, point.y);
-            gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${finalOpacity * 0.5})`);
-            gradient.addColorStop(0.5, `rgba(${Math.min(255, r + 50)}, ${Math.min(255, g + 50)}, ${Math.min(255, b + 50)}, ${finalOpacity})`);
-            gradient.addColorStop(1, `rgba(${Math.min(255, r + 30)}, ${Math.min(255, g + 30)}, ${Math.min(255, b + 30)}, ${finalOpacity * 0.8})`);
-
-            this.ctx.strokeStyle = gradient;
-            this.ctx.lineWidth = widths[layer] * (0.5 + positionOpacity * 0.5);
-
-            this.ctx.beginPath();
-            this.ctx.moveTo(prevPoint.x, prevPoint.y);
-            this.ctx.lineTo(point.x, point.y);
-            this.ctx.stroke();
-
-            this.ctx.restore();
-          }
+          this.ctx.beginPath();
+          this.ctx.moveTo(prevPoint.x, prevPoint.y);
+          this.ctx.lineTo(point.x, point.y);
+          this.ctx.stroke();
         }
-
-        this.ctx.restore();
       }
 
-      this.ctx.restore();
+      // Reset
+      this.ctx.shadowColor = "transparent";
+      this.ctx.shadowBlur = 0;
+      this.ctx.globalCompositeOperation = "source-over";
+      this.ctx.globalAlpha = 1;
     }
 
-    drawParticles() {
-      this.particles.forEach((particle) => {
-        this.ctx.save();
+    drawParticlesOptimized() {
+      // Preparar variables comunes
+      let needsGlow = this.config.effects.glow;
+      let needsShadow = this.config.effects.shadow;
 
-        // Aplicar efectos primero
-        this.applyParticleEffects(particle);
-
-        // Configurar color y opacidad
-        this.ctx.globalAlpha = particle.opacity;
-        this.ctx.fillStyle = this.getParticleColor(particle);
-
-        // Dibujar según la forma
-        this.drawParticleShape(particle);
-
-        // Importante: limpiar efectos después de cada partícula
-        this.ctx.shadowColor = "transparent";
-        this.ctx.shadowBlur = 0;
+      // Configurar efectos globales una vez
+      if (needsGlow) {
+        this.ctx.shadowColor = this.config.effects.glowColor;
+        this.ctx.shadowBlur = this.config.effects.glowSize;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 0;
-
-        this.ctx.restore();
-      });
-    }
-
-    applyParticleEffects(particle) {
-      // Aplicar sombra
-      if (this.config.effects.shadow) {
+      } else if (needsShadow) {
         this.ctx.shadowColor = this.config.effects.shadowColor;
         this.ctx.shadowBlur = this.config.effects.shadowBlur;
         this.ctx.shadowOffsetX = this.config.effects.shadowOffset.x;
         this.ctx.shadowOffsetY = this.config.effects.shadowOffset.y;
       }
 
-      // Aplicar glow
-      if (this.config.effects.glow) {
-        this.ctx.shadowColor = this.config.effects.glowColor;
-        this.ctx.shadowBlur = this.config.effects.glowSize;
+      // Culling bounds
+      const margin = 50; // Margen para partículas parcialmente visibles
+      const minX = -margin;
+      const maxX = this.canvas.width + margin;
+      const minY = -margin;
+      const maxY = this.canvas.height + margin;
+
+      for (let i = 0; i < this.particles.length; i++) {
+        const particle = this.particles[i];
+
+        // Culling: solo dibujar partículas visibles
+        if (particle.x < minX || particle.x > maxX || particle.y < minY || particle.y > maxY) {
+          continue;
+        }
+
+        // Solo configurar opacity si es diferente
+        if (this.ctx.globalAlpha !== particle.opacity) {
+          this.ctx.globalAlpha = particle.opacity;
+        }
+
+        // Cache color y solo cambiar si es diferente
+        const color = this.getParticleColor(particle);
+        if (this.ctx.fillStyle !== color) {
+          this.ctx.fillStyle = color;
+        }
+
+        // Aplicar rotación solo si es necesaria
+        if (this.config.shape.rotation && particle.rotation !== 0) {
+          this.ctx.save();
+          this.ctx.translate(particle.x, particle.y);
+          this.ctx.rotate(particle.rotation);
+          this.ctx.translate(-particle.x, -particle.y);
+          this.drawParticleShapeOptimized(particle);
+          this.ctx.restore();
+        } else {
+          this.drawParticleShapeOptimized(particle);
+        }
+      }
+
+      // Reset shadow una vez al final
+      if (needsGlow || needsShadow) {
+        this.ctx.shadowColor = "transparent";
+        this.ctx.shadowBlur = 0;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 0;
       }
     }
 
-    drawParticleShape(particle) {
+    drawParticleShapeOptimized(particle) {
       const shape = this.config.shape.type;
-
-      // Aplicar rotación si está habilitada
-      if (this.config.shape.rotation) {
-        this.ctx.translate(particle.x, particle.y);
-        this.ctx.rotate(particle.rotation);
-        this.ctx.translate(-particle.x, -particle.y);
-      }
 
       switch (shape) {
         case "square":
-          this.drawSquare(particle);
+          const size = particle.size;
+          this.ctx.fillRect(particle.x - size, particle.y - size, size * 2, size * 2);
           break;
         case "triangle":
-          this.drawTriangle(particle);
-          break;
         case "star":
-          this.drawStar(particle);
-          break;
         case "heart":
-          this.drawHeart(particle);
-          break;
         case "polygon":
-          this.drawPolygon(particle);
+          // Para formas complejas, usar método original pero optimizado
+          this.drawComplexShape(particle, shape);
           break;
         case "custom":
           if (this.config.shape.customPath) {
             this.config.shape.customPath(this.ctx, particle);
           } else {
-            this.drawCircle(particle);
+            // Fallback a círculo
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
           }
           break;
         case "circle":
         default:
-          this.drawCircle(particle);
+          this.ctx.beginPath();
+          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          this.ctx.fill();
           break;
       }
     }
 
-    drawCircle(particle) {
+    drawComplexShape(particle, shape) {
       this.ctx.beginPath();
-      this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+
+      switch (shape) {
+        case "triangle":
+          const size = particle.size;
+          this.ctx.moveTo(particle.x, particle.y - size);
+          this.ctx.lineTo(particle.x - size, particle.y + size);
+          this.ctx.lineTo(particle.x + size, particle.y + size);
+          this.ctx.closePath();
+          break;
+        case "star":
+          this.drawStarPath(particle);
+          break;
+        case "heart":
+          this.drawHeartPath(particle);
+          break;
+        case "polygon":
+          this.drawPolygonPath(particle);
+          break;
+      }
+
       this.ctx.fill();
     }
 
-    drawSquare(particle) {
-      const size = particle.size;
-      this.ctx.fillRect(particle.x - size, particle.y - size, size * 2, size * 2);
-    }
-
-    drawTriangle(particle) {
-      const size = particle.size;
-      this.ctx.beginPath();
-      this.ctx.moveTo(particle.x, particle.y - size);
-      this.ctx.lineTo(particle.x - size, particle.y + size);
-      this.ctx.lineTo(particle.x + size, particle.y + size);
-      this.ctx.closePath();
-      this.ctx.fill();
-    }
-
-    drawStar(particle) {
+    drawStarPath(particle) {
       const size = particle.size;
       const spikes = 5;
       const outerRadius = size;
       const innerRadius = size * 0.5;
 
-      this.ctx.beginPath();
       for (let i = 0; i < spikes * 2; i++) {
         const radius = i % 2 === 0 ? outerRadius : innerRadius;
         const angle = (i * Math.PI) / spikes;
@@ -1381,28 +1481,24 @@
         }
       }
       this.ctx.closePath();
-      this.ctx.fill();
     }
 
-    drawHeart(particle) {
+    drawHeartPath(particle) {
       const size = particle.size;
       const x = particle.x;
       const y = particle.y;
 
-      this.ctx.beginPath();
       this.ctx.moveTo(x, y + size / 2);
       this.ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
       this.ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y + size / 2, x, y + size);
       this.ctx.bezierCurveTo(x, y + size / 2, x + size / 2, y + size / 2, x + size / 2, y + size / 4);
       this.ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 2);
-      this.ctx.fill();
     }
 
-    drawPolygon(particle) {
+    drawPolygonPath(particle) {
       const size = particle.size;
       const sides = this.config.shape.sides;
 
-      this.ctx.beginPath();
       for (let i = 0; i < sides; i++) {
         const angle = (i * 2 * Math.PI) / sides;
         const x = particle.x + Math.cos(angle) * size;
@@ -1414,117 +1510,187 @@
         }
       }
       this.ctx.closePath();
-      this.ctx.fill();
     }
 
-    drawConnections() {
+    drawConnectionsOptimized() {
       if (!this.config.connections.enabled) return;
 
-      // Guardar y resetear completamente el contexto
-      this.ctx.save();
+      // Configurar estilos una sola vez
       this.ctx.globalCompositeOperation = "source-over";
-      this.ctx.shadowColor = "transparent";
-      this.ctx.shadowBlur = 0;
-      this.ctx.shadowOffsetX = 0;
-      this.ctx.shadowOffsetY = 0;
-      this.ctx.setLineDash([]);
-      this.ctx.lineDashOffset = 0;
+      this.ctx.strokeStyle = this.config.connections.color;
+      this.ctx.lineWidth = this.config.connections.width;
+      this.ctx.lineCap = "round";
+
+      // Configurar animación si está habilitada
+      if (this.config.connections.animated) {
+        this.ctx.setLineDash([5, 5]);
+        this.ctx.lineDashOffset = this.connectionAnimationOffset;
+      }
 
       const maxConnections = this.config.connections.maxConnections;
+      const connectionDistance = this.config.connections.distance;
+      const connectionDistanceSq = connectionDistance * connectionDistance; // Evitar sqrt
       let totalConnections = 0;
 
+      // Usar spatial grid si está disponible
+      if (this.spatialGrid.size > 0) {
+        this.drawConnectionsWithSpatialGrid(connectionDistanceSq, maxConnections);
+      } else {
+        // Fallback al método tradicional pero optimizado
+        this.drawConnectionsBruteForce(connectionDistanceSq, maxConnections);
+      }
+
+      // Reset line dash
+      if (this.config.connections.animated) {
+        this.ctx.setLineDash([]);
+      }
+    }
+
+    drawConnectionsWithSpatialGrid(connectionDistanceSq, maxConnections) {
+      const processedPairs = new Set();
+
+      this.spatialGrid.forEach((particleIndices, gridKey) => {
+        const [gridX, gridY] = gridKey.split(",").map(Number);
+
+        // Verificar celdas adyacentes (incluyendo la actual)
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            const neighborKey = `${gridX + dx},${gridY + dy}`;
+            const neighborIndices = this.spatialGrid.get(neighborKey);
+
+            if (!neighborIndices) continue;
+
+            // Comparar partículas entre celdas
+            for (const i of particleIndices) {
+              let connectionCount = 0;
+
+              for (const j of neighborIndices) {
+                if (i >= j) continue; // Evitar duplicados
+                if (maxConnections && connectionCount >= maxConnections) break;
+
+                const pairKey = `${i}-${j}`;
+                if (processedPairs.has(pairKey)) continue;
+                processedPairs.add(pairKey);
+
+                const p1 = this.particles[i];
+                const p2 = this.particles[j];
+
+                const dx = p1.x - p2.x;
+                const dy = p1.y - p2.y;
+                const distanceSq = dx * dx + dy * dy;
+
+                if (distanceSq < connectionDistanceSq) {
+                  // Usar aproximación rápida para la opacidad basada en distanceSq
+                  const normalizedDistSq = distanceSq / connectionDistanceSq;
+                  const opacity = (1 - normalizedDistSq) * this.config.connections.opacity;
+
+                  this.ctx.globalAlpha = Math.max(0.1, opacity);
+
+                  this.ctx.beginPath();
+                  this.ctx.moveTo(p1.x, p1.y);
+                  this.ctx.lineTo(p2.x, p2.y);
+                  this.ctx.stroke();
+
+                  connectionCount++;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    drawConnectionsBruteForce(connectionDistanceSq, maxConnections) {
       for (let i = 0; i < this.particles.length; i++) {
         let connectionCount = 0;
+        const p1 = this.particles[i];
 
         for (let j = i + 1; j < this.particles.length; j++) {
           if (maxConnections && connectionCount >= maxConnections) break;
 
-          const dx = this.particles[i].x - this.particles[j].x;
-          const dy = this.particles[i].y - this.particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const p2 = this.particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distanceSq = dx * dx + dy * dy;
 
-          if (distance < this.config.connections.distance) {
-            const opacity = (this.config.connections.distance - distance) / this.config.connections.distance;
+          if (distanceSq < connectionDistanceSq) {
+            // Usar aproximación rápida para la opacidad basada en distanceSq
+            const normalizedDistSq = distanceSq / connectionDistanceSq;
+            const opacity = (1 - normalizedDistSq) * this.config.connections.opacity;
 
-            // Configurar estilos de línea
-            this.ctx.globalAlpha = Math.max(0.1, opacity * this.config.connections.opacity);
-            this.ctx.strokeStyle = this.config.connections.color;
-            this.ctx.lineWidth = this.config.connections.width;
-
-            // Animación de conexiones
-            if (this.config.connections.animated) {
-              this.ctx.setLineDash([5, 5]);
-              this.ctx.lineDashOffset = this.connectionAnimationOffset;
-            }
+            this.ctx.globalAlpha = Math.max(0.1, opacity);
 
             this.ctx.beginPath();
-
-            if (this.config.connections.curve) {
-              // Conexiones curvas - usar un offset determinístico basado en los índices
-              const midX = (this.particles[i].x + this.particles[j].x) / 2;
-              const midY = (this.particles[i].y + this.particles[j].y) / 2;
-
-              // Usar un offset determinístico basado en los índices para evitar parpadeo
-              const seedOffset = (i * 1000 + j) * 0.001;
-              const controlOffsetX = Math.sin(seedOffset) * 25;
-              const controlOffsetY = Math.cos(seedOffset) * 25;
-
-              const controlX = midX + controlOffsetX;
-              const controlY = midY + controlOffsetY;
-
-              this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-              this.ctx.quadraticCurveTo(controlX, controlY, this.particles[j].x, this.particles[j].y);
-            } else {
-              // Conexiones rectas
-              this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-              this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-            }
-
+            this.ctx.moveTo(p1.x, p1.y);
+            this.ctx.lineTo(p2.x, p2.y);
             this.ctx.stroke();
 
             connectionCount++;
-            totalConnections++;
           }
         }
-      }
-
-      // Restaurar el contexto
-      this.ctx.restore();
-
-      // Debug: log cada 60 frames aprox
-      if (this.frameCount % 60 === 0 && totalConnections === 0 && this.particles.length > 0) {
-        console.warn("FluxJS: No se dibujaron conexiones. Partículas:", this.particles.length, "Distancia:", this.config.connections.distance);
       }
     }
 
     animate(currentTime = 0) {
       if (!this.isRunning) return;
 
-      // Control de FPS mejorado
-      const targetFrameTime = 1000 / this.config.performance.maxFPS;
-      if (currentTime - this.lastFrameTime < targetFrameTime) {
+      // Inicializar lastFrameTime en el primer frame
+      if (!this.lastFrameTime) {
+        this.lastFrameTime = currentTime;
         this.animationId = requestAnimationFrame((time) => this.animate(time));
         return;
       }
 
-      // Monitoreo de rendimiento
+      // Calcular deltaTime
+      this.deltaTime = currentTime - this.lastFrameTime;
+
+      // Sistema de FPS mejorado usando acumulación de tiempo
+      this.frameTimeAccumulator += this.deltaTime;
+
+      if (this.frameTimeAccumulator < this.targetFrameTime) {
+        this.animationId = requestAnimationFrame((time) => this.animate(time));
+        return;
+      }
+
+      // Actualizar lastFrameTime
+      this.lastFrameTime = currentTime;
+
+      // Calcular cuántos frames procesar
+      const framesToProcess = Math.floor(this.frameTimeAccumulator / this.targetFrameTime);
+      this.frameTimeAccumulator -= framesToProcess * this.targetFrameTime;
+
+      // Monitoreo de rendimiento optimizado
       this.frameCount++;
+
       if (currentTime - this.lastFPSUpdate > 1000) {
         this.currentFPS = this.frameCount;
+
+        // Limpieza de memoria cada 5 segundos aprox
+        if (this.currentFPS > 0 && Date.now() % 5000 < 1000) {
+          // Limpiar arrays de trail si hay muchos elementos
+          if (this.mouse.trail.length > 100) {
+            this.mouse.trail = this.mouse.trail.slice(-50);
+          }
+          // Forzar garbage collection si está disponible
+          if (window.gc) window.gc();
+        }
+
         this.frameCount = 0;
         this.lastFPSUpdate = currentTime;
 
-        // Ajuste adaptativo de calidad
+        // Actualizar targetFrameTime si cambió maxFPS
+        this.targetFrameTime = 1000 / this.config.performance.maxFPS;
+
+        // Ajuste adaptativo de calidad menos frecuente
         if (this.config.performance.adaptiveQuality) {
           this.adaptiveQualityAdjustment();
         }
       }
 
-      // Actualizar y dibujar
+      // Procesar solo un frame por tick para mejor control de FPS
       this.update(currentTime);
       this.draw();
 
-      // Continuar animación
       this.animationId = requestAnimationFrame((time) => this.animate(time));
     }
 
@@ -1631,12 +1797,19 @@
         this.canvas.parentNode.removeChild(this.canvas);
       }
 
-      // Limpiar referencias
+      // Limpiar referencias y caches
       this.canvas = null;
       this.ctx = null;
       this.particles = [];
       this.mouse = { x: 0, y: 0, trail: [] };
       this.touches.clear();
+
+      // Limpiar caches de optimización
+      this.colorCache.clear();
+      this.distanceCache.clear();
+      this.spatialGrid.clear();
+      this.trailPool = [];
+      this.connectionPairs = [];
 
       // Limpiar handlers
       this.mouseHandler = null;
