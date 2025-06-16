@@ -8,27 +8,155 @@
     <meta name="keywords" content="particles, javascript, animation, canvas, effects, flux, library" />
     <title>FluxJS - Librería de Partículas Ultra Configurable ✨</title>
 
-    <!-- Critical CSS first -->
+    <!-- DNS prefetch para recursos externos -->
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//api.devetty.es">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="flux.js" as="script">
+    <link rel="preload" href="icon.png" as="image">
+
+    <!-- Critical CSS first - Anti-FOUC -->
     <style>
       /* Critical CSS - inline for fastest loading */
+      html {
+        visibility: hidden;
+        opacity: 0;
+        background: #020202; /* Prevent white flash */
+      }
+      
+      html.loaded {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.4s ease-in-out;
+      }
+      
       body {
         margin: 0;
         background: #020202;
         color: white;
-        font-family: system-ui;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh; /* Ensure full height */
       }
+      
+      /* Prevent any white flash during transitions */
+      * {
+        box-sizing: border-box;
+      }
+      
+      /* Loader para mostrar mientras carga */
+      .flux-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #020202;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+      }
+      
+      .flux-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      .flux-loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(79, 195, 247, 0.3);
+        border-top: 3px solid #4fc3f7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Smooth content appearance */
       .loading {
         opacity: 0;
+        transform: translateY(10px);
       }
+      
       .loaded {
         opacity: 1;
-        transition: opacity 0.3s ease;
+        transform: translateY(0);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      
+      /* Ensure no layout shift */
+      .flux-glass-dark {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
       }
     </style>
 
     <!-- External resources with performance optimizations -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Load Tailwind CSS optimally
+      (function() {
+        var link = document.createElement('script');
+        link.src = 'https://cdn.tailwindcss.com';
+        link.onload = function() {
+          // Tailwind loaded, styles will be applied
+          document.documentElement.classList.add('tailwind-loaded');
+        };
+        document.head.appendChild(link);
+      })();
+    </script>
     <script src="flux.js" defer></script>
+
+    <!-- Anti-FOUC Script - Runs immediately -->
+    <script>
+      // Immediate execution to prevent FOUC
+      (function() {
+        // Fast loading detection
+        var isReady = false;
+        
+        // Show content when everything is ready
+        function showContent() {
+          if (!isReady) {
+            isReady = true;
+            document.documentElement.classList.add('loaded');
+            var loader = document.getElementById('flux-loader');
+            if (loader) {
+              loader.style.opacity = '0';
+              setTimeout(function() {
+                if (loader.parentNode) {
+                  loader.parentNode.removeChild(loader);
+                }
+              }, 400);
+            }
+          }
+        }
+        
+        // Multiple fallbacks for different loading scenarios
+        if (document.readyState === 'complete') {
+          setTimeout(showContent, 50);
+        } else {
+          // DOM ready
+          document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(showContent, 100);
+          });
+          
+          // Window load (fallback)
+          window.addEventListener('load', function() {
+            setTimeout(showContent, 150);
+          });
+          
+          // Timeout fallback (in case something fails)
+          setTimeout(showContent, 2000);
+        }
+      })();
+    </script>
 
     <!-- Icons and theme -->
     <link rel="icon" href="icon.png" type="image/png" />
@@ -394,6 +522,11 @@
     <script src="https://api.devetty.es/resources/js/analytics.js"></script>
   </head>
   <body class="m-0 p-0 bg-gradient-flux text-white overflow-x-hidden">
+    <!-- Loader anti-FOUC -->
+    <div id="flux-loader" class="flux-loader">
+      <div class="flux-loader-spinner"></div>
+    </div>
+    
     <!-- Navegación -->
     <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300">
       <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
@@ -2111,6 +2244,26 @@ flux.updateConfig({
 
       // Initialize everything when DOM is ready
       document.addEventListener("DOMContentLoaded", function () {
+        // Anti-FOUC: Hide loader and show content
+        setTimeout(() => {
+          const loader = document.getElementById('flux-loader');
+          const html = document.documentElement;
+          
+          // Add loaded class to html
+          html.classList.add('loaded');
+          
+          // Hide loader
+          if (loader) {
+            loader.classList.add('hidden');
+            // Remove loader from DOM after animation
+            setTimeout(() => {
+              if (loader.parentNode) {
+                loader.parentNode.removeChild(loader);
+              }
+            }, 400);
+          }
+        }, 100); // Small delay to ensure styles are applied
+        
         try {
           initializeNavigation();
           initializeBackgroundEffect();
