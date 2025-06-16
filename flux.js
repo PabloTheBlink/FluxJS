@@ -2006,7 +2006,7 @@
       this.config.effects.glow = false;
       this.config.effects.shadow = false;
       this.config.connections.enabled = false;
-      this.config.mouse.trail = false;
+      // this.config.mouse.trail = false;
 
       this.createParticles();
     }
