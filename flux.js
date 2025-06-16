@@ -590,7 +590,10 @@
         Array.from(e.changedTouches).forEach((touch) => {
           if (isTouchInCanvas(touch)) {
             const coords = getCoordinates(touch);
-            updatePointer(coords.x, coords.y, touch.identifier);
+
+            // Si no hay multi-touch, tratar el toque como mouse para el rastro
+            const touchId = !this.config.mouse.touch.multiTouch && e.touches.length === 1 ? "mouse" : touch.identifier;
+            updatePointer(coords.x, coords.y, touchId);
 
             // Si no hay multi-touch, usar el primer toque como mouse
             if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
@@ -612,7 +615,10 @@
         Array.from(e.changedTouches).forEach((touch) => {
           if (this.touches.has(touch.identifier) || isTouchInCanvas(touch)) {
             const coords = getCoordinates(touch);
-            updatePointer(coords.x, coords.y, touch.identifier);
+
+            // Si no hay multi-touch, tratar el toque como mouse para el rastro
+            const touchId = !this.config.mouse.touch.multiTouch && e.touches.length === 1 ? "mouse" : touch.identifier;
+            updatePointer(coords.x, coords.y, touchId);
 
             if (!this.config.mouse.touch.multiTouch && e.touches.length === 1) {
               this.mouse.x = coords.x;
