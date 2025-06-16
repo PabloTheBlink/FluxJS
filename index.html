@@ -2118,42 +2118,44 @@ flux.updateConfig({
 
       // Initialize everything when DOM is ready
       document.addEventListener("DOMContentLoaded", function () {
-        try {
-          initializeNavigation();
-          initializeBackgroundEffect();
-          setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
-          setTimeout(initializeExamples, 100); // Initialize examples after a short delay
+        setTimeout(() => {
+          try {
+            initializeNavigation();
+            initializeBackgroundEffect();
+            setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
+            setTimeout(initializeExamples, 100); // Initialize examples after a short delay
 
-          // Mobile optimizations
-          const optimizeForMobile = () => {
-            if (window.innerWidth < 768) {
-              document.body.classList.add("mobile");
-            }
-          };
-          optimizeForMobile();
+            // Mobile optimizations
+            const optimizeForMobile = () => {
+              if (window.innerWidth < 768) {
+                document.body.classList.add("mobile");
+              }
+            };
+            optimizeForMobile();
 
-          // Throttled resize handler
-          let resizeTimeout;
-          window.addEventListener(
-            "resize",
-            () => {
-              clearTimeout(resizeTimeout);
-              resizeTimeout = setTimeout(() => {
-                Object.values(demos).forEach((demo) => {
-                  if (demo && demo.resize) demo.resize();
-                });
-                if (currentFlux && currentFlux.resize) currentFlux.resize();
-                if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
-                optimizeForMobile();
-              }, 250);
-            },
-            { passive: true }
-          );
+            // Throttled resize handler
+            let resizeTimeout;
+            window.addEventListener(
+              "resize",
+              () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                  Object.values(demos).forEach((demo) => {
+                    if (demo && demo.resize) demo.resize();
+                  });
+                  if (currentFlux && currentFlux.resize) currentFlux.resize();
+                  if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
+                  optimizeForMobile();
+                }, 250);
+              },
+              { passive: true }
+            );
 
-          console.log("🎉 FluxJS Index optimizado y listo!");
-        } catch (error) {
-          console.error("Error during initialization:", error);
-        }
+            console.log("🎉 FluxJS Index optimizado y listo!");
+          } catch (error) {
+            console.error("Error during initialization:", error);
+          }
+        }, 1000); // Delay to ensure all elements are loaded
       });
     </script>
   </body>
