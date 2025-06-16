@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="captura1.png" alt="Icono de FluxJS">
+</p>
+
 # FluxJS - Guía de Configuración Completa
 
 FluxJS es una versión ultra configurable de la librería de partículas, con más de 100 opciones de personalización.
