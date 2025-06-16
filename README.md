@@ -98,10 +98,10 @@ npm install @pablotheblink/fluxjs
 
 ```javascript
 // CommonJS
-const { FluxJS, createFlux } = require("@pablotheblink/fluxjs");
+const { createFlux } = require("@pablotheblink/fluxjs");
 
 // ES6 Modules / TypeScript
-import FluxJS, { createFlux } from "@pablotheblink/fluxjs";
+import { createFlux } from "@pablotheblink/fluxjs";
 ```
 
 ## 🎯 Uso Rápido
