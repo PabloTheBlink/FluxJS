@@ -191,7 +191,7 @@
       };
 
       this.particles = [];
-      this.mouse = { x: 0, y: 0, trail: [] };
+      this.mouse = { x: -1000, y: -1000, trail: [] };
       this.canvas = null;
       this.ctx = null;
       this.animationId = null;
@@ -542,25 +542,41 @@
       };
 
       const getCoordinates = (e) => {
+        let coords;
         if (this.config.container === document.body) {
-          return { x: e.clientX, y: e.clientY };
+          coords = { x: e.clientX, y: e.clientY };
         } else {
           const rect = this.config.container.getBoundingClientRect();
-          return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+          coords = { x: e.clientX - rect.left, y: e.clientY - rect.top };
         }
+
+        // Asegurar que las coordenadas estén dentro del canvas
+        // Si están fuera, devolver coordenadas inválidas
+        if (coords.x < 0 || coords.x > this.canvas.width || coords.y < 0 || coords.y > this.canvas.height) {
+          return { x: -1000, y: -1000 };
+        }
+
+        return coords;
       };
 
       // Eventos de mouse (desktop)
       this.mouseHandler = (e) => {
         const coords = getCoordinates(e);
-        updatePointer(coords.x, coords.y, "mouse");
+        // Solo actualizar si las coordenadas son válidas
+        if (coords.x !== -1000 && coords.y !== -1000) {
+          updatePointer(coords.x, coords.y, "mouse");
+        } else {
+          // Si las coordenadas no son válidas, resetear posición del mouse
+          this.mouse.x = -1000;
+          this.mouse.y = -1000;
+        }
       };
 
       // Función para verificar si el toque está dentro del canvas
       const isTouchInCanvas = (touch) => {
         const coords = getCoordinates(touch);
-        const rect = this.canvas.getBoundingClientRect();
-        return coords.x >= 0 && coords.x <= rect.width && coords.y >= 0 && coords.y <= rect.height;
+        // Verificar límites del canvas con margen de seguridad
+        return coords.x >= 0 && coords.x <= this.canvas.width && coords.y >= 0 && coords.y <= this.canvas.height && coords.x !== -1000 && coords.y !== -1000; // Coordenadas válidas
       };
 
       // Eventos táctiles (móvil)
@@ -644,14 +660,25 @@
         }
       };
 
+      // Handler para cuando el ratón sale del área del canvas
+      this.mouseLeaveHandler = () => {
+        this.mouse.x = -1000;
+        this.mouse.y = -1000;
+      };
+
       // Registrar eventos
       if (!this.isMobile) {
         // Mouse events solo en el contenedor para mayor precisión
         if (this.config.container === document.body) {
           document.addEventListener("mousemove", this.mouseHandler, { passive: true });
+          document.addEventListener("mouseleave", this.mouseLeaveHandler, { passive: true });
         } else {
           this.config.container.addEventListener("mousemove", this.mouseHandler, { passive: true });
+          this.config.container.addEventListener("mouseleave", this.mouseLeaveHandler, { passive: true });
         }
+
+        // También agregar mouseleave al canvas para mayor precisión
+        this.canvas.addEventListener("mouseleave", this.mouseLeaveHandler, { passive: true });
       }
 
       // Touch events solo en el canvas para evitar interferir con el resto de la página
@@ -1133,6 +1160,15 @@
     }
 
     updateMouseInteraction(particle) {
+      // Verificar que las coordenadas del ratón estén dentro del canvas
+      if (this.mouse.x < 0 || this.mouse.x > this.canvas.width || this.mouse.y < 0 || this.mouse.y > this.canvas.height) {
+        // Si el ratón está fuera del canvas, restaurar opacidad y aplicar fricción
+        particle.opacity = particle.originalOpacity;
+        particle.vx *= 0.98;
+        particle.vy *= 0.98;
+        return;
+      }
+
       // Cache de distancias para optimizar cálculos
       const cacheKey = `${Math.floor(particle.x)}_${Math.floor(particle.y)}_${Math.floor(this.mouse.x)}_${Math.floor(this.mouse.y)}`;
 
@@ -1164,7 +1200,10 @@
             return;
           }
 
-          this.updatePointerInteraction(particle, touch.x, touch.y, "touch");
+          // Verificar que el toque esté dentro del canvas
+          if (touch.x >= 0 && touch.x <= this.canvas.width && touch.y >= 0 && touch.y <= this.canvas.height) {
+            this.updatePointerInteraction(particle, touch.x, touch.y, "touch");
+          }
         });
       }
     }
@@ -1778,10 +1817,17 @@
       if (this.mouseHandler) {
         if (this.config.container === document.body) {
           document.removeEventListener("mousemove", this.mouseHandler);
+          document.removeEventListener("mouseleave", this.mouseLeaveHandler);
           document.removeEventListener("click", this.clickHandler);
         } else {
           this.config.container.removeEventListener("mousemove", this.mouseHandler);
+          this.config.container.removeEventListener("mouseleave", this.mouseLeaveHandler);
           this.config.container.removeEventListener("click", this.clickHandler);
+        }
+
+        // Limpiar mouseleave del canvas también
+        if (this.canvas && this.mouseLeaveHandler) {
+          this.canvas.removeEventListener("mouseleave", this.mouseLeaveHandler);
         }
       }
 
@@ -1821,6 +1867,7 @@
 
       // Limpiar handlers
       this.mouseHandler = null;
+      this.mouseLeaveHandler = null;
       this.touchStartHandler = null;
       this.touchMoveHandler = null;
       this.touchEndHandler = null;
