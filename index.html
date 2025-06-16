@@ -829,6 +829,206 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
+
+      <!-- Ejemplos Prácticos -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        <!-- Ejemplo 1: Burbujas de Fondo -->
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🫧 Burbujas de Fondo</h3>
+          <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto elegante de burbujas flotantes perfecto para fondos web</p>
+
+          <!-- Preview -->
+          <div class="relative h-48 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-2xl overflow-hidden border border-blue-500/20 mb-6" id="bubbles-preview">
+            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white/60 text-sm">Vista Previa Interactiva</div>
+          </div>
+
+          <!-- Código -->
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
+            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML + JS</span>
+            <pre><code class="language-javascript text-xs sm:text-sm">// HTML
+&lt;div id="bubbles-background"&gt;&lt;/div&gt;
+
+// CSS
+#bubbles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+// JavaScript
+const bubbles = new Flux({
+  container: document.getElementById('bubbles-background'),
+  count: 30,
+  color: '#ffffff',
+  size: { min: 5, max: 25 },
+  speed: { min: 0.02, max: 0.1 },
+  opacity: { min: 0.1, max: 0.4 },
+  connections: { enabled: false },
+  mouse: { interact: false },
+  movement: 'float'
+});</code></pre>
+          </div>
+        </div>
+
+        <!-- Ejemplo 2: Partículas Interconectadas -->
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🔗 Red de Conexiones</h3>
+          <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas conectadas que responden al movimiento del mouse</p>
+
+          <!-- Preview -->
+          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden border border-flux-blue/30 mb-6" id="network-preview">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white/60 text-sm">Vista Previa Interactiva - Mueve el mouse</div>
+          </div>
+
+          <!-- Código -->
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
+            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML + JS</span>
+            <pre><code class="language-javascript text-xs sm:text-sm">// HTML
+&lt;div id="network-container"&gt;&lt;/div&gt;
+
+// CSS
+#network-container {
+  width: 100%;
+  height: 400px;
+  background: #1a1a1a;
+  border-radius: 12px;
+}
+
+// JavaScript
+const network = new Flux({
+  container: document.getElementById('network-container'),
+  count: 60,
+  color: '#4fc3f7',
+  size: { min: 2, max: 4 },
+  speed: { min: 0.1, max: 0.3 },
+  opacity: { min: 0.6, max: 1 },
+  connections: {
+    enabled: true,
+    distance: 120,
+    color: '#4fc3f7',
+    opacity: 0.3
+  },
+  mouse: {
+    interact: true,
+    distance: 150,
+    force: 0.5
+  }
+});</code></pre>
+          </div>
+        </div>
+
+        <!-- Ejemplo 3: Galaxia Rotante -->
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌌 Galaxia Rotante</h3>
+          <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto hipnótico de partículas girando en espiral con gravedad central</p>
+
+          <!-- Preview -->
+          <div class="relative h-48 bg-gradient-to-br from-purple-900/30 to-black rounded-2xl overflow-hidden border border-purple-500/30 mb-6" id="galaxy-preview">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white/60 text-sm">Vista Previa - Galaxia en Movimiento</div>
+          </div>
+
+          <!-- Código -->
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
+            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML + JS</span>
+            <pre><code class="language-javascript text-xs sm:text-sm">// HTML
+&lt;div id="galaxy-container"&gt;&lt;/div&gt;
+
+// CSS
+#galaxy-container {
+  width: 100%;
+  height: 500px;
+  background: radial-gradient(circle, #1a0a2e, #000);
+  border-radius: 12px;
+}
+
+// JavaScript
+const galaxy = new Flux({
+  container: document.getElementById('galaxy-container'),
+  count: 200,
+  color: {
+    type: 'gradient',
+    gradient: ['#8B00FF', '#4B0082', '#9400D3', 
+              '#8A2BE2', '#DA70D6', '#FF69B4']
+  },
+  size: { min: 1, max: 4, pulse: true },
+  speed: { min: 0.05, max: 0.3 },
+  opacity: { min: 0.3, max: 0.8, flicker: true },
+  connections: { 
+    enabled: true, 
+    distance: 80, 
+    opacity: 0.3 
+  },
+  animation: { 
+    type: 'orbit', 
+    orbit: { radius: 120, speed: 0.012 } 
+  },
+  effects: { 
+    glow: true, 
+    glowColor: '#8B00FF', 
+    twinkle: true 
+  },
+  mouse: { interact: true, attraction: 0.1 }
+});</code></pre>
+          </div>
+        </div>
+
+        <!-- Ejemplo 4: Partículas con Rastro de Colores -->
+        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🎨 Rastro Arcoíris</h3>
+          <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas que cambian de color dinámicamente con efecto de rastro</p>
+
+          <!-- Preview -->
+          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl overflow-hidden border border-pink-500/30 mb-6" id="rainbow-preview">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white/60 text-sm">Vista Previa - Mueve el mouse para ver el rastro</div>
+          </div>
+
+          <!-- Código -->
+          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
+            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">HTML + JS</span>
+            <pre><code class="language-javascript text-xs sm:text-sm">// HTML
+&lt;div id="rainbow-container"&gt;&lt;/div&gt;
+
+// CSS
+#rainbow-container {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+  border-radius: 12px;
+}
+
+// JavaScript
+const rainbow = new Flux({
+  container: document.getElementById('rainbow-container'),
+  count: 60,
+  color: {
+    type: 'rainbow',
+    rainbowSpeed: 0.02
+  },
+  size: { min: 2, max: 6, pulse: true },
+  speed: { min: 0.15, max: 0.4, turbulence: 0.2 },
+  opacity: { min: 0.7, max: 1 },
+  mouse: {
+    interact: true,
+    trail: true,
+    trailLength: 25,
+    trailWidth: 10,
+    trailGlow: true,
+    trailFadeTime: 2000,
+    distance: 180,
+    sparkles: true
+  },
+  effects: { glow: true, twinkle: true }
+});</code></pre>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Sección API -->
@@ -884,48 +1084,159 @@ flux.updateConfig({
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Laboratorio de experimentos 🧪</h2>
       <p class="text-center mb-6 sm:mb-8 text-white/80 text-sm sm:text-base">¡Juega, experimenta y desata el caos! Aquí puedes crear tu propia receta de travesuras digitales</p>
 
-      <div class="relative h-64 sm:h-96 bg-gray-800 rounded-2xl overflow-hidden border-2 border-gray-600 mb-6 sm:mb-8" id="generator-preview"></div>
+      <div class="relative h-64 sm:h-96 bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl overflow-hidden border-2 border-flux-blue/30 mb-6 sm:mb-8" id="generator-preview"></div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <!-- Controles Avanzados -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <!-- Partículas -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Cantidad de Partículas:</label>
-          <input type="range" id="gen-count" min="10" max="200" value="100" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-          <span id="count-value" class="text-flux-blue font-semibold text-sm sm:text-base">100</span>
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Partículas: <span id="count-value" class="text-flux-blue">150</span></label>
+          <input type="range" id="gen-count" min="10" max="500" value="150" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
+        <!-- Velocidad -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color">Color:</label>
-          <input type="color" id="gen-color" value="#ffffff" class="w-full h-10 sm:h-12 rounded-flux-md border border-gray-600 bg-gray-700" />
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad: <span id="speed-value" class="text-flux-blue">0.3</span></label>
+          <input type="range" id="gen-speed" min="0.1" max="2.0" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
+        <!-- Tamaño -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size-min">Tamaño Mínimo:</label>
-          <input type="range" id="gen-size-min" min="0.5" max="5" step="0.1" value="1" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-          <span id="size-min-value" class="text-flux-blue font-semibold text-sm sm:text-base">1</span>
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size">Tamaño: <span id="size-value" class="text-flux-blue">6</span></label>
+          <input type="range" id="gen-size" min="1" max="15" value="6" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
+        <!-- Tipo de Color -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size-max">Tamaño Máximo:</label>
-          <input type="range" id="gen-size-max" min="1" max="100" step="1" value="30" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-          <span id="size-max-value" class="text-flux-blue font-semibold text-sm sm:text-base">30</span>
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color-type">Tipo de Color:</label>
+          <select id="gen-color-type" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
+            <option value="single">Simple</option>
+            <option value="gradient">Gradiente</option>
+            <option value="rainbow" selected>Arcoíris</option>
+            <option value="random">Aleatorio</option>
+          </select>
         </div>
 
+        <!-- Animación -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad:</label>
-          <input type="range" id="gen-speed" min="0.01" max="1" step="0.01" value="1" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-          <span id="speed-value" class="text-flux-blue font-semibold text-sm sm:text-base">1</span>
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-animation">Animación:</label>
+          <select id="gen-animation" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
+            <option value="float">Flotante</option>
+            <option value="bounce">Rebote</option>
+            <option value="spiral">Espiral</option>
+            <option value="wave" selected>Onda</option>
+            <option value="orbit">Órbita</option>
+          </select>
         </div>
 
+        <!-- Forma -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
-          <div class="block font-semibold mb-2 text-white/90 text-sm sm:text-base">Opciones:</div>
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-shape">Forma:</label>
+          <select id="gen-shape" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
+            <option value="circle">Círculo</option>
+            <option value="square">Cuadrado</option>
+            <option value="triangle">Triángulo</option>
+            <option value="star" selected>Estrella</option>
+            <option value="heart">Corazón</option>
+          </select>
+        </div>
+
+        <!-- Distancia Conexión -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-connection-distance">Dist. Conexión: <span id="connection-distance-value" class="text-flux-blue">120</span></label>
+          <input type="range" id="gen-connection-distance" min="50" max="300" value="120" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
+        </div>
+
+        <!-- Turbulencia -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-turbulence">Turbulencia: <span id="turbulence-value" class="text-flux-blue">0.3</span></label>
+          <input type="range" id="gen-turbulence" min="0" max="1" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
+        </div>
+
+        <!-- Tamaño Glow -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-glow-size">Tamaño Glow: <span id="glow-size-value" class="text-flux-blue">15</span></label>
+          <input type="range" id="gen-glow-size" min="5" max="50" value="15" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
+        </div>
+
+        <!-- Color Base -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color">Color Base:</label>
+          <input type="color" id="gen-color" value="#4fc3f7" class="w-full h-10 sm:h-12 rounded-flux-md border border-gray-600 bg-gray-700" />
+        </div>
+
+        <!-- Efectos Básicos -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Básicos:</div>
           <div class="space-y-2">
-            <label class="flex items-center text-white/80 text-sm sm:text-base">
+            <label class="flex items-center text-white/80 text-sm">
               <input type="checkbox" id="gen-connections" checked class="mr-2 text-flux-blue" />
-              Mostrar Conexiones
+              Conexiones
             </label>
-            <label class="flex items-center text-white/80 text-sm sm:text-base">
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-glow" checked class="mr-2 text-flux-blue" />
+              Resplandor
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-pulse" checked class="mr-2 text-flux-blue" />
+              Pulsación
+            </label>
+          </div>
+        </div>
+
+        <!-- Efectos Avanzados -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Avanzados:</div>
+          <div class="space-y-2">
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-rotation" checked class="mr-2 text-flux-blue" />
+              Rotación
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-twinkle" checked class="mr-2 text-flux-blue" />
+              Centelleo
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-curve-connections" checked class="mr-2 text-flux-blue" />
+              Conexiones Curvas
+            </label>
+          </div>
+        </div>
+
+        <!-- Interacción Mouse -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Mouse:</div>
+          <div class="space-y-2">
+            <label class="flex items-center text-white/80 text-sm">
               <input type="checkbox" id="gen-mouse" checked class="mr-2 text-flux-blue" />
-              Interacción con Mouse
+              Interacción
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-trail" checked class="mr-2 text-flux-blue" />
+              Rastro
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-sparkles" class="mr-2 text-flux-blue" />
+              Chispas
+            </label>
+          </div>
+        </div>
+
+        <!-- Física -->
+        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Física:</div>
+          <div class="space-y-2">
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-physics" class="mr-2 text-flux-blue" />
+              Gravedad
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-bounce" class="mr-2 text-flux-blue" />
+              Rebote
+            </label>
+            <label class="flex items-center text-white/80 text-sm">
+              <input type="checkbox" id="gen-wind" class="mr-2 text-flux-blue" />
+              Viento
             </label>
           </div>
         </div>
@@ -1317,22 +1628,144 @@ flux.updateConfig({
         });
       }
 
+      // Presets espectaculares del demo
+      const spectacularPresets = {
+        ultra: {
+          count: Math.min(400, window.devicePixelRatio > 1 ? 300 : 400),
+          color: { type: "rainbow", rainbowSpeed: 0.04 },
+          size: { min: 1, max: 10, pulse: true, pulseSpeed: 0.06, pulseIntensity: 1.5 },
+          speed: { min: 0.1, max: 2.0, turbulence: 1.0 },
+          connections: { enabled: true, distance: 150, animated: true, curve: true, opacity: 0.7 },
+          animation: { type: "spiral", speed: 2.0 },
+          effects: { glow: true, glowColor: "#FF0080", glowSize: 30, twinkle: true },
+          shape: { type: "star", rotation: true, rotationSpeed: 0.05 },
+          mouse: { interact: true, distance: 300, attraction: 0.15, trail: true, sparkles: true },
+        },
+        network: {
+          count: 100,
+          color: { type: "single", value: "#4fc3f7" },
+          size: { min: 2, max: 5 },
+          speed: { min: 0.1, max: 0.3 },
+          connections: { enabled: true, distance: 120, animated: true },
+          animation: { type: "float" },
+          effects: { glow: true, glowSize: 10 },
+          mouse: { interact: true, distance: 150 },
+        },
+        cosmic: {
+          count: 300,
+          color: { type: "gradient", gradient: ["#8B00FF", "#4B0082", "#9400D3", "#8A2BE2"] },
+          size: { min: 1, max: 5, pulse: true },
+          speed: { min: 0.05, max: 0.4, turbulence: 0.4 },
+          connections: { enabled: true, distance: 100, animated: true, opacity: 0.4 },
+          animation: { type: "orbit", orbit: { radius: 200, speed: 0.008 } },
+          effects: { glow: true, glowColor: "#8B00FF", glowSize: 12, twinkle: true },
+        },
+        fireworks: {
+          count: 180,
+          color: { type: "random", randomPalette: ["#FF6B6B", "#FFD93D", "#6BCF7F", "#4D96FF", "#9B59B6"] },
+          size: { min: 2, max: 8, pulse: true },
+          speed: { min: 0.3, max: 1.5, turbulence: 0.8 },
+          connections: { enabled: true, distance: 80, curve: true },
+          animation: { type: "spiral", speed: 1.5 },
+          effects: { glow: true, glowSize: 20, twinkle: true },
+          shape: { type: "star", rotation: true },
+        },
+        aurora: {
+          count: 200,
+          color: { type: "gradient", gradient: ["#00FF7F", "#32CD32", "#7FFF00", "#ADFF2F"] },
+          size: { min: 2, max: 6, pulse: true },
+          speed: { min: 0.1, max: 0.6, turbulence: 0.6 },
+          connections: { enabled: true, distance: 120, curve: true, animated: true },
+          animation: { type: "wave", wave: { amplitude: 80, frequency: 0.02, speed: 0.03 } },
+          effects: { glow: true, glowColor: "#00FF7F", glowSize: 25, twinkle: true },
+        },
+        storm: {
+          count: 150,
+          color: { type: "random", randomPalette: ["#FFD700", "#FFFF00", "#FFA500", "#FF4500"] },
+          size: { min: 1, max: 7, pulse: true },
+          speed: { min: 0.5, max: 2.0, turbulence: 1.2 },
+          connections: { enabled: true, distance: 90, animated: true },
+          animation: { type: "bounce", speed: 1.8 },
+          effects: { glow: true, glowColor: "#FFD700", glowSize: 22, twinkle: true },
+          shape: { type: "triangle", rotation: true },
+        },
+      };
+
+      // Función para cargar presets
+      function loadPreset(presetName) {
+        if (!spectacularPresets[presetName]) return;
+
+        const preset = spectacularPresets[presetName];
+        updateControlsFromPreset(preset);
+        updateGeneratorPreview();
+      }
+
+      // Actualizar controles desde preset
+      function updateControlsFromPreset(preset) {
+        document.getElementById("gen-count").value = preset.count || 150;
+        document.getElementById("count-value").textContent = preset.count || 150;
+
+        document.getElementById("gen-speed").value = (preset.speed?.min + preset.speed?.max) / 2 || 0.3;
+        document.getElementById("speed-value").textContent = ((preset.speed?.min + preset.speed?.max) / 2 || 0.3).toFixed(1);
+
+        document.getElementById("gen-size").value = preset.size?.max || 6;
+        document.getElementById("size-value").textContent = preset.size?.max || 6;
+
+        document.getElementById("gen-color-type").value = preset.color?.type || "rainbow";
+        document.getElementById("gen-animation").value = preset.animation?.type || "wave";
+        document.getElementById("gen-shape").value = preset.shape?.type || "star";
+
+        document.getElementById("gen-connection-distance").value = preset.connections?.distance || 120;
+        document.getElementById("connection-distance-value").textContent = preset.connections?.distance || 120;
+
+        document.getElementById("gen-turbulence").value = preset.speed?.turbulence || 0.3;
+        document.getElementById("turbulence-value").textContent = preset.speed?.turbulence || 0.3;
+
+        document.getElementById("gen-glow-size").value = preset.effects?.glowSize || 15;
+        document.getElementById("glow-size-value").textContent = preset.effects?.glowSize || 15;
+
+        // Checkboxes
+        document.getElementById("gen-connections").checked = preset.connections?.enabled !== false;
+        document.getElementById("gen-glow").checked = preset.effects?.glow !== false;
+        document.getElementById("gen-pulse").checked = preset.size?.pulse !== false;
+        document.getElementById("gen-rotation").checked = preset.shape?.rotation !== false;
+        document.getElementById("gen-twinkle").checked = preset.effects?.twinkle !== false;
+        document.getElementById("gen-curve-connections").checked = preset.connections?.curve !== false;
+        document.getElementById("gen-trail").checked = preset.mouse?.trail !== false;
+        document.getElementById("gen-sparkles").checked = preset.mouse?.sparkles !== false;
+      }
+
       // Inicializar generador
       function initializeGenerator() {
         const controls = {
           count: document.getElementById("gen-count"),
-          color: document.getElementById("gen-color"),
-          sizeMin: document.getElementById("gen-size-min"),
-          sizeMax: document.getElementById("gen-size-max"),
           speed: document.getElementById("gen-speed"),
+          size: document.getElementById("gen-size"),
+          colorType: document.getElementById("gen-color-type"),
+          color: document.getElementById("gen-color"),
+          animation: document.getElementById("gen-animation"),
+          shape: document.getElementById("gen-shape"),
+          connectionDistance: document.getElementById("gen-connection-distance"),
+          turbulence: document.getElementById("gen-turbulence"),
+          glowSize: document.getElementById("gen-glow-size"),
           connections: document.getElementById("gen-connections"),
+          glow: document.getElementById("gen-glow"),
+          pulse: document.getElementById("gen-pulse"),
+          rotation: document.getElementById("gen-rotation"),
+          twinkle: document.getElementById("gen-twinkle"),
+          curveConnections: document.getElementById("gen-curve-connections"),
           mouse: document.getElementById("gen-mouse"),
+          trail: document.getElementById("gen-trail"),
+          sparkles: document.getElementById("gen-sparkles"),
+          physics: document.getElementById("gen-physics"),
+          bounce: document.getElementById("gen-bounce"),
+          wind: document.getElementById("gen-wind"),
         };
 
-        // Inicializar preview
-        updateGeneratorPreview();
+        // Cargar preset inicial más interesante
+        loadPreset("aurora");
 
-        // Event listeners
+        // Event listeners para todos los controles
         Object.values(controls).forEach((control) => {
           if (control) {
             control.addEventListener("input", updateGeneratorPreview);
@@ -1340,18 +1773,29 @@ flux.updateConfig({
           }
         });
 
-        // Actualizar valores mostrados
-        controls.count.addEventListener("input", () => {
+        // Actualizar valores mostrados en tiempo real
+        controls.count?.addEventListener("input", () => {
           document.getElementById("count-value").textContent = controls.count.value;
         });
-        controls.sizeMin.addEventListener("input", () => {
-          document.getElementById("size-min-value").textContent = controls.sizeMin.value;
+
+        controls.speed?.addEventListener("input", () => {
+          document.getElementById("speed-value").textContent = parseFloat(controls.speed.value).toFixed(1);
         });
-        controls.sizeMax.addEventListener("input", () => {
-          document.getElementById("size-max-value").textContent = controls.sizeMax.value;
+
+        controls.size?.addEventListener("input", () => {
+          document.getElementById("size-value").textContent = controls.size.value;
         });
-        controls.speed.addEventListener("input", () => {
-          document.getElementById("speed-value").textContent = controls.speed.value;
+
+        controls.connectionDistance?.addEventListener("input", () => {
+          document.getElementById("connection-distance-value").textContent = controls.connectionDistance.value;
+        });
+
+        controls.turbulence?.addEventListener("input", () => {
+          document.getElementById("turbulence-value").textContent = parseFloat(controls.turbulence.value).toFixed(1);
+        });
+
+        controls.glowSize?.addEventListener("input", () => {
+          document.getElementById("glow-size-value").textContent = controls.glowSize.value;
         });
       }
 
@@ -1375,48 +1819,142 @@ flux.updateConfig({
       }
 
       function getGeneratorConfig() {
+        const colorType = document.getElementById("gen-color-type")?.value || "rainbow";
+        const baseColor = document.getElementById("gen-color")?.value || "#4fc3f7";
+
+        // Configurar color según el tipo
+        let colorConfig;
+        switch (colorType) {
+          case "rainbow":
+            colorConfig = { type: "rainbow", rainbowSpeed: 0.02 };
+            break;
+          case "gradient":
+            colorConfig = {
+              type: "gradient",
+              gradient: [baseColor, "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4"],
+            };
+            break;
+          case "random":
+            colorConfig = {
+              type: "random",
+              randomPalette: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FECA57", baseColor],
+            };
+            break;
+          default:
+            colorConfig = { type: "single", value: baseColor };
+        }
+
+        const speed = parseFloat(document.getElementById("gen-speed")?.value || 0.3);
+        const size = parseInt(document.getElementById("gen-size")?.value || 6);
+
         return {
-          count: parseInt(document.getElementById("gen-count").value),
-          color: document.getElementById("gen-color").value,
+          count: parseInt(document.getElementById("gen-count")?.value || 150),
+          color: colorConfig,
           size: {
-            min: parseFloat(document.getElementById("gen-size-min").value),
-            max: parseFloat(document.getElementById("gen-size-max").value),
+            min: Math.max(1, size - 3),
+            max: size,
+            pulse: document.getElementById("gen-pulse")?.checked !== false,
+            pulseSpeed: 0.03,
+            pulseIntensity: 0.8,
           },
           speed: {
-            min: parseFloat(document.getElementById("gen-speed").value) / 2,
-            max: parseFloat(document.getElementById("gen-speed").value),
+            min: speed * 0.3,
+            max: speed,
+            turbulence: parseFloat(document.getElementById("gen-turbulence")?.value || 0.3),
+            turbulenceFrequency: 0.02,
+          },
+          opacity: {
+            min: 0.4,
+            max: 0.9,
+            flicker: document.getElementById("gen-twinkle")?.checked !== false,
+            flickerSpeed: 0.03,
           },
           connections: {
-            enabled: document.getElementById("gen-connections").checked,
-            distance: 100,
+            enabled: document.getElementById("gen-connections")?.checked !== false,
+            distance: parseInt(document.getElementById("gen-connection-distance")?.value || 120),
+            animated: true,
+            curve: document.getElementById("gen-curve-connections")?.checked !== false,
+            opacity: 0.4,
+            width: 1,
+          },
+          animation: {
+            type: document.getElementById("gen-animation")?.value || "wave",
+            speed: 1.2,
+            wave: { amplitude: 60, frequency: 0.015, speed: 0.025 },
+            orbit: { radius: 100, speed: 0.01 },
+          },
+          effects: {
+            glow: document.getElementById("gen-glow")?.checked !== false,
+            glowSize: parseInt(document.getElementById("gen-glow-size")?.value || 15),
+            glowColor: baseColor,
+            twinkle: document.getElementById("gen-twinkle")?.checked !== false,
+            twinkleSpeed: 0.04,
+          },
+          shape: {
+            type: document.getElementById("gen-shape")?.value || "star",
+            rotation: document.getElementById("gen-rotation")?.checked !== false,
+            rotationSpeed: 0.03,
+            sides: 6,
+          },
+          physics: {
+            gravity: document.getElementById("gen-physics")?.checked ? 0.02 : 0,
+            bounce: document.getElementById("gen-bounce")?.checked ? 0.9 : 0.8,
+            wind: document.getElementById("gen-wind")?.checked ? 0.03 : 0,
+            windDirection: Math.PI / 4,
           },
           mouse: {
-            interact: document.getElementById("gen-mouse").checked,
-            trail: true,
+            interact: document.getElementById("gen-mouse")?.checked !== false,
+            distance: 150,
+            attraction: 0.08,
+            trail: document.getElementById("gen-trail")?.checked !== false,
+            trailLength: 20,
+            trailWidth: 8,
+            trailGlow: true,
+            trailColor: baseColor,
+            sparkles: document.getElementById("gen-sparkles")?.checked !== false,
           },
         };
       }
 
       function updateGeneratedCode(config) {
         const codeOutput = document.getElementById("generated-code-output");
+
+        // Generar string del color según el tipo
+        let colorString;
+        if (config.color.type === "single") {
+          colorString = `'${config.color.value}'`;
+        } else {
+          colorString = JSON.stringify(config.color, null, 2).replace(/"/g, "'");
+        }
+
         const code = `const flux = new FluxJS({
   container: document.getElementById('your-container'),
   count: ${config.count},
-  color: '${config.color}',
+  color: ${colorString},
   size: { 
     min: ${config.size.min}, 
-    max: ${config.size.max} 
+    max: ${config.size.max}${config.size.pulse ? ",\n    pulse: true,\n    pulseSpeed: " + config.size.pulseSpeed : ""}
   },
   speed: { 
     min: ${config.speed.min}, 
-    max: ${config.speed.max} 
+    max: ${config.speed.max}${config.speed.turbulence ? ",\n    turbulence: " + config.speed.turbulence : ""}
+  },
+  opacity: {
+    min: ${config.opacity.min}, 
+    max: ${config.opacity.max}${config.opacity.flicker ? ",\n    flicker: true" : ""}
   },
   connections: {
-    enabled: ${config.connections.enabled},
-    distance: ${config.connections.distance}
+    enabled: ${config.connections.enabled}${config.connections.enabled ? ",\n    distance: " + config.connections.distance + ",\n    animated: " + config.connections.animated : ""}
+  },
+  animation: {
+    type: '${config.animation.type}',
+    speed: ${config.animation.speed}
+  },
+  effects: {
+    glow: ${config.effects.glow}${config.effects.glow ? ",\n    glowSize: " + config.effects.glowSize + ",\n    twinkle: true" : ""}
   },
   mouse: {
-    interact: ${config.mouse.interact}
+    interact: ${config.mouse.interact}${config.mouse.interact ? ",\n    distance: " + config.mouse.distance + ",\n    attraction: " + config.mouse.attraction : ""}${config.mouse.trail ? ",\n    trail: true,\n    trailLength: " + config.mouse.trailLength + ",\n    trailGlow: true" : ""}${config.mouse.sparkles ? ",\n    sparkles: true" : ""}
   }
 });`;
 
@@ -1425,7 +1963,9 @@ flux.updateConfig({
         if (codeElement) {
           codeElement.textContent = code;
           // Re-aplicar el resaltado de sintaxis
-          Prism.highlightElement(codeElement);
+          if (typeof Prism !== "undefined") {
+            Prism.highlightElement(codeElement);
+          }
         }
       }
 
@@ -1469,6 +2009,104 @@ flux.updateConfig({
         }
       }
 
+      // Inicializar ejemplos de preview
+      function initializeExamples() {
+        // Ejemplo 1: Burbujas de fondo
+        const bubblesContainer = document.getElementById("bubbles-preview");
+        if (bubblesContainer) {
+          demos.bubbles = new FluxJS({
+            container: bubblesContainer,
+            count: 25,
+            color: "#ffffff",
+            size: { min: 3, max: 15 },
+            speed: { min: 0.02, max: 0.08 },
+            opacity: { min: 0.1, max: 0.3 },
+            connections: { enabled: false },
+            mouse: { interact: false },
+            movement: "float",
+            canvas: { background: "transparent" },
+          });
+        }
+
+        // Ejemplo 2: Red de conexiones
+        const networkContainer = document.getElementById("network-preview");
+        if (networkContainer) {
+          demos.network = new FluxJS({
+            container: networkContainer,
+            count: 40,
+            color: "#4fc3f7",
+            size: { min: 1.5, max: 3 },
+            speed: { min: 0.08, max: 0.2 },
+            opacity: { min: 0.6, max: 1 },
+            connections: {
+              enabled: true,
+              distance: 80,
+              color: "#4fc3f7",
+              opacity: 0.3,
+            },
+            mouse: {
+              interact: true,
+              distance: 100,
+              force: 0.3,
+            },
+            canvas: { background: "transparent" },
+          });
+        }
+
+        // Ejemplo 3: Galaxia Rotante
+        const galaxyContainer = document.getElementById("galaxy-preview");
+        if (galaxyContainer) {
+          demos.galaxy = new FluxJS({
+            container: galaxyContainer,
+            count: 200,
+            color: {
+              type: "gradient",
+              gradient: ["#8B00FF", "#4B0082", "#9400D3", "#8A2BE2", "#DA70D6", "#FF69B4", "#FF1493"],
+            },
+            size: { min: 1, max: 4, distribution: "exponential", pulse: true },
+            speed: { min: 0.05, max: 0.3, turbulence: 0.3 },
+            opacity: { min: 0.3, max: 0.8, flicker: true },
+            connections: { enabled: true, distance: 80, maxConnections: 3, animated: true, opacity: 0.3 },
+            animation: { type: "orbit", orbit: { radius: 120, speed: 0.012 } },
+            effects: { glow: true, glowColor: "#8B00FF", glowSize: 10, twinkle: true },
+            shape: { type: "circle", rotation: false },
+            mouse: { interact: true, distance: 100, attraction: 0.1 },
+            canvas: { background: "transparent" },
+          });
+        }
+
+        // Ejemplo 4: Partículas con Rastro de Colores
+        const rainbowContainer = document.getElementById("rainbow-preview");
+        if (rainbowContainer) {
+          demos.rainbow = new FluxJS({
+            container: rainbowContainer,
+            count: 60,
+            color: {
+              type: "rainbow",
+              rainbowSpeed: 0.02,
+            },
+            size: { min: 2, max: 6, pulse: true, pulseSpeed: 0.03 },
+            speed: { min: 0.15, max: 0.4, turbulence: 0.2 },
+            opacity: { min: 0.7, max: 1 },
+            connections: { enabled: false },
+            mouse: {
+              interact: true,
+              trail: true,
+              trailLength: 25,
+              trailWidth: 10,
+              trailColor: "#FF6B6B",
+              trailGlow: true,
+              trailFadeTime: 2000,
+              distance: 180,
+              attraction: 0.1,
+              sparkles: true,
+            },
+            effects: { glow: true, glowSize: 8, twinkle: true },
+            canvas: { background: "transparent" },
+          });
+        }
+      }
+
       // Enhanced cleanup with error handling
       window.addEventListener("beforeunload", function () {
         try {
@@ -1488,6 +2126,7 @@ flux.updateConfig({
           initializeNavigation();
           initializeBackgroundEffect();
           setTimeout(initializeGenerator, 0); // Delay to ensure background effect is ready
+          setTimeout(initializeExamples, 100); // Initialize examples after a short delay
 
           // Mobile optimizations
           const optimizeForMobile = () => {
