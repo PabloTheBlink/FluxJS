@@ -250,16 +250,45 @@
         this.config.events.onInit(this);
       }
 
-      this.init();
+      // Inicializar con manejo de errores
+      const initSuccess = this.init();
+      if (!initSuccess) {
+        console.error("FluxJS: Inicialización falló");
+        // Si la inicialización falla, intentar diagnóstico
+        setTimeout(() => {
+          this.diagnose();
+        }, 1000);
+      }
     }
 
     detectMobile() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-      const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-      const isSmallScreen = window.innerWidth <= 768;
+      try {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+        const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        const isSmallScreen = window.innerWidth <= 768;
 
-      return isMobileUA || (isTouchDevice && isSmallScreen);
+        // Detección adicional para algunos dispositivos problemáticos
+        const isAndroid = /android/i.test(userAgent);
+        const isIOS = /iphone|ipad|ipod/i.test(userAgent);
+
+        const isMobile = isMobileUA || (isTouchDevice && isSmallScreen) || isAndroid || isIOS;
+
+        console.log("FluxJS: Detección de dispositivo:", {
+          userAgent: userAgent.substring(0, 50) + "...",
+          isMobileUA,
+          isTouchDevice,
+          isSmallScreen,
+          isAndroid,
+          isIOS,
+          finalResult: isMobile,
+        });
+
+        return isMobile;
+      } catch (error) {
+        console.warn("FluxJS: Error en detección móvil, asumiendo escritorio:", error);
+        return false;
+      }
     }
 
     optimizeForDevice() {
@@ -359,17 +388,39 @@
     }
 
     init() {
-      this.optimizeForDevice();
-      this.createCanvas();
-      this.setupEventListeners();
-      this.createParticles();
+      try {
+        console.log("FluxJS: Iniciando inicialización...");
 
-      // Si el viewport lazy loading está habilitado, configurar intersection observer
-      if (this.config.viewport.enabled) {
-        this.setupViewportObserver();
-      } else {
-        // Comportamiento por defecto: iniciar inmediatamente
-        this.start();
+        this.optimizeForDevice();
+
+        const canvasCreated = this.createCanvas();
+        if (!canvasCreated) {
+          console.error("FluxJS: No se pudo crear el canvas, abortando inicialización");
+          return false;
+        }
+
+        this.setupEventListeners();
+        this.createParticles();
+
+        // Si el viewport lazy loading está habilitado, configurar intersection observer
+        if (this.config.viewport.enabled) {
+          this.setupViewportObserver();
+        } else {
+          // Comportamiento por defecto: iniciar inmediatamente
+          this.start();
+        }
+
+        console.log("FluxJS: Inicialización completada exitosamente");
+        return true;
+      } catch (error) {
+        console.error("FluxJS: Error durante la inicialización:", error);
+
+        // Notificar error si hay callback
+        if (this.config.events.onError) {
+          this.config.events.onError(error, this);
+        }
+
+        return false;
       }
     }
 
@@ -412,67 +463,127 @@
     }
 
     createCanvas() {
-      // Crear canvas
-      this.canvas = document.createElement("canvas");
-      this.canvas.style.pointerEvents = this.config.mouse.interact ? "auto" : "none";
-      this.canvas.style.background = this.config.canvas.background;
-      this.canvas.style.opacity = this.config.canvas.opacity;
+      try {
+        // Crear canvas
+        this.canvas = document.createElement("canvas");
+        this.canvas.style.pointerEvents = this.config.mouse.interact ? "auto" : "none";
+        this.canvas.style.background = this.config.canvas.background;
+        this.canvas.style.opacity = this.config.canvas.opacity;
 
-      // Optimización para móviles con hardware acceleration
-      if (this.config.performance.mobile.useTransform3d && this.isMobile) {
-        this.canvas.style.transform = "translateZ(0)";
-        this.canvas.style.backfaceVisibility = "hidden";
-        this.canvas.style.perspective = "1000px";
+        // Optimización para móviles con hardware acceleration
+        if (this.config.performance.mobile.useTransform3d && this.isMobile) {
+          this.canvas.style.transform = "translateZ(0)";
+          this.canvas.style.backfaceVisibility = "hidden";
+          this.canvas.style.perspective = "1000px";
+        }
+
+        // Obtener contexto con opciones compatibles para móviles
+        const contextOptions = {
+          alpha: this.config.canvas.background === "transparent",
+          powerPreference: this.isMobile ? "low-power" : "high-performance",
+        };
+
+        // Solo agregar desynchronized si no es móvil (puede causar problemas en móviles)
+        if (!this.isMobile) {
+          contextOptions.desynchronized = true;
+        }
+
+        this.ctx = this.canvas.getContext("2d", contextOptions);
+
+        if (!this.ctx) {
+          // Fallback: intentar obtener contexto básico
+          console.warn("FluxJS: Usando contexto canvas básico como fallback");
+          this.ctx = this.canvas.getContext("2d");
+        }
+
+        if (!this.ctx) {
+          throw new Error("No se pudo obtener el contexto 2D del canvas");
+        } // Optimizaciones adicionales del contexto
+        if (this.ctx.imageSmoothingEnabled !== undefined) {
+          this.ctx.imageSmoothingEnabled = false; // Mejor rendimiento para partículas simples
+        }
+
+        // Añadir al contenedor
+        if (this.config.container === document.body) {
+          // Para el body, usar posición fija
+          this.canvas.style.position = "fixed";
+          this.canvas.style.top = "0";
+          this.canvas.style.left = "0";
+          this.canvas.style.width = "100%";
+          this.canvas.style.height = "100%";
+          this.canvas.style.zIndex = this.config.canvas.zIndex;
+          document.body.appendChild(this.canvas);
+          document.body.style.margin = "0";
+          document.body.style.padding = "0";
+        } else {
+          // Para contenedores específicos, usar posición absoluta
+          this.config.container.style.position = "relative";
+          this.canvas.style.position = "absolute";
+          this.canvas.style.top = "0";
+          this.canvas.style.left = "0";
+          this.canvas.style.width = "100%";
+          this.canvas.style.height = "100%";
+          this.canvas.style.zIndex = this.config.canvas.zIndex;
+          this.config.container.appendChild(this.canvas);
+        }
+
+        this.resize();
+
+        // Aplicar filtros de canvas si están habilitados
+        if (this.config.canvas.blur) {
+          this.canvas.style.filter = `blur(${this.config.canvas.blurAmount}px)`;
+        }
+
+        // Recrear gradient si es necesario
+        if (this.config.color.type === "gradient") {
+          this.gradientCache = null;
+          this.createGradient();
+        }
+
+        console.log("FluxJS: Canvas creado exitosamente");
+      } catch (error) {
+        console.error("FluxJS: Error al crear canvas:", error);
+
+        // Intentar crear un canvas más básico como último recurso
+        if (!this.canvas || !this.ctx) {
+          try {
+            this.canvas = document.createElement("canvas");
+            this.ctx = this.canvas.getContext("2d");
+
+            if (this.ctx) {
+              console.warn("FluxJS: Usando canvas básico sin optimizaciones");
+              // Configuración mínima
+              this.canvas.style.position = "fixed";
+              this.canvas.style.top = "0";
+              this.canvas.style.left = "0";
+              this.canvas.style.zIndex = this.config.canvas.zIndex;
+
+              if (this.config.container === document.body) {
+                document.body.appendChild(this.canvas);
+              } else {
+                this.config.container.appendChild(this.canvas);
+              }
+
+              this.resize();
+            } else {
+              throw new Error("Canvas no soportado en este dispositivo");
+            }
+          } catch (fallbackError) {
+            console.error("FluxJS: Error crítico - Canvas no disponible:", fallbackError);
+            // Mostrar mensaje de error al usuario
+            if (this.config.container) {
+              const errorDiv = document.createElement("div");
+              errorDiv.innerHTML = "FluxJS: Tu navegador no soporta Canvas HTML5";
+              errorDiv.style.color = "red";
+              errorDiv.style.padding = "10px";
+              this.config.container.appendChild(errorDiv);
+            }
+            return false;
+          }
+        }
       }
 
-      // Obtener contexto con optimizaciones
-      this.ctx = this.canvas.getContext("2d", {
-        alpha: this.config.canvas.background === "transparent",
-        desynchronized: true, // Para mejor rendimiento
-        powerPreference: this.isMobile ? "low-power" : "high-performance",
-      });
-
-      // Optimizaciones adicionales del contexto
-      if (this.ctx.imageSmoothingEnabled !== undefined) {
-        this.ctx.imageSmoothingEnabled = false; // Mejor rendimiento para partículas simples
-      }
-
-      // Añadir al contenedor
-      if (this.config.container === document.body) {
-        // Para el body, usar posición fija
-        this.canvas.style.position = "fixed";
-        this.canvas.style.top = "0";
-        this.canvas.style.left = "0";
-        this.canvas.style.width = "100%";
-        this.canvas.style.height = "100%";
-        this.canvas.style.zIndex = this.config.canvas.zIndex;
-        document.body.appendChild(this.canvas);
-        document.body.style.margin = "0";
-        document.body.style.padding = "0";
-      } else {
-        // Para contenedores específicos, usar posición absoluta
-        this.config.container.style.position = "relative";
-        this.canvas.style.position = "absolute";
-        this.canvas.style.top = "0";
-        this.canvas.style.left = "0";
-        this.canvas.style.width = "100%";
-        this.canvas.style.height = "100%";
-        this.canvas.style.zIndex = this.config.canvas.zIndex;
-        this.config.container.appendChild(this.canvas);
-      }
-
-      this.resize();
-
-      // Aplicar filtros de canvas si están habilitados
-      if (this.config.canvas.blur) {
-        this.canvas.style.filter = `blur(${this.config.canvas.blurAmount}px)`;
-      }
-
-      // Recrear gradient si es necesario
-      if (this.config.color.type === "gradient") {
-        this.gradientCache = null;
-        this.createGradient();
-      }
+      return true;
     }
 
     setupEventListeners() {
@@ -719,9 +830,32 @@
 
       // Touch events solo en el canvas para evitar interferir con el resto de la página
       if (this.config.mouse.touch.enabled) {
-        this.canvas.addEventListener("touchstart", this.touchStartHandler, { passive: false });
-        this.canvas.addEventListener("touchmove", this.touchMoveHandler, { passive: false });
-        this.canvas.addEventListener("touchend", this.touchEndHandler, { passive: false });
+        try {
+          // Usar passive: true por defecto para mejor rendimiento, solo false cuando sea necesario
+          const touchOptions = { passive: true };
+
+          // Solo usar passive: false si realmente necesitamos preventDefault
+          if (this.config.mouse.interact) {
+            touchOptions.passive = false;
+          }
+
+          this.canvas.addEventListener("touchstart", this.touchStartHandler, touchOptions);
+          this.canvas.addEventListener("touchmove", this.touchMoveHandler, touchOptions);
+          this.canvas.addEventListener("touchend", this.touchEndHandler, touchOptions);
+
+          console.log("FluxJS: Eventos táctiles configurados");
+        } catch (error) {
+          console.warn("FluxJS: Error configurando eventos táctiles:", error);
+          // Fallback: intentar sin opciones
+          try {
+            this.canvas.addEventListener("touchstart", this.touchStartHandler);
+            this.canvas.addEventListener("touchmove", this.touchMoveHandler);
+            this.canvas.addEventListener("touchend", this.touchEndHandler);
+            console.log("FluxJS: Eventos táctiles configurados (fallback)");
+          } catch (fallbackError) {
+            console.error("FluxJS: No se pudieron configurar eventos táctiles:", fallbackError);
+          }
+        }
       }
 
       // Click events en el contenedor
@@ -733,43 +867,68 @@
     }
 
     resize() {
-      let width, height;
+      try {
+        let width, height;
 
-      if (this.config.container === document.body) {
-        width = window.innerWidth;
-        height = window.innerHeight;
-      } else {
-        const rect = this.config.container.getBoundingClientRect();
-        width = this.config.container.offsetWidth || rect.width;
-        height = this.config.container.offsetHeight || rect.height;
-      }
-
-      // Manejar dispositivos de alta densidad de píxeles
-      if (this.isMobile && window.devicePixelRatio > 1) {
-        // Configurar el canvas para alta densidad pero sin multiplicar por devicePixelRatio
-        // para mantener el rendimiento en móviles
-        this.canvas.width = width;
-        this.canvas.height = height;
-        this.canvas.style.width = width + "px";
-        this.canvas.style.height = height + "px";
-
-        // Solo escalar el contexto si no es móvil o si está explícitamente habilitado
-        if (!this.isMobile || this.devicePixelRatio <= 2) {
-          this.ctx.scale(1, 1); // No escalar en móviles para mejor rendimiento
+        if (this.config.container === document.body) {
+          width = window.innerWidth;
+          height = window.innerHeight;
+        } else {
+          const rect = this.config.container.getBoundingClientRect();
+          width = this.config.container.offsetWidth || rect.width;
+          height = this.config.container.offsetHeight || rect.height;
         }
-      } else {
-        this.canvas.width = width;
-        this.canvas.height = height;
-      }
 
-      // Recrear gradient después del resize
-      if (this.config.color.type === "gradient") {
-        this.gradientCache = null;
-      }
+        // Validar dimensiones mínimas
+        if (width <= 0 || height <= 0) {
+          console.warn("FluxJS: Dimensiones inválidas detectadas, usando valores por defecto");
+          width = width <= 0 ? 300 : width;
+          height = height <= 0 ? 200 : height;
+        }
 
-      // Reajustar partículas responsive
-      if (this.config.responsive.enabled) {
-        this.adjustParticleCount();
+        // Manejar dispositivos de alta densidad de píxeles de forma más compatible
+        if (this.isMobile && window.devicePixelRatio > 1) {
+          // En móviles, mantener 1:1 para mejor rendimiento
+          this.canvas.width = width;
+          this.canvas.height = height;
+          this.canvas.style.width = width + "px";
+          this.canvas.style.height = height + "px";
+
+          // Resetear transformaciones previas
+          this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        } else {
+          // En escritorio, usar devicePixelRatio para mejor calidad
+          const dpr = window.devicePixelRatio || 1;
+          this.canvas.width = width * dpr;
+          this.canvas.height = height * dpr;
+          this.canvas.style.width = width + "px";
+          this.canvas.style.height = height + "px";
+
+          // Escalar el contexto
+          this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        // Recrear gradient después del resize
+        if (this.config.color.type === "gradient") {
+          this.gradientCache = null;
+        }
+
+        // Reajustar partículas responsive
+        if (this.config.responsive.enabled) {
+          this.adjustParticleCount();
+        }
+
+        console.log(`FluxJS: Canvas redimensionado a ${width}x${height}`);
+      } catch (error) {
+        console.error("FluxJS: Error durante resize:", error);
+
+        // Fallback básico
+        try {
+          this.canvas.width = window.innerWidth || 300;
+          this.canvas.height = window.innerHeight || 200;
+        } catch (fallbackError) {
+          console.error("FluxJS: Error crítico en resize:", fallbackError);
+        }
       }
     }
 
@@ -1963,6 +2122,48 @@
           height: this.canvas.height,
         },
       };
+    }
+
+    // Método de diagnóstico para debugging
+    diagnose() {
+      const diagnostics = {
+        // Información del dispositivo
+        device: {
+          userAgent: navigator.userAgent,
+          isMobile: this.isMobile,
+          touchSupport: "ontouchstart" in window,
+          maxTouchPoints: navigator.maxTouchPoints,
+          devicePixelRatio: window.devicePixelRatio,
+          screenSize: `${window.innerWidth}x${window.innerHeight}`,
+        },
+
+        // Estado del canvas
+        canvas: {
+          exists: !!this.canvas,
+          contextExists: !!this.ctx,
+          size: this.canvas ? `${this.canvas.width}x${this.canvas.height}` : "N/A",
+          inDOM: this.canvas ? document.contains(this.canvas) : false,
+        },
+
+        // Estado de la animación
+        animation: {
+          isRunning: this.isRunning,
+          currentFPS: this.currentFPS,
+          particleCount: this.particles.length,
+          performanceMode: this.performanceMode,
+        },
+
+        // Configuración crítica
+        config: {
+          touchEnabled: this.config.mouse.touch.enabled,
+          mouseInteract: this.config.mouse.interact,
+          connections: this.config.connections.enabled,
+          maxFPS: this.config.performance.maxFPS,
+        },
+      };
+
+      console.log("FluxJS: Diagnóstico completo:", diagnostics);
+      return diagnostics;
     }
 
     // Métodos de control específicos
