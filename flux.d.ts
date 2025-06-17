@@ -163,6 +163,13 @@ export interface FluxPerformanceConfig {
   mobile?: FluxMobilePerformanceConfig;
 }
 
+export interface FluxViewportConfig {
+  enabled?: boolean;
+  threshold?: number;
+  rootMargin?: string;
+  once?: boolean;
+}
+
 export interface FluxEventsConfig {
   onInit?: ((flux: FluxJS) => void) | null;
   onStart?: ((flux: FluxJS) => void) | null;
@@ -170,6 +177,8 @@ export interface FluxEventsConfig {
   onResize?: ((flux: FluxJS) => void) | null;
   onParticleClick?: ((particle: FluxParticle, flux: FluxJS) => void) | null;
   onParticleHover?: ((particle: FluxParticle, flux: FluxJS) => void) | null;
+  onViewportEnter?: ((flux: FluxJS, entry: IntersectionObserverEntry) => void) | null;
+  onViewportExit?: ((flux: FluxJS, entry: IntersectionObserverEntry) => void) | null;
 }
 
 export interface FluxOptions {
@@ -189,6 +198,7 @@ export interface FluxOptions {
   canvas?: FluxCanvasConfig;
   background?: string;
   performance?: FluxPerformanceConfig;
+  viewport?: FluxViewportConfig;
   events?: FluxEventsConfig;
 }
 
@@ -243,11 +253,17 @@ export interface FluxPerformanceInfo {
 export interface FluxUtils {
   generateColorPalette: (baseColor: string, count?: number) => string[];
   createGradient: (colors: string[], type?: string) => FluxColorConfig;
+  createLazyFlux: (selector: string, baseConfig?: FluxOptions) => FluxJS[];
   physics: {
     earth: FluxPhysicsConfig;
     space: FluxPhysicsConfig;
     water: FluxPhysicsConfig;
     wind: FluxPhysicsConfig;
+  };
+  viewport: {
+    lazy: FluxViewportConfig;
+    eager: FluxViewportConfig;
+    strict: FluxViewportConfig;
   };
 }
 

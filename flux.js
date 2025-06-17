@@ -179,6 +179,14 @@
           },
         },
 
+        // Configuración de viewport para lazy loading
+        viewport: {
+          enabled: options.viewport?.enabled || false,
+          threshold: options.viewport?.threshold || 0.1, // 10% del elemento visible
+          rootMargin: options.viewport?.rootMargin || "50px", // Empezar 50px antes
+          once: options.viewport?.once !== false, // Solo observar una vez por defecto
+        },
+
         // Eventos y callbacks
         events: {
           onInit: options.events?.onInit || null,
@@ -187,6 +195,8 @@
           onResize: options.events?.onResize || null,
           onParticleClick: options.events?.onParticleClick || null,
           onParticleHover: options.events?.onParticleHover || null,
+          onViewportEnter: options.events?.onViewportEnter || null,
+          onViewportExit: options.events?.onViewportExit || null,
         },
       };
 
@@ -223,6 +233,11 @@
       this.connectionPairs = []; // Cache de pares de conexión
       this.lastConnectionUpdate = 0;
       this.connectionUpdateInterval = 100; // Actualizar conexiones cada 100ms
+
+      // Viewport intersection observer
+      this.intersectionObserver = null;
+      this.isInViewport = false;
+      this.hasBeenInViewport = false;
 
       // Guardar configuración original para poder restaurarla
       this.originalConfig = JSON.parse(JSON.stringify(this.config));
@@ -348,7 +363,14 @@
       this.createCanvas();
       this.setupEventListeners();
       this.createParticles();
-      this.start();
+
+      // Si el viewport lazy loading está habilitado, configurar intersection observer
+      if (this.config.viewport.enabled) {
+        this.setupViewportObserver();
+      } else {
+        // Comportamiento por defecto: iniciar inmediatamente
+        this.start();
+      }
     }
 
     getCurrentBreakpoint() {
@@ -1860,6 +1882,12 @@
       window.removeEventListener("focus", this.focusHandler);
       document.removeEventListener("visibilitychange", this.visibilityChangeHandler);
 
+      // Limpiar intersection observer
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect();
+        this.intersectionObserver = null;
+      }
+
       // Remover canvas
       if (this.canvas && this.canvas.parentNode) {
         this.canvas.parentNode.removeChild(this.canvas);
@@ -2180,6 +2208,30 @@
       space: { gravity: 0, friction: 0 },
       water: { gravity: 0.05, friction: 0.05 },
       wind: { wind: 0.05, windDirection: 0 },
+    },
+
+    // Configuraciones de viewport preestablecidas
+    viewport: {
+      lazy: { enabled: true, threshold: 0.1, rootMargin: "50px", once: true },
+      eager: { enabled: true, threshold: 0.01, rootMargin: "100px", once: false },
+      strict: { enabled: true, threshold: 0.5, rootMargin: "0px", once: true },
+    },
+
+    // Función de utilidad para crear múltiples instancias con viewport loading
+    createLazyFlux: (selector, baseConfig = {}) => {
+      const elements = document.querySelectorAll(selector);
+      const instances = [];
+
+      elements.forEach((element) => {
+        const config = {
+          ...baseConfig,
+          container: element,
+          viewport: { enabled: true, ...baseConfig.viewport },
+        };
+        instances.push(new FluxJS(config));
+      });
+
+      return instances;
     },
   };
 
