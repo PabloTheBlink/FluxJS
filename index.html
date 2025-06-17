@@ -25,33 +25,100 @@
         box-sizing: border-box;
       }
 
-      /* Loader para mostrar mientras carga */
+      /* Scrollbar personalizada moderna */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--flux-bg-secondary);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, var(--flux-primary-dark), var(--flux-primary));
+        box-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
+        transform: scaleY(1.1);
+      }
+
+      /* Firefox scrollbar */
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--flux-primary) var(--flux-bg-secondary);
+      }
+
+      /* Loader moderno y más integrado */
       .flux-loader {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: #020202;
+        background: radial-gradient(ellipse at center, #020202 0%, #000000 100%);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .flux-loader.hidden {
         opacity: 0;
         visibility: hidden;
+        transform: scale(0.95);
       }
 
       .flux-loader-spinner {
-        width: 50px;
-        height: 50px;
-        border: 3px solid rgba(79, 195, 247, 0.3);
-        border-top: 3px solid #4fc3f7;
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 24px;
+      }
+
+      .flux-loader-spinner::before,
+      .flux-loader-spinner::after {
+        content: "";
+        position: absolute;
         border-radius: 50%;
-        animation: spin 1s linear infinite;
+        animation: spin 2s linear infinite;
+      }
+
+      .flux-loader-spinner::before {
+        width: 60px;
+        height: 60px;
+        border: 3px solid transparent;
+        border-top: 3px solid var(--flux-primary);
+        border-right: 3px solid var(--flux-primary);
+        animation-duration: 1.5s;
+      }
+
+      .flux-loader-spinner::after {
+        width: 40px;
+        height: 40px;
+        top: 10px;
+        left: 10px;
+        border: 2px solid transparent;
+        border-bottom: 2px solid var(--flux-primary-dark);
+        border-left: 2px solid var(--flux-primary-dark);
+        animation-duration: 1s;
+        animation-direction: reverse;
+      }
+
+      .flux-loader-text {
+        color: var(--flux-primary);
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        animation: pulse 2s ease-in-out infinite;
+        margin-top: 8px;
       }
 
       @keyframes spin {
@@ -60,6 +127,16 @@
         }
         100% {
           transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
         }
       }
 
@@ -358,20 +435,36 @@
 
       /* Cards consistentes */
       .flux-card {
-        background: var(--flux-glass-light);
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--flux-border-light);
-        border-radius: var(--flux-radius-2xl);
-        padding: var(--flux-spacing-lg);
-        box-shadow: var(--flux-shadow-md);
-        transition: var(--flux-transition);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 2.5rem;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-width: 100%;
+        width: 100%;
       }
 
       .flux-card:hover {
         transform: translateY(-4px);
-        box-shadow: var(--flux-shadow-lg);
-        border-color: var(--flux-border-medium);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Variante para secciones especiales */
+      .flux-card-gradient {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 2.5rem;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-width: 100%;
+        width: 100%;
       }
 
       /* Estilos personalizados para Prism.js */
@@ -440,6 +533,72 @@
         transform: rotate(-45deg) translate(7px, -6px);
       }
 
+      /* Scroll suave mejorado */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+
+      /* Animaciones de entrada mejoradas */
+      @keyframes fadeInUpStagger {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUpStagger 0.8s ease-out forwards;
+      }
+
+      .animate-fade-in-up-delay {
+        animation: fadeInUpStagger 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+      }
+
+      .animate-fade-in-up-delay-2 {
+        animation: fadeInUpStagger 0.8s ease-out 0.4s forwards;
+        opacity: 0;
+      }
+
+      /* Header con transición de scroll */
+      .header-scrolled {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Efectos de profundidad mejorados */
+      .flux-depth-1 {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .flux-depth-2 {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .flux-depth-3 {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Estados de interacción mejorados */
+      .flux-interactive {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .flux-interactive:hover {
+        transform: translateY(-2px);
+      }
+
+      .flux-interactive:active {
+        transform: translateY(0);
+      }
+
       /* Estilos para botones de demo */
       .demo-button {
         backdrop-filter: blur(10px);
@@ -477,107 +636,151 @@
     <!-- Loader anti-FOUC -->
     <div id="flux-loader" class="flux-loader">
       <div class="flux-loader-spinner"></div>
+      <div class="flux-loader-text">Preparando experiencia FluxJS...</div>
     </div>
 
     <!-- Navegación -->
-    <header class="fixed top-0 w-full flux-glass-dark z-50 border-b border-flux-border-light transition-all duration-300 group">
+    <header class="fixed top-0 w-full backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/90 to-black/80 z-50 border-b border-white/10 transition-all duration-500 group shadow-2xl">
       <!-- Línea decorativa animada en la parte superior -->
-      <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-flux-blue to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-flux-primary to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse"></div>
 
-      <!-- Efectos de partículas en el header -->
+      <!-- Efecto de resplandor en hover -->
+      <div class="absolute inset-0 bg-gradient-to-r from-flux-primary/5 via-flux-primary/10 to-flux-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+      <!-- Efectos de partículas en el header mejorados -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-4 -right-4 w-8 h-8 bg-flux-blue/20 rounded-full blur-sm animate-pulse"></div>
-        <div class="absolute top-1/2 left-1/4 w-2 h-2 bg-flux-blue/30 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+        <div class="absolute -top-4 -right-4 w-8 h-8 bg-flux-primary/20 rounded-full blur-sm animate-pulse"></div>
+        <div class="absolute top-1/2 left-1/4 w-2 h-2 bg-flux-primary/30 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
         <div class="absolute top-3 right-1/3 w-1 h-1 bg-white/40 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+        <div class="absolute bottom-2 left-1/2 w-1.5 h-1.5 bg-flux-primary/25 rounded-full animate-bounce" style="animation-delay: 0.5s"></div>
+        <div class="absolute top-1/4 right-1/4 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style="animation-delay: 1.5s"></div>
       </div>
 
-      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 relative">
-        <!-- Logo mejorado con efectos -->
-        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-blue no-underline hover:text-flux-blue-dark transition-all duration-300 group/logo relative">
-          <!-- Icono decorativo -->
+      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 relative z-10">
+        <!-- Logo mejorado con efectos más integrados -->
+        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-primary no-underline hover:text-flux-primary-dark transition-all duration-500 group/logo relative">
+          <!-- Icono decorativo mejorado -->
           <div class="w-8 h-8 mr-3 relative">
-            <div class="absolute inset-0 bg-gradient-to-br from-flux-blue to-flux-blue-dark rounded-lg group-hover/logo:rotate-12 transition-transform duration-300"></div>
-            <div class="absolute inset-1 bg-black/20 rounded-md"></div>
-            <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">✨</div>
+            <div class="absolute inset-0 bg-gradient-to-br from-flux-primary via-flux-primary-dark to-flux-primary rounded-lg group-hover/logo:rotate-12 group-hover/logo:scale-110 transition-all duration-500 shadow-lg"></div>
+            <div class="absolute inset-0.5 bg-gradient-to-br from-black/30 to-black/60 rounded-md"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm group-hover/logo:animate-pulse">✨</div>
+            <!-- Resplandor del icono -->
+            <div class="absolute -inset-2 bg-flux-primary/20 blur-lg opacity-0 group-hover/logo:opacity-100 rounded-xl transition-opacity duration-500"></div>
           </div>
 
-          <!-- Texto del logo con efecto de resplandor -->
+          <!-- Texto del logo con efecto de resplandor mejorado -->
           <span class="relative">
             FluxJS
-            <div class="absolute -inset-1 bg-flux-blue/20 blur-md opacity-0 group-hover/logo:opacity-100 transition-opacity duration-300 -z-10"></div>
+            <div class="absolute -inset-2 bg-gradient-to-r from-flux-primary/30 via-flux-primary/40 to-flux-primary/30 blur-xl opacity-0 group-hover/logo:opacity-100 transition-all duration-500 -z-10"></div>
           </span>
 
-          <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-flux-blue/20 text-flux-blue rounded-full border border-flux-blue/30 animate-pulse">v1.0.3</span>
+          <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-flux-primary/20 text-flux-primary rounded-full border border-flux-primary/30 animate-pulse hover:animate-none hover:bg-flux-primary/30 transition-all duration-300">v1.0.3</span>
         </a>
 
-        <!-- Botón menú móvil mejorado -->
-        <button id="mobile-menu-button" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group hover:bg-white/10 rounded-lg transition-all duration-300">
-          <!-- Efecto de resplandor -->
-          <div class="absolute inset-0 bg-flux-blue/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+        <!-- Botón menú móvil con mejor integración -->
+        <button id="mobile-menu-button" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group hover:bg-flux-primary/10 rounded-xl transition-all duration-300 border border-transparent hover:border-flux-primary/20">
+          <!-- Efecto de resplandor mejorado -->
+          <div class="absolute inset-0 bg-gradient-to-br from-flux-primary/20 to-flux-primary/30 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm"></div>
 
           <!-- Líneas del hamburger con animación mejorada -->
-          <span class="block w-6 h-0.5 bg-white transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
-          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
-          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-blue relative z-10"></span>
+          <span class="block w-6 h-0.5 bg-white/90 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
+          <span class="block w-6 h-0.5 bg-white/90 mt-1.5 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
+          <span class="block w-6 h-0.5 bg-white/90 mt-1.5 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
 
-          <!-- Indicador de interactividad -->
-          <div class="absolute -top-1 -right-1 w-2 h-2 bg-flux-blue rounded-full opacity-0 group-hover:opacity-100 animate-ping transition-opacity duration-300"></div>
+          <!-- Indicador de interactividad mejorado -->
+          <div class="absolute -top-1 -right-1 w-2 h-2 bg-flux-primary rounded-full opacity-0 group-hover:opacity-100 animate-ping transition-opacity duration-300"></div>
         </button>
 
-        <!-- Menú desktop simplificado -->
-        <ul class="hidden md:flex list-none gap-2 lg:gap-4">
+        <!-- Menú desktop con mejor integración -->
+        <ul class="hidden md:flex list-none gap-1 lg:gap-2">
           <li>
-            <a href="#inicio" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+            <a href="#inicio" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
               Inicio
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
             </a>
           </li>
           <li>
-            <a href="#instalacion" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+            <a href="#instalacion" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
               Empezar
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
             </a>
           </li>
           <li>
-            <a href="#ejemplos" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+            <a href="#ejemplos" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
               Ejemplos
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
             </a>
           </li>
           <li>
-            <a href="#generador" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
+            <a href="#api" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
+              Guía
+              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#generador" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
               <span class="relative">
                 Crear
-                <!-- Badge "Nuevo" -->
-                <span class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                <!-- Badge "Nuevo" mejorado -->
+                <span class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50"></span>
               </span>
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
-            </a>
-          </li>
-          <li>
-            <a href="#api" class="nav-link relative group text-white/80 font-medium hover:text-flux-blue transition-all duration-300 no-underline px-3 py-2 rounded-flux-sm hover:bg-white/5">
-              Guía
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-flux-blue group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
             </a>
           </li>
         </ul>
 
-        <!-- Menú móvil simplificado -->
-        <div id="mobile-menu" class="md:hidden fixed top-full left-0 w-full flux-glass-dark border-b border-flux-border-light transform -translate-y-full opacity-0 invisible transition-all duration-300 z-40">
+        <!-- Menú móvil con mejor integración -->
+        <div id="mobile-menu" class="md:hidden fixed top-full left-0 w-full backdrop-blur-xl bg-black/95 border-b border-white/10 transform -translate-y-full opacity-0 invisible transition-all duration-500 z-40 shadow-2xl">
           <ul class="flex flex-col list-none py-4">
-            <li><a href="#inicio" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Inicio</a></li>
-            <li><a href="#instalacion" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Empezar</a></li>
-            <li><a href="#ejemplos" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Ejemplos</a></li>
-            <li><a href="#generador" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Crear</a></li>
-            <li><a href="#api" class="nav-link block px-6 py-3 text-white/80 font-medium hover:text-flux-blue hover:bg-white/5 transition-colors no-underline">Guía</a></li>
+            <li>
+              <a href="#inicio" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
+                <span class="flex items-center">
+                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
+                  Inicio
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#instalacion" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
+                <span class="flex items-center">
+                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
+                  Empezar
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#ejemplos" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
+                <span class="flex items-center">
+                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
+                  Ejemplos
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
+                <span class="flex items-center">
+                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
+                  Guía
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#generador" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
+                <span class="flex items-center">
+                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
+                  Crear
+                  <span class="ml-2 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                </span>
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
     </header>
 
     <!-- Sección Inicio -->
-    <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <div class="z-10 flux-card w-full max-w-5xl animate-fade-in-up">
+    <section id="inicio" class="flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+      <div class="z-10 flux-card w-full animate-fade-in-up">
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-text text-center mb-6 sm:mb-8 drop-shadow-lg">FluxJS</h1>
         <p class="text-xl sm:text-2xl md:text-3xl text-flux-blue font-semibold mb-4">Partículas Mágicas para Tu Web ✨</p>
         <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up-delay leading-relaxed">
@@ -596,7 +799,7 @@
       </div>
 
       <!-- Lo que hace especial a FluxJS - Simple -->
-      <div class="max-w-5xl mx-auto mt-12 sm:mt-16 animate-fade-in-up-delay-2">
+      <div class="mx-auto mt-12 sm:mt-16 animate-fade-in-up-delay-2">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Súper Fácil -->
           <div class="flux-glass border border-green-500/30 rounded-flux-lg p-6 text-center">
@@ -632,11 +835,11 @@
     </section>
 
     <!-- Sección Instalación -->
-    <section id="instalacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+    <section id="instalacion" class="px-4 sm:px-6 lg:px-8 pt-10 sm:pt-18 pb-10 sm:pb-18 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡Empezar es Súper Fácil! 🚀</h2>
 
       <!-- Paso a paso visual -->
-      <div class="max-w-4xl mx-auto mb-12">
+      <div class="max-w-4xl mx-auto pb-16 sm:pb-24">
         <div class="bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 sm:p-8 rounded-3xl border border-green-500/30 backdrop-blur-lg text-center mb-8">
           <h3 class="text-2xl text-green-400 font-bold mb-4">� Solo 3 Pasos Para el Éxito</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
@@ -661,7 +864,7 @@
 
       <!-- Opción 1: La Más Fácil (CDN) -->
       <div class="mb-12">
-        <div class="flux-card bg-gradient-to-r from-green-500/5 to-blue-500/5 border-green-500/30">
+        <div class="flux-card-gradient border-green-500/30">
           <div class="flex items-center gap-3 mb-6">
             <span class="text-3xl">✨</span>
             <div>
@@ -802,7 +1005,7 @@ const flux = new FluxJS({
       </div>
 
       <!-- Mensaje de ánimo -->
-      <div class="text-center bg-gradient-to-r from-flux-blue/10 to-purple-500/10 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg">
+      <div class="flux-card-gradient border-flux-blue/30">
         <h3 class="text-xl text-flux-blue font-semibold mb-3">🎯 ¡Ya Está!</h3>
         <p class="text-white/80 mb-4">En menos de 5 minutos ya tienes partículas funcionando en tu web. Ahora vamos a ver ejemplos geniales que puedes usar...</p>
         <a href="#ejemplos" class="inline-block px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all bg-blue-500 duration-300 shadow-lg shadow-flux-blue/30 no-underline"> 👀 Ver Ejemplos Increíbles </a>
@@ -810,10 +1013,10 @@ const flux = new FluxJS({
     </section>
 
     <!-- Sección Implementación Simple -->
-    <section id="implementacion" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+    <section id="implementacion" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">💡 Tres Formas de Usarlo</h2>
 
-      <div class="flux-card bg-gradient-to-r from-flux-blue/10 to-purple-500/10 border-flux-blue/30 mb-8 sm:mb-12">
+      <div class="flux-card-gradient border-flux-blue/30 mb-8 sm:mb-12">
         <p class="text-center text-lg sm:text-xl text-white/90 mb-4">Aquí tienes las 3 formas más comunes de usar FluxJS. Elige la que mejor se adapte a lo que necesitas:</p>
       </div>
 
@@ -861,13 +1064,13 @@ new FluxJS({ container: footer, color: '#4fc3f7' });</code></pre>
     </section>
 
     <!-- Sección Ejemplos -->
-    <section id="ejemplos" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+    <section id="ejemplos" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Galería de pura genialidad ✨</h2>
 
       <!-- Ejemplos Prácticos -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
         <!-- Ejemplo 1: Burbujas de Fondo -->
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🫧 Burbujas de Fondo</h3>
           <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto elegante de burbujas flotantes perfecto para fondos que enamoran</p>
 
@@ -910,7 +1113,7 @@ const bubbles = new Flux({
         </div>
 
         <!-- Ejemplo 2: Partículas Interconectadas -->
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🔗 Red de Conexiones</h3>
           <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas conectadas que bailan al ritmo de tu mouse como si fuera magia pura</p>
 
@@ -959,7 +1162,7 @@ const network = new Flux({
         </div>
 
         <!-- Ejemplo 3: Galaxia Rotante -->
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🌌 Galaxia Rotante</h3>
           <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto hipnótico de partículas girando en espiral con gravedad central que te dejará en trance</p>
 
@@ -1016,7 +1219,7 @@ const galaxy = new Flux({
         </div>
 
         <!-- Ejemplo 4: Partículas con Rastro de Colores -->
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🎨 Rastro Arcoíris</h3>
           <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas que cambian de color dinámicamente con efecto de rastro que parece sacado del futuro</p>
 
@@ -1070,7 +1273,7 @@ const rainbow = new Flux({
 
       <!-- Enlaces a Demos Completas -->
       <div class="mb-12 text-center">
-        <div class="bg-gradient-to-r from-flux-blue/10 to-purple-500/10 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg shadow-xl">
+        <div class="flux-card-gradient border-flux-blue/30">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🚀 Demo que Te Volará la Cabeza</h3>
           <p class="text-white/80 mb-6 text-sm sm:text-base">Sumérgete en todas las capacidades de FluxJS con nuestra demo interactiva que te dejará sin palabras</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -1152,7 +1355,7 @@ const rainbow = new Flux({
         </div>
 
         <!-- Banner destacado -->
-        <div class="mt-12 bg-gradient-to-r from-flux-blue/20 to-purple-500/20 p-6 sm:p-8 rounded-3xl border border-flux-blue/30 backdrop-blur-lg text-center">
+        <div class="flux-card-gradient border-flux-blue/30">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-bold">🚀 Todo Esto Funciona Solo</h3>
           <p class="text-white/80 text-sm sm:text-base max-w-2xl mx-auto">No necesitas configurar nada de esto. FluxJS es inteligente y se encarga de todo automáticamente. Tú solo copia, pega y disfruta de efectos increíbles.</p>
         </div>
@@ -1160,11 +1363,11 @@ const rainbow = new Flux({
     </section>
 
     <!-- Sección API -->
-    <section id="api" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+    <section id="api" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">📋 Guía Rápida (Para Cuando Quieras Más)</h2>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🎛️ Cómo Personalizar</h3>
           <p class="text-white/70 mb-4 text-sm">Estas son las opciones que puedes cambiar. Solo cambia lo que quieras:</p>
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1188,7 +1391,7 @@ const rainbow = new Flux({
           </div>
         </div>
 
-        <div class="bg-white/5 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">⚡ Comandos Útiles</h3>
           <p class="text-white/70 mb-4 text-sm">Estas funciones te ayudan a controlar las partículas después de crearlas:</p>
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1210,7 +1413,7 @@ flux.updateConfig({
     </section>
 
     <!-- Sección Generador -->
-    <section id="generador" class="min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
+    <section id="generador" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">🎨 Crea Tu Propia Animación</h2>
       <p class="text-center mb-6 sm:mb-8 text-white/80 text-sm sm:text-base">¡Juega con los controles y crea algo increíble! Mueve los deslizadores y ve cómo cambia la animación en tiempo real.</p>
 
@@ -1223,25 +1426,25 @@ flux.updateConfig({
       <!-- Controles Avanzados -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8" id="generator-controls">
         <!-- Partículas -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Partículas: <span id="count-value" class="text-flux-blue">150</span></label>
           <input type="range" id="gen-count" min="10" max="500" value="150" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Velocidad -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad: <span id="speed-value" class="text-flux-blue">0.3</span></label>
           <input type="range" id="gen-speed" min="0.1" max="2.0" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Tamaño -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size">Tamaño: <span id="size-value" class="text-flux-blue">6</span></label>
           <input type="range" id="gen-size" min="1" max="15" value="6" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Tipo de Color -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color-type">Tipo de Color:</label>
           <select id="gen-color-type" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
             <option value="single">Simple</option>
@@ -1252,7 +1455,7 @@ flux.updateConfig({
         </div>
 
         <!-- Animación -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-animation">Animación:</label>
           <select id="gen-animation" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
             <option value="float">Flotante</option>
@@ -1264,7 +1467,7 @@ flux.updateConfig({
         </div>
 
         <!-- Forma -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-shape">Forma:</label>
           <select id="gen-shape" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
             <option value="circle">Círculo</option>
@@ -1276,31 +1479,31 @@ flux.updateConfig({
         </div>
 
         <!-- Distancia Conexión -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-connection-distance">Dist. Conexión: <span id="connection-distance-value" class="text-flux-blue">120</span></label>
           <input type="range" id="gen-connection-distance" min="50" max="300" value="120" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Turbulencia -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-turbulence">Turbulencia: <span id="turbulence-value" class="text-flux-blue">0.3</span></label>
           <input type="range" id="gen-turbulence" min="0" max="1" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Tamaño Glow -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-glow-size">Tamaño Glow: <span id="glow-size-value" class="text-flux-blue">15</span></label>
           <input type="range" id="gen-glow-size" min="5" max="50" value="15" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
         </div>
 
         <!-- Color Base -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color">Color Base:</label>
           <input type="color" id="gen-color" value="#4fc3f7" class="w-full h-10 sm:h-12 rounded-flux-md border border-gray-600 bg-gray-700" />
         </div>
 
         <!-- Efectos Básicos -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Básicos:</div>
           <div class="space-y-2">
             <label class="flex items-center text-white/80 text-sm">
@@ -1319,7 +1522,7 @@ flux.updateConfig({
         </div>
 
         <!-- Efectos Avanzados -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Avanzados:</div>
           <div class="space-y-2">
             <label class="flex items-center text-white/80 text-sm">
@@ -1338,7 +1541,7 @@ flux.updateConfig({
         </div>
 
         <!-- Interacción Mouse -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Mouse:</div>
           <div class="space-y-2">
             <label class="flex items-center text-white/80 text-sm">
@@ -1357,7 +1560,7 @@ flux.updateConfig({
         </div>
 
         <!-- Física -->
-        <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <div class="flux-card">
           <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Física:</div>
           <div class="space-y-2">
             <label class="flex items-center text-white/80 text-sm">
@@ -1376,7 +1579,7 @@ flux.updateConfig({
         </div>
       </div>
 
-      <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg" id="generated-code-section">
+      <div class="flux-card" id="generated-code-section">
         <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Tu fórmula secreta:</h3>
         <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border mb-4" id="generated-code-output">
           <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
@@ -1396,7 +1599,7 @@ flux.updateConfig({
         </div>
 
         <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
-          <div class="bg-white/5 p-8 sm:p-12 rounded-3xl shadow-xl border border-white/10 backdrop-blur-lg max-w-2xl mx-auto">
+          <div class="flux-card max-w-2xl mx-auto">
             <div class="text-6xl sm:text-8xl mb-6">🚧</div>
             <h3 class="text-2xl sm:text-3xl text-flux-blue mb-4 font-semibold">¡Muy Pronto!</h3>
             <p class="text-lg sm:text-xl text-white/80 mb-6">Estamos recopilando las mejores reseñas de personas que ya están creando cosas increíbles con FluxJS.</p>
@@ -1501,7 +1704,7 @@ flux.updateConfig({
         </div>
 
         <!-- Proceso de Contribución -->
-        <div class="bg-white/5 p-6 sm:p-8 lg:p-12 rounded-3xl border border-white/10 backdrop-blur-lg mb-12">
+        <div class="flux-card mb-12">
           <h3 class="text-2xl sm:text-3xl text-flux-blue mb-6 font-bold text-center">🚀 Cómo Contribuir (Si Sabes Programar)</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
@@ -1541,7 +1744,7 @@ flux.updateConfig({
 
         <!-- Convenciones -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-12">
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <h4 class="text-xl text-flux-blue mb-4 font-semibold">📝 Convenciones de Commits</h4>
             <div class="space-y-3 text-sm">
               <div class="flex items-center gap-3">
@@ -1563,7 +1766,7 @@ flux.updateConfig({
             </div>
           </div>
 
-          <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg">
+          <div class="flux-card">
             <h4 class="text-xl text-flux-blue mb-4 font-semibold">⚡ Issues para Debutantes Ambiciosos</h4>
             <p class="text-white/80 mb-4 text-sm">¿Primera vez contribuyendo? ¡Genial! Busca issues etiquetados como:</p>
             <div class="space-y-2">
@@ -1576,7 +1779,7 @@ flux.updateConfig({
         </div>
 
         <!-- Reconocimiento -->
-        <div class="bg-gradient-to-r from-flux-blue/10 to-flux-blue-dark/10 p-6 sm:p-8 lg:p-12 rounded-3xl border border-flux-blue/20 text-center">
+        <div class="flux-card-gradient border-flux-blue/20">
           <h3 class="text-2xl sm:text-3xl text-flux-blue mb-4 font-bold">🏆 Hall of Fame</h3>
           <p class="text-white/80 mb-6 text-base sm:text-lg">Todos los contribuidores son reconocidos y valorados. Tu nombre aparecerá en:</p>
 
@@ -1610,7 +1813,7 @@ flux.updateConfig({
           <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-6 sm:mb-8"></div>
         </div>
 
-        <div class="bg-gray-700 rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 glass-effect">
+        <div class="flux-card">
           <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
             <!-- Avatar -->
             <div class="flex-shrink-0">
@@ -1689,6 +1892,7 @@ flux.updateConfig({
         const navLinks = document.querySelectorAll(".nav-link");
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
+        const header = document.querySelector("header");
 
         // Navegación suave para todos los enlaces
         navLinks.forEach((link) => {
@@ -1734,8 +1938,45 @@ flux.updateConfig({
           }
         });
 
-        // Destacar enlace activo
-        window.addEventListener("scroll", updateActiveNavLink);
+        // Efectos de scroll del header mejorados
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
+        function updateHeader() {
+          const scrollY = window.scrollY;
+
+          // Agregar clase scrolled cuando se hace scroll
+          if (scrollY > 50) {
+            header.classList.add("header-scrolled");
+          } else {
+            header.classList.remove("header-scrolled");
+          }
+
+          // Ocultar/mostrar header según la dirección del scroll
+          if (scrollY > lastScrollY && scrollY > 200) {
+            header.style.transform = "translateY(-100%)";
+          } else {
+            header.style.transform = "translateY(0)";
+          }
+
+          lastScrollY = scrollY;
+          ticking = false;
+        }
+
+        function requestTick() {
+          if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+          }
+        }
+
+        // Destacar enlace activo y efectos de scroll
+        function handleScroll() {
+          requestTick();
+          updateActiveNavLink();
+        }
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
       }
 
       function updateActiveNavLink() {

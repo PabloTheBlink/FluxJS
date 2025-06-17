@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#0a0a0a" />
-    <meta name="description" content="FluxJS - Librería de partículas animadas ultra configurable y optimizada" />
+    <meta name="description" content="FluxJS - Demostración interactiva de la librería de partículas animadas más avanzada. Experimenta con efectos visuales espectaculares, controles en tiempo real y presets impresionantes." />
     <title>FluxJS - Demostración Interactiva</title>
 
     <meta name="theme-color" content="#020202" />
@@ -19,13 +19,26 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #0a0a0a;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
         color: #ffffff;
         min-height: 100dvh;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(102, 51, 153, 0.05) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(255, 0, 110, 0.03) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
       }
 
       .demo-container {
@@ -40,84 +53,154 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: rgba(0, 0, 0, 0.85);
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #333;
+        background: rgba(15, 15, 30, 0.92);
+        padding: 24px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         z-index: 1000;
-        max-width: 300px;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 320px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
         overflow-y: auto;
         max-height: calc(100dvh - 40px);
         will-change: transform;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .control-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.02) 0%, rgba(102, 51, 153, 0.02) 50%, rgba(255, 0, 110, 0.02) 100%);
+        border-radius: 20px;
+        pointer-events: none;
       }
 
       .control-panel h3 {
-        margin-bottom: 15px;
-        color: #00ff88;
+        margin-bottom: 20px;
+        color: #ffffff;
         text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #00ff88, #0066cc, #ff006e);
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 3s ease-in-out infinite;
+        position: relative;
+        padding-bottom: 12px;
+      }
+
+      .control-panel h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #00ff88, transparent);
       }
 
       .control-group {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        position: relative;
       }
 
       .control-group label {
         display: block;
-        margin-bottom: 5px;
-        font-size: 12px;
-        color: #ccc;
+        margin-bottom: 8px;
+        font-size: 13px;
+        color: #e0e0e0;
+        font-weight: 500;
+        letter-spacing: 0.5px;
       }
 
       .control-group input,
       .control-group select {
         width: 100%;
-        padding: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid #555;
-        border-radius: 6px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
         color: #fff;
         font-size: 14px;
-        transition: border-color 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
       }
 
       .control-group input:focus,
       .control-group select:focus {
         outline: none;
         border-color: #00ff88;
-        box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+        box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1), 0 8px 25px rgba(0, 255, 136, 0.15);
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-1px);
       }
 
       .control-group input[type="range"] {
+        accent-color: #00ff88;
+        cursor: pointer;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 0;
+      }
+
+      .control-group input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00ff88, #00cc6a);
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 255, 136, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .control-group input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+      }
+
+      .control-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
         accent-color: #00ff88;
         cursor: pointer;
       }
 
       .preset-buttons {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 8px;
-        margin-bottom: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
       }
 
       .preset-btn {
-        padding: 10px 8px;
+        padding: 14px 12px;
         background: linear-gradient(135deg, #00ff88, #0066cc);
         border: none;
-        border-radius: 8px;
+        border-radius: 12px;
         color: white;
         cursor: pointer;
         font-size: 12px;
         font-weight: 600;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
         transform: translateZ(0);
         will-change: transform;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
 
       .preset-btn::before {
@@ -127,8 +210,8 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.5s;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .preset-btn:hover::before {
@@ -136,26 +219,50 @@
       }
 
       .preset-btn:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
       .preset-btn:active {
-        transform: translateY(0) scale(0.98);
+        transform: translateY(-1px) scale(1.02);
+        transition: all 0.1s ease;
       }
 
       /* Ultra button special effect */
       .preset-btn:first-child {
         background: linear-gradient(135deg, #ff006e, #8b5cf6, #00ff88);
         animation: ultraGlow 3s ease-in-out infinite alternate;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .preset-btn:first-child::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: ultraSpin 4s linear infinite;
+        pointer-events: none;
       }
 
       @keyframes ultraGlow {
         0% {
-          box-shadow: 0 2px 10px rgba(255, 0, 110, 0.4);
+          box-shadow: 0 2px 10px rgba(255, 0, 110, 0.4), 0 0 20px rgba(255, 0, 110, 0.2);
         }
         100% {
-          box-shadow: 0 4px 25px rgba(255, 0, 110, 0.6), 0 0 30px rgba(139, 92, 246, 0.4);
+          box-shadow: 0 4px 25px rgba(255, 0, 110, 0.6), 0 0 40px rgba(139, 92, 246, 0.4), 0 0 60px rgba(0, 255, 136, 0.2);
+        }
+      }
+
+      @keyframes ultraSpin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
         }
       }
 
@@ -168,22 +275,52 @@
         align-items: center;
         min-height: 100dvh;
         text-align: center;
-        padding: 20px;
+        padding: 40px 20px;
         will-change: transform;
       }
 
+      .content::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle, rgba(0, 255, 136, 0.02) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: -1;
+      }
+
       .title {
-        font-size: clamp(2.5rem, 8vw, 4rem);
+        font-size: clamp(3rem, 10vw, 5rem);
         font-weight: 800;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #00ff88, #0066cc, #ff006e);
-        background-size: 200% 200%;
+        margin-bottom: 24px;
+        background: linear-gradient(135deg, #00ff88, #0066cc, #ff006e, #8b5cf6);
+        background-size: 300% 300%;
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: gradientShift 4s ease-in-out infinite;
-        text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        animation: gradientShift 5s ease-in-out infinite;
+        text-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
         line-height: 1.1;
+        letter-spacing: -0.02em;
+        position: relative;
+      }
+
+      .title::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #00ff88, #0066cc, #ff006e, #8b5cf6);
+        background-size: 300% 300%;
+        animation: gradientShift 5s ease-in-out infinite;
+        filter: blur(20px);
+        opacity: 0.1;
+        z-index: -1;
       }
 
       @keyframes gradientShift {
@@ -197,11 +334,14 @@
       }
 
       .subtitle {
-        font-size: clamp(1rem, 4vw, 1.5rem);
-        margin-bottom: 30px;
-        color: #ccc;
-        max-width: 600px;
-        line-height: 1.4;
+        font-size: clamp(1.1rem, 4vw, 1.6rem);
+        margin-bottom: 40px;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 700px;
+        line-height: 1.6;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       .toggle-panel {
@@ -214,36 +354,56 @@
       .toggle-btn {
         background: linear-gradient(135deg, #00ff88, #0066cc);
         border: none;
-        padding: 12px 16px;
+        padding: 16px 20px;
         border-radius: 50px;
         color: white;
         cursor: pointer;
         font-weight: bold;
-        font-size: 18px;
-        box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
-        transition: all 0.3s ease;
-        min-width: 50px;
-        min-height: 50px;
+        font-size: 20px;
+        box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        min-width: 60px;
+        min-height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .toggle-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .toggle-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 255, 136, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+
+      .toggle-btn:hover::before {
+        opacity: 1;
       }
 
       .toggle-btn:active {
-        transform: scale(0.95);
+        transform: scale(1.05) translateY(-1px);
+        transition: all 0.1s ease;
       }
 
       /* Media Queries para Responsividad */
       @media (max-width: 1024px) {
         .control-panel {
-          max-width: 280px;
-          right: 10px;
-          top: 10px;
+          max-width: 300px;
+          right: 15px;
+          top: 15px;
+          padding: 20px;
         }
       }
 
@@ -251,17 +411,18 @@
         .control-panel {
           position: fixed;
           top: auto;
-          bottom: -5rem;
-          left: 0;
-          right: 0;
+          bottom: -8rem;
+          left: 10px;
+          right: 10px;
           max-width: none;
-          border-radius: 15px 15px 0 0;
-          max-height: 70vh;
+          border-radius: 20px 20px 0 0;
+          max-height: 75vh;
           overflow-y: auto;
-          transform: translateY(calc(100% - 60px));
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          padding: 15px 20px 20px;
+          transform: translateY(calc(100% - 70px));
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 20px 24px 24px;
           border-top: 3px solid #00ff88;
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         .control-panel.open {
@@ -270,110 +431,122 @@
 
         .control-panel h3 {
           position: relative;
-          padding-bottom: 10px;
-          border-bottom: 2px solid #333;
-          margin-bottom: 20px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          margin-bottom: 24px;
           text-align: center;
         }
 
         .control-panel h3::after {
-          content: "👆 Toca el botón ⚙️ para abrir";
+          content: "👆 Toca el botón ⚙️ para abrir los controles";
           position: absolute;
-          top: -25px;
+          top: -28px;
           left: 50%;
           transform: translateX(-50%);
-          font-size: 10px;
-          color: #666;
+          font-size: 11px;
+          color: rgba(255, 255, 255, 0.5);
           font-weight: normal;
           white-space: nowrap;
+          background: rgba(0, 0, 0, 0.8);
+          padding: 4px 8px;
+          border-radius: 6px;
         }
 
         .control-panel.open h3::after {
-          content: "👇 Desliza hacia abajo o toca ✕";
+          content: "👇 Desliza hacia abajo o toca ✕ para cerrar";
         }
 
         .title {
-          font-size: 2.5rem;
-          margin-bottom: 15px;
+          font-size: 2.8rem;
+          margin-bottom: 20px;
           line-height: 1.1;
         }
 
         .subtitle {
-          font-size: 1.2rem;
-          margin-bottom: 20px;
+          font-size: 1.3rem;
+          margin-bottom: 30px;
         }
 
         .content {
-          padding: 120px 15px 80px;
+          padding: 140px 20px 100px;
         }
 
         .preset-buttons {
           grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .preset-btn {
+          padding: 12px 8px;
+          font-size: 11px;
+          min-height: 50px; /* Mejorar accesibilidad táctil */
+        }
+
+        .control-group {
+          margin-bottom: 18px;
+        }
+
+        .control-group label {
+          font-size: 14px;
+        }
+
+        .control-group input,
+        .control-group select {
+          padding: 12px;
+          font-size: 15px;
+        }
+
+        .toggle-panel {
+          bottom: 25px;
+          right: 25px;
+          z-index: 1002;
+        }
+
+        .toggle-btn {
+          width: 70px;
+          height: 70px;
+          font-size: 22px;
+          box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .title {
+          font-size: 2.2rem;
+        }
+
+        .subtitle {
+          font-size: 1.1rem;
+        }
+
+        .content {
+          padding: 120px 15px 20px;
+        }
+
+        .preset-buttons {
+          grid-template-columns: repeat(2, 1fr);
           gap: 8px;
         }
 
         .preset-btn {
-          padding: 10px 5px;
           font-size: 10px;
-          min-height: 44px; /* Mejorar accesibilidad táctil */
+          padding: 10px 6px;
         }
 
-        .control-group {
-          margin-bottom: 12px;
+        .control-panel {
+          padding: 16px 20px 20px;
+          left: 5px;
+          right: 5px;
         }
 
         .control-group label {
           font-size: 13px;
         }
 
-        .control-group input,
-        .control-group select {
-          padding: 8px;
-          font-size: 14px;
-        }
-
-        .toggle-panel {
-          bottom: 20px;
-          right: 20px;
-          z-index: 1002;
-        }
-
         .toggle-btn {
-          width: 60px;
-          height: 60px;
+          width: 65px;
+          height: 65px;
           font-size: 20px;
-          box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .title {
-          font-size: 2rem;
-        }
-
-        .subtitle {
-          font-size: 1rem;
-        }
-
-        .content {
-          padding: 100px 10px 15px;
-        }
-
-        .preset-buttons {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .preset-btn {
-          font-size: 9px;
-          padding: 8px 4px;
-        }
-
-        .control-panel {
-          padding: 10px 15px 15px;
-        }
-
-        .control-group label {
-          font-size: 12px;
         }
       }
 
@@ -390,18 +563,23 @@
       /* Mejoras para interacción táctil */
       @media (hover: none) and (pointer: coarse) {
         .preset-btn {
-          padding: 12px 8px;
-          min-height: 44px;
+          padding: 14px 10px;
+          min-height: 50px;
         }
 
         .control-group input[type="range"] {
-          height: 44px;
+          height: 50px;
         }
 
         .control-group input,
         .control-group select {
-          min-height: 44px;
+          min-height: 50px;
           font-size: 16px; /* Evita zoom en iOS */
+        }
+
+        .toggle-btn {
+          min-width: 70px;
+          min-height: 70px;
         }
       }
 
@@ -419,48 +597,152 @@
       /* Optimizaciones para pantallas de alta densidad */
       @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .control-panel {
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+        }
+
+        .control-group input,
+        .control-group select {
+          backdrop-filter: blur(15px);
         }
       }
 
       /* Optimizaciones para dark mode */
       @media (prefers-color-scheme: dark) {
         .control-panel {
-          background: rgba(0, 0, 0, 0.9);
-          border-color: #444;
+          background: rgba(15, 15, 30, 0.95);
+          border-color: rgba(255, 255, 255, 0.15);
         }
       }
 
       /* Mejoras de accesibilidad */
       @media (prefers-contrast: high) {
         .control-panel {
-          background: rgba(0, 0, 0, 0.95);
+          background: rgba(0, 0, 0, 0.98);
           border: 2px solid #fff;
         }
 
         .control-group input,
         .control-group select {
-          border: 2px solid #fff;
+          border: 2px solid rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.15);
+        }
+
+        .preset-btn {
+          border: 1px solid rgba(255, 255, 255, 0.3);
         }
       }
 
       /* Optimizaciones para touch devices */
       @media (hover: none) and (pointer: coarse) {
         .preset-btn {
-          padding: 12px 10px;
-          font-size: 14px;
+          padding: 14px 12px;
+          font-size: 12px;
         }
 
         .control-group input,
         .control-group select {
-          padding: 10px;
+          padding: 14px;
           font-size: 16px; /* Previene zoom en iOS */
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+          width: 24px;
+          height: 24px;
         }
       }
 
       .hidden {
         display: none;
+      }
+
+      /* Efectos adicionales para mejorar la experiencia visual */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .control-panel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      }
+
+      /* Mejora en la accesibilidad del focus */
+      *:focus-visible {
+        outline: 2px solid #00ff88;
+        outline-offset: 2px;
+      }
+
+      /* Smooth scrolling mejorado */
+      html {
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 255, 136, 0.6) rgba(10, 10, 10, 0.3);
+      }
+
+      /* Estilos personalizados para la barra de scroll */
+      /* Webkit browsers (Chrome, Safari, Edge) */
+      ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(10, 10, 10, 0.3);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.6) 0%, rgba(102, 51, 153, 0.6) 50%, rgba(255, 0, 110, 0.6) 100%);
+        border-radius: 10px;
+        border: 2px solid rgba(15, 15, 30, 0.5);
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.8) 0%, rgba(102, 51, 153, 0.8) 50%, rgba(255, 0, 110, 0.8) 100%);
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.5), 0 0 25px rgba(255, 0, 110, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      ::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(135deg, rgba(0, 255, 136, 1) 0%, rgba(102, 51, 153, 1) 50%, rgba(255, 0, 110, 1) 100%);
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.7), 0 0 30px rgba(255, 0, 110, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      }
+
+      ::-webkit-scrollbar-corner {
+        background: rgba(15, 15, 30, 0.8);
+        border-radius: 10px;
+      }
+
+      /* Estilos específicos para el panel de control */
+      .control-panel::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .control-panel::-webkit-scrollbar-track {
+        background: rgba(15, 15, 30, 0.5);
+        border-radius: 8px;
+        margin: 4px;
+      }
+
+      .control-panel::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.4) 0%, rgba(102, 51, 153, 0.4) 50%, rgba(255, 0, 110, 0.4) 100%);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+      }
+
+      .control-panel::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.6) 0%, rgba(102, 51, 153, 0.6) 50%, rgba(255, 0, 110, 0.6) 100%);
+        box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
       }
     </style>
 
@@ -481,7 +763,7 @@
     <div class="demo-container">
       <!-- Control Panel -->
       <div class="control-panel" id="control-panel">
-        <h3>Controles</h3>
+        <h3>🎮 Controles Avanzados</h3>
 
         <!-- Preset Buttons -->
         <div class="preset-buttons">
@@ -502,22 +784,22 @@
 
         <!-- Controls -->
         <div class="control-group">
-          <label for="particle-count-slider">Partículas: <span id="count-value">500</span></label>
+          <label for="particle-count-slider">🔢 Partículas: <span id="count-value">500</span></label>
           <input type="range" id="particle-count-slider" min="10" max="500" value="500" />
         </div>
 
         <div class="control-group">
-          <label for="speed-slider">Velocidad: <span id="speed-value">0.3</span></label>
+          <label for="speed-slider">⚡ Velocidad: <span id="speed-value">0.3</span></label>
           <input type="range" id="speed-slider" min="0.1" max="2.0" step="0.1" value="0.3" />
         </div>
 
         <div class="control-group">
-          <label for="size-slider">Tamaño: <span id="size-value">3</span></label>
+          <label for="size-slider">📏 Tamaño: <span id="size-value">3</span></label>
           <input type="range" id="size-slider" min="1" max="10" value="3" />
         </div>
 
         <div class="control-group">
-          <label for="color-type">Tipo de Color:</label>
+          <label for="color-type">🎨 Tipo de Color:</label>
           <select id="color-type">
             <option value="single">Simple</option>
             <option value="gradient">Gradiente</option>
@@ -527,7 +809,7 @@
         </div>
 
         <div class="control-group">
-          <label for="animation-type">Animación:</label>
+          <label for="animation-type">🎭 Animación:</label>
           <select id="animation-type">
             <option value="float">Flotante</option>
             <option value="bounce">Rebote</option>
@@ -538,7 +820,7 @@
         </div>
 
         <div class="control-group">
-          <label for="shape-type">Forma:</label>
+          <label for="shape-type">🔷 Forma:</label>
           <select id="shape-type">
             <option value="circle">Círculo</option>
             <option value="square">Cuadrado</option>
@@ -549,50 +831,50 @@
         </div>
 
         <div class="control-group">
-          <label for="connection-distance">Distancia Conexión: <span id="connection-distance-value">120</span></label>
+          <label for="connection-distance">🔗 Distancia Conexión: <span id="connection-distance-value">120</span></label>
           <input type="range" id="connection-distance" min="50" max="300" value="120" />
         </div>
 
         <div class="control-group">
-          <label for="turbulence-slider">Turbulencia: <span id="turbulence-value">0.3</span></label>
+          <label for="turbulence-slider">🌪️ Turbulencia: <span id="turbulence-value">0.3</span></label>
           <input type="range" id="turbulence-slider" min="0" max="1" step="0.1" value="0.3" />
         </div>
 
         <div class="control-group">
-          <label for="glow-size">Tamaño Glow: <span id="glow-size-value">15</span></label>
+          <label for="glow-size">✨ Tamaño Glow: <span id="glow-size-value">15</span></label>
           <input type="range" id="glow-size" min="5" max="50" value="15" />
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="connections-toggle" checked /> Conexiones </label>
+          <label> <input type="checkbox" id="connections-toggle" checked /> 🔗 Conexiones </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="glow-toggle" checked /> Efecto Glow </label>
+          <label> <input type="checkbox" id="glow-toggle" checked /> ✨ Efecto Glow </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="pulse-toggle" checked /> Pulsación </label>
+          <label> <input type="checkbox" id="pulse-toggle" checked /> 💓 Pulsación </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="rotation-toggle" checked /> Rotación </label>
+          <label> <input type="checkbox" id="rotation-toggle" checked /> 🔄 Rotación </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="twinkle-toggle" checked /> Centelleo </label>
+          <label> <input type="checkbox" id="twinkle-toggle" checked /> ⭐ Centelleo </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="trail-toggle" checked /> Trail Mouse </label>
+          <label> <input type="checkbox" id="trail-toggle" checked /> 🐭 Trail Mouse </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="physics-toggle" /> Física (Gravedad) </label>
+          <label> <input type="checkbox" id="physics-toggle" /> 🌍 Física (Gravedad) </label>
         </div>
 
         <div class="control-group">
-          <label> <input type="checkbox" id="curve-connections" checked /> Conexiones Curvas </label>
+          <label> <input type="checkbox" id="curve-connections" checked /> 〰️ Conexiones Curvas </label>
         </div>
       </div>
 
@@ -1066,7 +1348,7 @@
 
         // Get optimal particle count based on device capabilities
         const getOptimalParticleCount = () => {
-          const baseCount = 500;
+          const baseCount = 100;
           const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
           const pixelRatio = window.devicePixelRatio || 1;
           const screenArea = window.innerWidth * window.innerHeight;
@@ -1226,10 +1508,10 @@
 
           // Rendimiento optimizado
           performance: {
-            maxFPS: 60,
-            enableWebGL: false,
+            maxFPS: 30,
+            enableWebGL: true,
             optimizeConnections: true,
-            pauseOnBlur: true,
+            pauseOnBlur: false,
             adaptiveQuality: true,
             mobile: {
               reducedMotion: false,
@@ -1400,44 +1682,111 @@
         });
       }, 100);
 
-      // Optimized control event listeners with performance benefits
+      // Helper functions for control configurations
+      const getColorConfig = (value) => {
+        const configs = {
+          single: { type: value, value: "#00ff88" },
+          gradient: { type: value, gradient: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FECA57", "#FF8C42"] },
+          rainbow: { type: value, rainbowSpeed: 0.03 },
+          random: { type: value, randomPalette: ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FECA57", "#FF8C42"] },
+        };
+        return configs[value] || configs.single;
+      };
+
+      const getAnimationConfig = (value) => {
+        const base = { type: value, speed: 1.2 };
+        const configs = {
+          wave: { ...base, wave: { amplitude: 60, frequency: 0.015, speed: 0.025 } },
+          spiral: { ...base, direction: "clockwise" },
+          orbit: { ...base, orbit: { radius: 150, speed: 0.015 } },
+        };
+        return configs[value] || base;
+      };
+
+      // Setup range slider controls
+      const setupRangeControls = () => {
+        const controls = [
+          { id: "particle-count-slider", display: "count-value", update: (val) => ({ count: val }), parser: parseInt },
+          { id: "speed-slider", display: "speed-value", update: (val) => ({ speed: { min: val * 0.5, max: val * 1.5 } }), parser: parseFloat },
+          { id: "size-slider", display: "size-value", update: (val) => ({ size: { min: Math.max(1, val - 2), max: val, pulse: document.getElementById("pulse-toggle")?.checked || false } }), parser: parseInt },
+          { id: "connection-distance", display: "connection-distance-value", update: (val) => ({ connections: { ...currentFlux?.config?.connections, distance: val } }), parser: parseInt },
+          { id: "turbulence-slider", display: "turbulence-value", update: (val) => ({ speed: { ...currentFlux?.config?.speed, turbulence: val } }), parser: parseFloat },
+          { id: "glow-size", display: "glow-size-value", update: (val) => ({ effects: { ...currentFlux?.config?.effects, glowSize: val } }), parser: parseInt },
+        ];
+
+        controls.forEach(({ id, display, update, parser }) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener(
+              "input",
+              debounce(
+                (e) => {
+                  const value = parser(e.target.value);
+                  const displayElement = document.getElementById(display);
+                  if (displayElement) {
+                    displayElement.textContent = parser === parseFloat ? value.toFixed(1) : value;
+                  }
+                  if (currentFlux) {
+                    currentFlux.updateConfig(update(value));
+                  }
+                },
+                id === "particle-count-slider" ? 150 : 100
+              )
+            );
+          }
+        });
+      };
+
+      // Setup select controls
+      const setupSelectControls = () => {
+        const selects = [
+          { id: "color-type", update: (val) => ({ color: getColorConfig(val) }) },
+          { id: "animation-type", update: (val) => ({ animation: getAnimationConfig(val) }) },
+          { id: "shape-type", update: (val) => ({ shape: { type: val, ...(val === "star" && { sides: 6, rotation: document.getElementById("rotation-toggle")?.checked || false, rotationSpeed: 0.02 }) } }) },
+        ];
+
+        selects.forEach(({ id, update }) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener("change", (e) => {
+              if (currentFlux) {
+                currentFlux.updateConfig(update(e.target.value));
+              }
+            });
+          }
+        });
+      };
+
+      // Setup checkbox controls
+      const setupCheckboxControls = () => {
+        const checkboxes = [
+          { id: "connections-toggle", update: (checked) => ({ connections: { ...currentFlux?.config?.connections, enabled: checked } }) },
+          { id: "glow-toggle", update: (checked) => ({ effects: { ...currentFlux?.config?.effects, glow: checked } }) },
+          { id: "pulse-toggle", update: (checked) => ({ size: { ...currentFlux?.config?.size, pulse: checked, pulseSpeed: 0.03, pulseIntensity: 0.8 } }) },
+          { id: "rotation-toggle", update: (checked) => ({ shape: { ...currentFlux?.config?.shape, rotation: checked, rotationSpeed: 0.02 } }) },
+          { id: "twinkle-toggle", update: (checked) => ({ effects: { ...currentFlux?.config?.effects, twinkle: checked, twinkleSpeed: 0.04 } }) },
+          { id: "trail-toggle", update: (checked) => ({ mouse: { ...currentFlux?.config?.mouse, trail: checked, trailLength: 40, trailWidth: 12, trailColor: "#00ff88" } }) },
+          { id: "physics-toggle", update: (checked) => ({ physics: { ...currentFlux?.config?.physics, gravity: checked ? 0.02 : 0 } }) },
+          { id: "curve-connections", update: (checked) => ({ connections: { ...currentFlux?.config?.connections, curve: checked } }) },
+        ];
+
+        checkboxes.forEach(({ id, update }) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener("change", (e) => {
+              if (currentFlux) {
+                currentFlux.updateConfig(update(e.target.checked));
+              }
+            });
+          }
+        });
+      };
+
+      // Main setup function
       const setupControlListeners = () => {
-        // Particle count control with throttling
-        const particleSlider = document.getElementById("particle-count-slider");
-        if (particleSlider) {
-          particleSlider.addEventListener(
-            "input",
-            debounce((e) => {
-              const value = parseInt(e.target.value);
-              document.getElementById("count-value").textContent = value;
-              if (currentFlux) {
-                currentFlux.updateConfig({ count: value });
-              }
-            }, 150)
-          );
-        }
-
-        // Speed control
-        const speedSlider = document.getElementById("speed-slider");
-        if (speedSlider) {
-          speedSlider.addEventListener(
-            "input",
-            debounce((e) => {
-              const value = parseFloat(e.target.value);
-              document.getElementById("speed-value").textContent = value.toFixed(1);
-              if (currentFlux) {
-                currentFlux.updateConfig({
-                  speed: {
-                    min: value * 0.5,
-                    max: value * 1.5,
-                  },
-                });
-              }
-            }, 100)
-          );
-        }
-
-        // Other controls can be added here...
+        setupRangeControls();
+        setupSelectControls();
+        setupCheckboxControls();
       };
 
       // Mobile optimization
