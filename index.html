@@ -3663,7 +3663,10 @@ const flux = new Flux({
               maxFPS: 30,
               adaptiveQuality: false,
               mobile: {
-                memoryLimit: 500
+                reducedMotion: false,
+                batteryOptimization: false,
+                memoryLimit: 10000, // Límite de partículas en móvil
+                useTransform3d: false,
               }
             },
             speed: { 
