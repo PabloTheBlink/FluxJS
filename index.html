@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="tailwind-loaded">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
@@ -153,18 +153,32 @@
       }
     </style>
 
-    <!-- External resources with performance optimizations -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      // Load Tailwind CSS optimally
-      (function () {
-        var link = document.createElement("script");
-        link.src = "https://cdn.tailwindcss.com";
-        link.onload = function () {
-          // Tailwind loaded, styles will be applied
-          document.documentElement.classList.add("tailwind-loaded");
-        };
-        document.head.appendChild(link);
-      })();
+      // Configuración personalizada de Tailwind CSS
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'flux-primary': '#4fc3f7',
+              'flux-primary-dark': '#29b6f6',
+              'flux-blue': '#4fc3f7',
+              'flux-blue-dark': '#29b6f6',
+              'flux-bg-primary': '#020202',
+              'flux-bg-secondary': '#0c0c0c',
+              'flux-bg-tertiary': '#1a1a1a'
+            },
+            spacing: {
+              '18': '4.5rem',
+              '88': '22rem'
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'bounce-slow': 'bounce 2s infinite'
+            }
+          }
+        }
+      }
     </script>
     <script src="flux.js?v=1.0.3"></script>
 
@@ -272,6 +286,32 @@
           opacity: 1;
           transform: translateY(0);
         }
+      }
+
+      @keyframes gradient-x {
+        0%,
+        100% {
+          background-size: 200% 200%;
+          background-position: left center;
+        }
+        50% {
+          background-size: 200% 200%;
+          background-position: right center;
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .animate-gradient-x {
+        animation: gradient-x 4s ease infinite;
+        background-size: 200% 200%;
       }
 
       /* Mobile optimizations mejoradas */
@@ -639,274 +679,325 @@
       <div class="flux-loader-text">Preparando experiencia FluxJS...</div>
     </div>
 
-    <!-- Navegación -->
-    <header class="fixed top-0 w-full backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/90 to-black/80 z-50 border-b border-white/10 transition-all duration-500 group shadow-2xl">
-      <!-- Línea decorativa animada en la parte superior -->
-      <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-flux-primary to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse"></div>
-
-      <!-- Efecto de resplandor en hover -->
-      <div class="absolute inset-0 bg-gradient-to-r from-flux-primary/5 via-flux-primary/10 to-flux-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-      <!-- Efectos de partículas en el header mejorados -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-4 -right-4 w-8 h-8 bg-flux-primary/20 rounded-full blur-sm animate-pulse"></div>
-        <div class="absolute top-1/2 left-1/4 w-2 h-2 bg-flux-primary/30 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
-        <div class="absolute top-3 right-1/3 w-1 h-1 bg-white/40 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
-        <div class="absolute bottom-2 left-1/2 w-1.5 h-1.5 bg-flux-primary/25 rounded-full animate-bounce" style="animation-delay: 0.5s"></div>
-        <div class="absolute top-1/4 right-1/4 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style="animation-delay: 1.5s"></div>
-      </div>
-
-      <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 relative z-10">
-        <!-- Logo mejorado con efectos más integrados -->
-        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-primary no-underline hover:text-flux-primary-dark transition-all duration-500 group/logo relative">
-          <!-- Icono decorativo mejorado -->
-          <div class="w-8 h-8 mr-3 relative">
-            <div class="absolute inset-0 bg-gradient-to-br from-flux-primary via-flux-primary-dark to-flux-primary rounded-lg group-hover/logo:rotate-12 group-hover/logo:scale-110 transition-all duration-500 shadow-lg"></div>
-            <div class="absolute inset-0.5 bg-gradient-to-br from-black/30 to-black/60 rounded-md"></div>
-            <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm group-hover/logo:animate-pulse">✨</div>
-            <!-- Resplandor del icono -->
-            <div class="absolute -inset-2 bg-flux-primary/20 blur-lg opacity-0 group-hover/logo:opacity-100 rounded-xl transition-opacity duration-500"></div>
-          </div>
-
-          <!-- Texto del logo con efecto de resplandor mejorado -->
-          <span class="relative">
-            FluxJS
-            <div class="absolute -inset-2 bg-gradient-to-r from-flux-primary/30 via-flux-primary/40 to-flux-primary/30 blur-xl opacity-0 group-hover/logo:opacity-100 transition-all duration-500 -z-10"></div>
-          </span>
-
-          <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-flux-primary/20 text-flux-primary rounded-full border border-flux-primary/30 animate-pulse hover:animate-none hover:bg-flux-primary/30 transition-all duration-300">v1.0.3</span>
+    <!-- Navegación simple e integrada -->
+    <header class="w-full py-4 px-4 sm:px-6 lg:px-8 bg-transparent relative z-50">
+      <nav class="max-w-7xl mx-auto flex justify-between items-center">
+        <!-- Logo simple -->
+        <a href="#inicio" class="flex items-center text-xl sm:text-2xl font-bold text-flux-primary no-underline hover:text-flux-primary-dark transition-colors duration-300">
+          <img src="./icon.png" alt="Icono de FluxJS" class="w-8 h-8 mr-2" />
+          FluxJS
         </a>
 
-        <!-- Botón menú móvil con mejor integración -->
-        <button id="mobile-menu-button" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group hover:bg-flux-primary/10 rounded-xl transition-all duration-300 border border-transparent hover:border-flux-primary/20">
-          <!-- Efecto de resplandor mejorado -->
-          <div class="absolute inset-0 bg-gradient-to-br from-flux-primary/20 to-flux-primary/30 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm"></div>
-
-          <!-- Líneas del hamburger con animación mejorada -->
-          <span class="block w-6 h-0.5 bg-white/90 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
-          <span class="block w-6 h-0.5 bg-white/90 mt-1.5 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
-          <span class="block w-6 h-0.5 bg-white/90 mt-1.5 transition-all duration-300 group-hover:bg-flux-primary relative z-10 shadow-sm"></span>
-
-          <!-- Indicador de interactividad mejorado -->
-          <div class="absolute -top-1 -right-1 w-2 h-2 bg-flux-primary rounded-full opacity-0 group-hover:opacity-100 animate-ping transition-opacity duration-300"></div>
+        <!-- Botón menú móvil simple -->
+        <button id="mobile-menu-button" class="md:hidden w-10 h-10 flex flex-col justify-center items-center group">
+          <span class="block w-6 h-0.5 bg-white transition-all duration-300 group-hover:bg-flux-primary"></span>
+          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-primary"></span>
+          <span class="block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 group-hover:bg-flux-primary"></span>
         </button>
 
-        <!-- Menú desktop con mejor integración -->
-        <ul class="hidden md:flex list-none gap-1 lg:gap-2">
+        <!-- Menú desktop simple -->
+        <ul class="hidden md:flex list-none gap-8">
           <li>
-            <a href="#inicio" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
-              Inicio
-              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
-            </a>
+            <a href="#inicio" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Inicio</a>
           </li>
           <li>
-            <a href="#instalacion" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
-              Empezar
-              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
-            </a>
+            <a href="#instalacion" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Empezar</a>
           </li>
           <li>
-            <a href="#ejemplos" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
-              Ejemplos
-              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
-            </a>
+            <a href="#ejemplos" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Ejemplos</a>
           </li>
           <li>
-            <a href="#api" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
-              Guía
-              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
-            </a>
+            <a href="#api" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Guía</a>
           </li>
           <li>
-            <a href="#generador" class="nav-link relative group text-white/90 font-medium hover:text-flux-primary transition-all duration-300 no-underline px-4 py-2 rounded-xl hover:bg-flux-primary/10 border border-transparent hover:border-flux-primary/20 hover:shadow-lg hover:shadow-flux-primary/20">
-              <span class="relative">
-                Crear
-                <!-- Badge "Nuevo" mejorado -->
-                <span class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50"></span>
-              </span>
-              <span class="absolute bottom-1 left-1/2 w-0 h-0.5 bg-flux-primary group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></span>
-            </a>
+            <a href="#generador" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Crear</a>
           </li>
         </ul>
 
-        <!-- Menú móvil con mejor integración -->
-        <div id="mobile-menu" class="md:hidden fixed top-full left-0 w-full backdrop-blur-xl bg-black/95 border-b border-white/10 transform -translate-y-full opacity-0 invisible transition-all duration-500 z-40 shadow-2xl">
+        <!-- Menú móvil simple -->
+        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-sm transform -translate-y-full opacity-0 invisible transition-all duration-300 z-40">
           <ul class="flex flex-col list-none py-4">
             <li>
-              <a href="#inicio" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
-                <span class="flex items-center">
-                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
-                  Inicio
-                </span>
-              </a>
+              <a href="#inicio" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Inicio</a>
             </li>
             <li>
-              <a href="#instalacion" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
-                <span class="flex items-center">
-                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
-                  Empezar
-                </span>
-              </a>
+              <a href="#instalacion" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Empezar</a>
             </li>
             <li>
-              <a href="#ejemplos" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
-                <span class="flex items-center">
-                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
-                  Ejemplos
-                </span>
-              </a>
+              <a href="#ejemplos" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Ejemplos</a>
             </li>
             <li>
-              <a href="#api" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
-                <span class="flex items-center">
-                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
-                  Guía
-                </span>
-              </a>
+              <a href="#api" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Guía</a>
             </li>
             <li>
-              <a href="#generador" class="nav-link block px-6 py-4 text-white/90 font-medium hover:text-flux-primary hover:bg-flux-primary/10 transition-all duration-300 no-underline border-l-4 border-transparent hover:border-flux-primary">
-                <span class="flex items-center">
-                  <span class="w-2 h-2 bg-flux-primary/50 rounded-full mr-3 group-hover:bg-flux-primary transition-colors duration-300"></span>
-                  Crear
-                  <span class="ml-2 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-                </span>
-              </a>
+              <a href="#generador" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Crear</a>
             </li>
           </ul>
         </div>
       </nav>
     </header>
+      </nav>
+    </header>
 
-    <!-- Sección Inicio -->
-    <section id="inicio" class="flex flex-col justify-center items-center text-center relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <div class="z-10 flux-card w-full animate-fade-in-up">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-text text-center mb-6 sm:mb-8 drop-shadow-lg">FluxJS</h1>
-        <p class="text-xl sm:text-2xl md:text-3xl text-flux-blue font-semibold mb-4">Partículas Mágicas para Tu Web ✨</p>
-        <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-up-delay leading-relaxed">
-          ¿Quieres que tu web se vea increíble? <strong>FluxJS es súper fácil de usar</strong> - solo copia y pega el código. Añade efectos de partículas espectaculares que se ven genial en cualquier dispositivo.
-          <br class="hidden sm:block" />
-          <span class="text-flux-blue font-medium">¡En 5 minutos tendrás tu web funcionando como las de los profesionales!</span>
-        </p>
-
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up-delay-2 mb-8">
-          <a href="#instalacion" class="flux-btn flux-btn-primary w-full sm:w-auto text-lg px-8 py-4">✨ ¡Empezar Ahora!</a>
-          <a href="#ejemplos" class="flux-btn flux-btn-secondary w-full sm:w-auto text-lg px-8 py-4">👀 Ver Ejemplos</a>
+    <!-- Hero Section - Diseño Alternativo Moderno -->
+    <section id="inicio" class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 lg:px-8 pt-20 pb-16 max-w-7xl mx-auto">
+   
+      
+      <!-- Grid de dos columnas -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full relative z-10">
+        
+        <!-- Columna Izquierda - Contenido Principal -->
+        <div class="space-y-8">
+          <!-- Badge de versión -->
+          <div class="inline-flex items-center px-4 py-2 bg-flux-primary/10 text-flux-primary rounded-full text-sm font-medium border border-flux-primary/20">
+            <span class="w-2 h-2 bg-flux-primary rounded-full mr-2 animate-pulse"></span>
+            v1.0.3 - Listo para usar
+          </div>
+          
+          <!-- Título principal -->
+          <div class="space-y-4">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight">
+              <span class="text-white">Partículas</span>
+              <br />
+              <span class="text-flux-primary">Increíbles</span>
+              <br />
+              <span class="text-white/80">Sin Esfuerzo</span>
+            </h1>
+            
+            <p class="text-xl sm:text-2xl text-white/70 leading-relaxed max-w-xl">
+              Añade efectos visuales profesionales a tu web en solo <span class="text-flux-primary font-semibold">5 minutos</span>. 
+              Sin configuración compleja, sin dolor de cabeza.
+            </p>
+          </div>
+          
+          <!-- Botones de acción -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#instalacion" class="flux-btn flux-btn-primary text-lg px-8 py-4 font-semibold">
+              Empezar Ahora →
+            </a>
+            <a href="#ejemplos" class="flux-btn flux-btn-secondary text-lg px-8 py-4 font-semibold">
+              Ver Demo
+            </a>
+          </div>
+          
+          <!-- Stats rápidos -->
+          <div class="flex items-center gap-8 pt-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-flux-primary">5min</div>
+              <div class="text-sm text-white/60">Para instalar</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-400">100%</div>
+              <div class="text-sm text-white/60">Responsive</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-400">0</div>
+              <div class="text-sm text-white/60">Configuración</div>
+            </div>
+          </div>
         </div>
-
-        <!-- Preview rápido de lo que pueden hacer -->
-        <div class="text-sm text-white/70 mb-4">Perfecta para sitios web, blogs, portfolios, aplicaciones...</div>
+        
+        <!-- Columna Derecha - Demo Visual -->
+        <div class="relative">
+          <!-- Canvas de demo interactivo -->
+          <div class="aspect-square bg-gradient-to-br from-black/40 to-black/60 rounded-3xl border border-white/10 relative overflow-hidden group hover:border-flux-primary/30 transition-all duration-500">
+            <!-- Simulación de partículas estáticas -->
+            <div class="absolute inset-4 rounded-2xl bg-gradient-to-br from-flux-primary/10 to-purple-400/10">
+              <!-- Partículas decorativas fijas -->
+              <div class="absolute top-1/4 left-1/3 w-3 h-3 bg-flux-primary rounded-full animate-pulse"></div>
+              <div class="absolute top-1/2 right-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
+              <div class="absolute bottom-1/3 left-1/4 w-4 h-4 bg-purple-400/80 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+              <div class="absolute top-1/6 right-1/3 w-2 h-2 bg-green-400 rounded-full animate-ping" style="animation-delay: 1s"></div>
+              <div class="absolute bottom-1/4 right-1/6 w-3 h-3 bg-pink-400/80 rounded-full animate-pulse" style="animation-delay: 1.5s"></div>
+              
+              <!-- Overlay con texto demo -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center space-y-2">
+                  <div class="text-4xl">✨</div>
+                  <div class="text-white/80 font-medium">FluxJS en acción</div>
+                  <div class="text-white/60 text-sm">Hover para ver más</div>
+                </div>
+              </div>
+              
+              <!-- Efectos adicionales al hover -->
+              <div class="absolute top-1/3 left-1/2 w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-all duration-300"></div>
+              <div class="absolute bottom-1/2 left-1/6 w-3 h-3 bg-red-400/80 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-500"></div>
+            </div>
+            
+            <!-- Indicador de interactividad -->
+            <div class="absolute bottom-4 right-4 text-white/40 text-xs">
+              Versión interactiva disponible ↗
+            </div>
+          </div>
+          
+          <!-- Features destacadas -->
+          <div class="mt-8 grid grid-cols-2 gap-4">
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div class="text-green-400 text-2xl mb-2">🎯</div>
+              <div class="text-white font-medium text-sm">Súper Fácil</div>
+              <div class="text-white/60 text-xs">Copia y pega</div>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div class="text-flux-primary text-2xl mb-2">🚀</div>
+              <div class="text-white font-medium text-sm">Ultra Rápido</div>
+              <div class="text-white/60 text-xs">Carga ligera</div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <!-- Lo que hace especial a FluxJS - Simple -->
-      <div class="mx-auto mt-12 sm:mt-16 animate-fade-in-up-delay-2">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <!-- Súper Fácil -->
-          <div class="flux-glass border border-green-500/30 rounded-flux-lg p-6 text-center">
-            <div class="text-4xl mb-4">🎯</div>
-            <h3 class="text-green-400 font-semibold text-lg mb-3">Súper Fácil</h3>
-            <p class="text-white/80 text-sm">
-              Solo <strong>copia y pega</strong> el código. No necesitas saber programación avanzada.
-              <span class="text-green-400">¡Funciona al instante!</span>
-            </p>
-          </div>
-
-          <!-- Se Ve Increíble -->
-          <div class="flux-glass border border-flux-blue/30 rounded-flux-lg p-6 text-center">
-            <div class="text-4xl mb-4">✨</div>
-            <h3 class="text-flux-blue font-semibold text-lg mb-3">Se Ve Increíble</h3>
-            <p class="text-white/80 text-sm">
-              Efectos visuales <strong>profesionales</strong> que impresionan a tus visitantes.
-              <span class="text-flux-blue">¡Tu web destacará del resto!</span>
-            </p>
-          </div>
-
-          <!-- Inteligente -->
-          <div class="flux-glass border border-purple-500/30 rounded-flux-lg p-6 text-center">
-            <div class="text-4xl mb-4">🧠</div>
-            <h3 class="text-purple-400 font-semibold text-lg mb-3">Inteligente</h3>
-            <p class="text-white/80 text-sm">
-              Se adapta automáticamente a <strong>móviles y computadoras</strong>.
-              <span class="text-purple-400">¡No tienes que configurar nada!</span>
-            </p>
-          </div>
+      
+      <!-- Indicador de scroll -->
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center">
+          <div class="w-1 h-3 bg-flux-primary rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
     </section>
 
-    <!-- Sección Instalación -->
-    <section id="instalacion" class="px-4 sm:px-6 lg:px-8 pt-10 sm:pt-18 pb-10 sm:pb-18 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">¡Empezar es Súper Fácil! 🚀</h2>
+    <!-- Sección Instalación Premium -->
+    <section id="instalacion" class="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para instalación -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div class="absolute top-1/4 right-1/6 w-24 h-24 bg-gradient-to-br from-green-400/25 to-emerald-300/20 rounded-full blur-2xl animate-pulse" style="animation-duration: 4s"></div>
+        <div class="absolute bottom-1/3 left-1/8 w-32 h-32 bg-gradient-to-br from-flux-primary/20 to-cyan-400/15 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s; animation-duration: 5s"></div>
+        <div class="absolute top-1/2 left-1/2 w-16 h-16 bg-gradient-to-br from-purple-400/25 to-pink-300/20 rounded-full blur-xl animate-bounce" style="animation-delay: 2s; animation-duration: 6s"></div>
+      </div>
 
-      <!-- Paso a paso visual -->
-      <div class="max-w-4xl mx-auto pb-16 sm:pb-24">
-        <div class="bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 sm:p-8 rounded-3xl border border-green-500/30 backdrop-blur-lg text-center mb-8">
-          <h3 class="text-2xl text-green-400 font-bold mb-4">� Solo 3 Pasos Para el Éxito</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-            <div class="flex flex-col items-center">
-              <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-3">1</div>
-              <p class="font-semibold text-green-400">Copia el enlace</p>
-              <p class="text-white/70">Añade FluxJS a tu HTML</p>
-            </div>
-            <div class="flex flex-col items-center">
-              <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-3">2</div>
-              <p class="font-semibold text-flux-blue">Crea un contenedor</p>
-              <p class="text-white/70">Un simple &lt;div&gt; en tu HTML</p>
-            </div>
-            <div class="flex flex-col items-center">
-              <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-3">3</div>
-              <p class="font-semibold text-purple-400">¡Disfruta!</p>
-              <p class="text-white/70">Tus partículas ya están funcionando</p>
+      <!-- Título principal mejorado -->
+      <div class="text-center mb-12 sm:mb-16 relative z-10">
+        <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 relative group">
+          <span class="text-green-400 font-bold">¡Empezar es Súper Fácil!</span>
+          <span class="text-5xl sm:text-6xl md:text-7xl ml-2 animate-bounce inline-block" style="animation-delay: 0.3s">🚀</span>
+
+          <!-- Efectos de resplandor -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-green-400/15 via-flux-primary/20 to-purple-400/15 blur-2xl opacity-50 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+        </h2>
+
+        <p class="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto">Solo necesitas <span class="text-green-400 font-bold">3 pasos simples</span> para tener partículas increíbles en tu web</p>
+      </div>
+
+      <!-- Pasos visuales premium -->
+      <div class="max-w-5xl mx-auto mb-16 sm:mb-20 relative z-10">
+        <div class="flux-glass border border-green-400/30 rounded-3xl p-8 sm:p-10 text-center relative group overflow-hidden">
+
+          <!-- Partículas decorativas internas -->
+          <div class="absolute top-4 right-6 w-2 h-2 bg-green-400/40 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-flux-primary/50 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-8 w-1 h-1 bg-emerald-300/60 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+          <div class="relative z-10">
+            <h3 class="text-2xl sm:text-3xl font-bold mb-8 relative">
+              <span class="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent"> 🎯 Solo 3 Pasos Para el Éxito </span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+              <!-- Paso 1 -->
+              <div class="flex flex-col items-center group/step">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-green-500/30">
+                  1
+                  <!-- Anillo orbital -->
+                  <div class="absolute inset-0 border-2 border-green-400/40 rounded-full opacity-0 group-hover/step:opacity-100 group-hover/step:scale-125 group-hover/step:rotate-180 transition-all duration-1000"></div>
+                </div>
+                <p class="font-bold text-lg text-green-400 mb-2">Copia el enlace</p>
+                <p class="text-white/80 text-center">Añade FluxJS a tu HTML con un simple script</p>
+              </div>
+
+              <!-- Paso 2 -->
+              <div class="flex flex-col items-center group/step">
+                <div class="w-16 h-16 bg-gradient-to-br from-flux-red to-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-flux-primary/30 bg-blue-400">
+                  2
+                  <div class="absolute inset-0 border-2 border-flux-primary/40 rounded-full opacity-0 group-hover/step:opacity-100 group-hover/step:scale-125 group-hover/step:rotate-180 transition-all duration-1000"></div>
+                </div>
+                <p class="font-bold text-lg text-flux-primary mb-2">Crea un contenedor</p>
+                <p class="text-white/80 text-center">Un simple &lt;div&gt; donde aparecerán las partículas</p>
+              </div>
+
+              <!-- Paso 3 -->
+              <div class="flex flex-col items-center group/step">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-purple-500/30">
+                  3
+
+                </div>
+                <p class="font-bold text-lg text-purple-400 mb-2">¡Disfruta!</p>
+                <p class="text-white/80 text-center">Tus partículas ya están funcionando perfectamente</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Opción 1: La Más Fácil (CDN) -->
-      <div class="mb-12">
-        <div class="flux-card-gradient border-green-500/30">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="text-3xl">✨</span>
+      <!-- Opción 1: La Más Fácil (CDN) Premium -->
+      <div class="mb-16 relative z-10">
+        <div class="flux-card border border-green-400/40 relative group overflow-hidden">
+          <!-- Efecto de resplandor premium -->
+          <div class="absolute -inset-4 bg-gradient-to-br from-green-400/15 via-emerald-300/10 to-green-500/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-1000 rounded-3xl"></div>
+
+          <!-- Partículas decorativas -->
+          <div class="absolute top-6 right-8 w-3 h-3 bg-green-400/40 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-8 left-6 w-2 h-2 bg-emerald-300/50 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+          <div class="absolute top-1/2 right-6 w-1.5 h-1.5 bg-green-300/60 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+
+          <!-- Header de la tarjeta mejorado -->
+          <div class="flex items-center gap-4 mb-8 relative z-10">
+            <div class="text-4xl sm:text-5xl p-3 bg-gradient-to-br from-green-400/20 to-emerald-300/15 rounded-2xl border border-green-400/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">✨</div>
             <div>
-              <h3 class="text-2xl text-green-400 font-bold">Opción 1: ¡La Más Fácil!</h3>
-              <p class="text-white/80">Recomendada para principiantes - funciona al instante</p>
+              <h3 class="text-2xl sm:text-3xl font-bold mb-2">
+                <span class="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent"> Opción 1: ¡La Más Fácil! </span>
+              </h3>
+              <p class="text-white/85 text-lg">Recomendada para principiantes - funciona al instante</p>
+
+              <!-- Badge de recomendación -->
+              <div class="inline-flex items-center mt-2 px-3 py-1 bg-green-400/10 text-green-300 rounded-full text-sm font-semibold border border-green-400/20">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                Más Popular
+              </div>
             </div>
           </div>
 
-          <div class="space-y-6">
-            <!-- Paso 1 -->
-            <div>
-              <h4 class="text-flux-blue font-semibold mb-3 flex items-center">
-                <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3">1</span>
+          <div class="space-y-8 relative z-10">
+            <!-- Paso 1 Mejorado -->
+            <div class="group/step">
+              <h4 class="text-flux-primary font-bold text-lg sm:text-xl mb-4 flex items-center group-hover/step:text-flux-primary-dark transition-colors duration-300">
+                <span class="bg-gradient-to-br from-green-500 to-emerald-400 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-green-500/30 relative z-20">
+                  1
+                  <!-- Anillo orbital añadido -->
+                  <div class="absolute inset-0 border-2 border-green-400/40 rounded-full opacity-0 group-hover/step:opacity-100 group-hover/step:scale-125 group-hover/step:rotate-180 transition-all duration-1000 z-10"></div>
+                </span>
                 Añade esto en tu HTML (antes de &lt;/body&gt;):
               </h4>
-              <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-                <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-blue/20 hover:bg-flux-blue/30 text-flux-blue rounded text-xs transition-colors">📋 Copiar</button>
-                <pre><code class="language-html">&lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.3/flux.js"&gt;&lt;/script&gt;</code></pre>
+              <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-white/20 relative group-hover/step:border-green-400/30 transition-all duration-500 shadow-xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-3 right-3 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 border border-flux-primary/20 hover:border-flux-primary/40 z-10">📋 Copiar</button>
+                <pre class="pr-20"><code class="language-html">&lt;script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.3/flux.js"&gt;&lt;/script&gt;</code></pre>
+
+                <!-- Indicador de éxito al copiar -->
+                <div class="absolute top-3 right-3 px-4 py-2 bg-green-500/20 text-green-400 rounded-xl text-xs font-semibold opacity-0 transition-all duration-300 z-20" style="display: none">✅ ¡Copiado!</div>
               </div>
             </div>
 
-            <!-- Paso 2 -->
-            <div>
-              <h4 class="text-flux-blue font-semibold mb-3 flex items-center">
-                <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3">2</span>
+            <!-- Paso 2 Mejorado -->
+            <div class="group/step">
+              <h4 class="text-flux-primary font-bold text-lg sm:text-xl mb-4 flex items-center group-hover/step:text-flux-primary-dark transition-colors duration-300">
+                <span class="bg-gradient-to-br from-flux-primary to-cyan-400 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-flux-primary/30 relative z-20">
+                  2
+                  <div class="absolute inset-0 border-2 border-flux-primary/40 rounded-full opacity-0 group-hover/step:opacity-100 group-hover/step:scale-125 group-hover/step:rotate-180 transition-all duration-1000 z-10"></div>
+                </span>
                 Crea un contenedor para las partículas:
               </h4>
-              <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-                <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-blue/20 hover:bg-flux-blue/30 text-flux-blue rounded text-xs transition-colors">📋 Copiar</button>
-                <pre><code class="language-html">&lt;div id="mis-particulas"&gt;&lt;/div&gt;</code></pre>
+              <div class="bg-blue-900 text-white p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-flux-primary/30 relative group-hover/step:border-flux-primary/60 transition-all duration-500 shadow-xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-3 right-3 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 border border-flux-primary/20 hover:border-flux-primary/40 z-10">📋 Copiar</button>
+                <pre class="pr-20"><code class="language-html">&lt;div id="mis-particulas"&gt;&lt;/div&gt;</code></pre>
               </div>
             </div>
 
-            <!-- Paso 3 -->
-            <div>
-              <h4 class="text-flux-blue font-semibold mb-3 flex items-center">
-                <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3">3</span>
+            <!-- Paso 3 Mejorado -->
+            <div class="group/step">
+              <h4 class="text-flux-primary font-bold text-lg sm:text-xl mb-4 flex items-center group-hover/step:text-flux-primary-dark transition-colors duration-300">
+                <span class="bg-gradient-to-br from-purple-500 to-pink-400 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 group-hover/step:scale-110 group-hover/step:rotate-12 transition-all duration-500 shadow-lg shadow-purple-500/30">3</span>
                 Añade el código JavaScript (también antes de &lt;/body&gt;):
               </h4>
-              <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-                <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-blue/20 hover:bg-flux-blue/30 text-flux-blue rounded text-xs transition-colors">📋 Copiar</button>
-                <pre><code class="language-javascript">&lt;script&gt;
+              <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-white/20 relative group-hover/step:border-purple-400/30 transition-all duration-500 shadow-xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-3 right-3 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 border border-flux-primary/20 hover:border-flux-primary/40">📋 Copiar</button>
+                <pre class="pr-20"><code class="language-javascript">&lt;script&gt;
 // ¡Esto crea partículas automáticamente!
 const particulas = new FluxJS({
   container: document.getElementById('mis-particulas')
@@ -916,12 +1007,30 @@ const particulas = new FluxJS({
             </div>
           </div>
 
-          <!-- Ejemplo completo -->
-          <div class="mt-8 p-6 bg-green-500/10 rounded-2xl border border-green-500/20">
-            <h4 class="text-green-400 font-semibold mb-3">🎉 Ejemplo Completo - ¡Listo para Usar!</h4>
-            <div class="bg-gray-800 text-gray-100 p-4 sm:p-6 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-              <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded text-xs transition-colors">📋 Copiar Todo</button>
-              <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+          <!-- Ejemplo completo premium -->
+          <div class="mt-10 p-8 bg-gradient-to-br from-green-400/10 via-emerald-300/5 to-green-500/10 rounded-3xl border border-green-400/30 relative overflow-hidden group/example">
+            <!-- Efectos de partículas para el ejemplo -->
+            <div class="absolute top-4 right-6 w-2 h-2 bg-green-400/50 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-emerald-300/60 rounded-full animate-ping" style="animation-delay: 0.7s"></div>
+            <div class="absolute top-1/2 right-8 w-1 h-1 bg-green-300/70 rounded-full animate-pulse" style="animation-delay: 1.3s"></div>
+
+            <!-- Resplandor dinámico -->
+            <div class="absolute -inset-2 bg-gradient-to-br from-green-400/10 via-emerald-300/5 to-green-500/10 blur-xl opacity-0 group-hover/example:opacity-100 transition-all duration-1000 rounded-3xl"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-3xl sm:text-4xl p-2 bg-gradient-to-br from-green-400/20 to-emerald-300/15 rounded-xl border border-green-400/30 group-hover/example:scale-110 group-hover/example:rotate-12 transition-all duration-500">🎉</div>
+                <div>
+                  <h4 class="text-xl sm:text-2xl font-bold mb-1">
+                    <span class="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent"> Ejemplo Completo - ¡Listo para Usar! </span>
+                  </h4>
+                  <p class="text-white/80">Copia este código y tendrás tu web con partículas funcionando</p>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-br from-gray-900 to-black text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-green-400/20 relative group-hover/example:border-green-400/40 transition-all duration-500 shadow-2xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-4 right-4 px-4 py-2 bg-green-400/20 hover:bg-green-400/30 text-green-400 rounded-xl text-xs font-bold transition-all duration-300 hover:scale-105 border border-green-400/30 hover:border-green-400/50 shadow-lg shadow-green-400/20">📋 Copiar Todo</button>
+                <pre class="pr-24"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Mi Web con Partículas&lt;/title&gt;
@@ -964,108 +1073,459 @@ const particulas = new FluxJS({
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+              </div>
+
+              <!-- Badge de estado -->
+              <div class="flex items-center justify-center mt-6">
+                <div class="inline-flex items-center px-4 py-2 bg-green-400/10 text-green-300 rounded-full text-sm font-semibold border border-green-400/20">
+                  <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                  ✅ Código 100% funcional - Probado y listo
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Opción 2: Para Desarrolladores -->
-      <div class="mb-12">
-        <div class="flux-card border-flux-blue/30">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="text-3xl">⚡</span>
+      <!-- Opción 2: Para Desarrolladores Premium -->
+      <div class="mb-16 relative z-10">
+        <div class="flux-card border border-flux-primary/40 relative group overflow-hidden">
+          <!-- Efecto de resplandor premium -->
+          <div class="absolute -inset-4 bg-gradient-to-br from-flux-primary/15 via-cyan-300/10 to-purple-400/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-1000 rounded-3xl"></div>
+
+          <!-- Partículas decorativas específicas para desarrolladores -->
+          <div class="absolute top-6 right-8 w-3 h-3 bg-flux-primary/40 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-8 left-6 w-2 h-2 bg-cyan-300/50 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+          <div class="absolute top-1/2 right-6 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+          <div class="absolute top-1/4 left-8 w-1 h-1 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 1.5s"></div>
+
+          <!-- Header de la tarjeta mejorado -->
+          <div class="flex items-center gap-4 mb-8 relative z-10">
+            <div class="text-4xl sm:text-5xl p-3 bg-gradient-to-br from-flux-primary/20 to-cyan-300/15 rounded-2xl border border-flux-primary/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 relative">
+              ⚡
+              <!-- Efectos de "energía" alrededor del rayo -->
+              <div class="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400/60 rounded-full animate-ping"></div>
+              <div class="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-cyan-300/50 rounded-full animate-pulse" style="animation-delay: 0.3s"></div>
+            </div>
             <div>
-              <h3 class="text-2xl text-flux-blue font-bold">Opción 2: Para Desarrolladores</h3>
-              <p class="text-white/80">Si usas herramientas como npm, webpack, etc.</p>
+              <h3 class="text-2xl sm:text-3xl font-bold mb-2">
+                <span class="bg-gradient-to-r from-flux-primary to-cyan-300 bg-clip-text text-transparent"> Opción 2: Para Desarrolladores </span>
+              </h3>
+              <p class="text-white/85 text-lg">Si usas herramientas como npm, webpack, bundlers, etc.</p>
+
+              <!-- Badge de nivel -->
+              <div class="inline-flex items-center mt-2 px-3 py-1 bg-flux-primary/10 text-flux-primary rounded-full text-sm font-semibold border border-flux-primary/20">
+                <span class="w-2 h-2 bg-flux-primary rounded-full mr-2 animate-pulse"></span>
+                Nivel Avanzado
+              </div>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
-              <h4 class="text-flux-blue font-semibold mb-3">📦 Instalación con NPM:</h4>
-              <div class="bg-gray-800 text-gray-100 p-4 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-                <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-blue/20 hover:bg-flux-blue/30 text-flux-blue rounded text-xs transition-colors">📋 Copiar</button>
-                <pre><code>npm install @pablotheblink/fluxjs</code></pre>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+            <!-- NPM Installation Mejorada -->
+            <div class="group/npm">
+              <h4 class="text-flux-primary font-bold text-lg sm:text-xl mb-4 flex items-center group-hover/npm:text-flux-primary-dark transition-colors duration-300">
+                <span class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 group-hover/npm:scale-110 group-hover/npm:rotate-12 transition-all duration-500 shadow-lg shadow-red-500/30"> 📦 </span>
+                Instalación con NPM:
+              </h4>
+              <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-white/20 relative group-hover/npm:border-flux-primary/30 transition-all duration-500 shadow-xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-3 right-3 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 border border-flux-primary/20 hover:border-flux-primary/40">📋 Copiar</button>
+                <pre class="pr-20"><code>npm install @pablotheblink/fluxjs</code></pre>
+
+                <!-- Línea decorativa de terminal -->
+                <div class="absolute bottom-2 left-4 flex items-center gap-1">
+                  <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <div class="text-xs text-green-400 font-mono">package installed successfully</div>
+                </div>
+              </div>
+
+              <!-- Info adicional para NPM -->
+              <div class="mt-4 p-4 bg-flux-primary/5 rounded-xl border border-flux-primary/20">
+                <p class="text-xs text-flux-primary/80">💡 <strong>Pro tip:</strong> También funciona con yarn, pnpm y bun</p>
               </div>
             </div>
 
-            <div>
-              <h4 class="text-flux-blue font-semibold mb-3">🔧 Uso en tu código:</h4>
-              <div class="bg-gray-800 text-gray-100 p-4 rounded-flux-md overflow-x-auto font-mono text-sm border border-white/10 relative">
-                <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-blue/20 hover:bg-flux-blue/30 text-flux-blue rounded text-xs transition-colors">📋 Copiar</button>
-                <pre><code class="language-javascript">import { FluxJS } from '@pablotheblink/fluxjs';
+            <!-- Usage Code Mejorado -->
+            <div class="group/usage">
+              <h4 class="text-flux-primary font-bold text-lg sm:text-xl mb-4 flex items-center group-hover/usage:text-flux-primary-dark transition-colors duration-300">
+                <span class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 group-hover/usage:scale-110 group-hover/usage:rotate-12 transition-all duration-500 shadow-lg shadow-purple-500/30"> 🔧 </span>
+                Uso en tu código:
+              </h4>
+              <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-white/20 relative group-hover/usage:border-purple-400/30 transition-all duration-500 shadow-xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-3 right-3 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 border border-flux-primary/20 hover:border-flux-primary/40">📋 Copiar</button>
+                <pre class="pr-20"><code class="language-javascript">import { FluxJS } from '@pablotheblink/fluxjs';
 
 const flux = new FluxJS({
   container: document.getElementById('mi-contenedor')
 });</code></pre>
+
+                <!-- Indicador de sintaxis moderna -->
+                <div class="absolute bottom-2 left-4 flex items-center gap-1">
+                  <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                  <div class="text-xs text-purple-400 font-mono">ES6+ modules</div>
+                </div>
+              </div>
+
+              <!-- Info adicional para uso -->
+              <div class="mt-4 p-4 bg-purple-400/5 rounded-xl border border-purple-400/20">
+                <p class="text-xs text-purple-400/80">⚡ <strong>Compatible con:</strong> React, Vue, Angular, Svelte y cualquier framework</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ejemplo avanzado para desarrolladores -->
+          <div class="mt-10 p-8 bg-gradient-to-br from-flux-primary/10 via-cyan-300/5 to-purple-400/10 rounded-3xl border border-flux-primary/30 relative overflow-hidden group/advanced">
+            <!-- Partículas específicas del ejemplo avanzado -->
+            <div class="absolute top-4 right-6 w-2 h-2 bg-flux-primary/50 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-cyan-300/60 rounded-full animate-ping" style="animation-delay: 0.7s"></div>
+            <div class="absolute top-1/2 right-8 w-1 h-1 bg-purple-400/70 rounded-full animate-pulse" style="animation-delay: 1.3s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-3xl sm:text-4xl p-2 bg-gradient-to-br from-flux-primary/20 to-cyan-300/15 rounded-xl border border-flux-primary/30 group-hover/advanced:scale-110 group-hover/advanced:rotate-12 transition-all duration-500">🚀</div>
+                <div>
+                  <h4 class="text-xl sm:text-2xl font-bold mb-1">
+                    <span class="bg-gradient-to-r from-flux-primary to-cyan-300 bg-clip-text text-transparent"> Configuración Avanzada </span>
+                  </h4>
+                  <p class="text-white/80">Para proyectos profesionales con configuraciones personalizadas</p>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-br from-gray-900 to-black text-gray-100 p-6 sm:p-8 rounded-2xl overflow-x-auto font-mono text-sm border border-flux-primary/20 relative group-hover/advanced:border-flux-primary/40 transition-all duration-500 shadow-2xl">
+                <button onclick="copyToClipboard(this)" class="absolute top-4 right-4 px-4 py-2 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-xl text-xs font-bold transition-all duration-300 hover:scale-105 border border-flux-primary/30 hover:border-flux-primary/50 shadow-lg shadow-flux-primary/20">📋 Copiar</button>
+                <pre class="pr-24"><code class="language-javascript">// Configuración completa para proyectos profesionales
+import { FluxJS } from '@pablotheblink/fluxjs';
+
+const advancedFlux = new FluxJS({
+  container: document.getElementById('particles-container'),
+  count: 100,
+  color: '#4fc3f7',
+  size: { min: 2, max: 8 },
+  speed: { min: 0.1, max: 0.5 },
+  connections: {
+    enabled: true,
+    distance: 150,
+    opacity: 0.3
+  },
+  mouse: {
+    interact: true,
+    attract: true,
+    repel: false,
+    radius: 200
+  },
+  responsive: {
+    mobile: { count: 50 },
+    tablet: { count: 75 }
+  }
+});</code></pre>
+              </div>
+
+              <!-- Features list -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                  <span class="text-green-400">TypeScript support</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                  <span class="text-blue-400">Tree shaking compatible</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                  <span class="text-purple-400">Zero dependencies</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-flux-primary rounded-full"></span>
+                  <span class="text-flux-primary">Bundle size ~15KB</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Mensaje de ánimo -->
-      <div class="flux-card-gradient border-flux-blue/30">
-        <h3 class="text-xl text-flux-blue font-semibold mb-3">🎯 ¡Ya Está!</h3>
-        <p class="text-white/80 mb-4">En menos de 5 minutos ya tienes partículas funcionando en tu web. Ahora vamos a ver ejemplos geniales que puedes usar...</p>
-        <a href="#ejemplos" class="inline-block px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all bg-blue-500 duration-300 shadow-lg shadow-flux-blue/30 no-underline"> 👀 Ver Ejemplos Increíbles </a>
+      <!-- Mensaje de ánimo premium -->
+      <div class="flux-card border border-green-400/40 relative group overflow-hidden">
+        <!-- Efecto de resplandor de éxito -->
+        <div class="absolute -inset-4 bg-gradient-to-br from-green-400/15 via-emerald-300/10 to-green-500/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-1000 rounded-3xl"></div>
+
+        <!-- Partículas de celebración -->
+        <div class="absolute top-4 right-6 w-2 h-2 bg-green-400/50 rounded-full animate-pulse"></div>
+        <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-emerald-300/60 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+        <div class="absolute top-1/2 right-8 w-1 h-1 bg-green-300/70 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+        <div class="absolute top-1/4 left-6 w-1.5 h-1.5 bg-yellow-400/50 rounded-full animate-bounce" style="animation-delay: 0.8s"></div>
+
+        <div class="relative z-10">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="text-4xl sm:text-5xl p-3 bg-gradient-to-br from-green-400/20 to-emerald-300/15 rounded-2xl border border-green-400/30 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 relative">
+              🎯
+              <!-- Efectos de "target achieved" -->
+              <div class="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400/80 rounded-full animate-ping"></div>
+              <div class="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-green-400/60 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+            </div>
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-bold mb-2">
+                <span class="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent"> ¡Ya Está Listo! </span>
+              </h3>
+              <p class="text-white/85 text-lg">Tu web va a lucir increíble con estas partículas</p>
+            </div>
+          </div>
+
+          <p class="text-white/90 mb-6 text-lg leading-relaxed">En menos de <span class="text-green-400 font-bold bg-green-400/10 px-2 py-1 rounded-lg">5 minutos</span> ya tienes partículas funcionando en tu web. Ahora vamos a ver <span class="text-emerald-300 font-bold">ejemplos geniales</span> que puedes usar para inspirarte...</p>
+
+          <!-- Botón mejorado -->
+          <div class="flex flex-col sm:flex-row gap-4 items-center">
+            <a href="#ejemplos" class="flux-btn flux-btn-primary text-lg px-8 py-4 relative group/btn overflow-hidden">
+              <span class="relative z-10 flex items-center justify-center gap-3">
+                <span class="text-2xl group-hover/btn:animate-bounce">👀</span>
+                Ver Ejemplos Increíbles
+                <span class="group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
+              </span>
+              <!-- Efecto de ondas -->
+              <div class="absolute inset-0 bg-gradient-to-r from-green-400 via-emerald-300 to-flux-primary opacity-0 group-hover/btn:opacity-20 transition-all duration-500"></div>
+            </a>
+
+            <!-- Estadísticas de éxito -->
+            <div class="flex items-center gap-4 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-green-400">Instalación completa</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-flux-primary rounded-full animate-pulse"></span>
+                <span class="text-flux-primary">Listo para usar</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Sección Implementación Simple -->
-    <section id="implementacion" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">💡 Tres Formas de Usarlo</h2>
-
-      <div class="flux-card-gradient border-flux-blue/30 mb-8 sm:mb-12">
-        <p class="text-center text-lg sm:text-xl text-white/90 mb-4">Aquí tienes las 3 formas más comunes de usar FluxJS. Elige la que mejor se adapte a lo que necesitas:</p>
+    <!-- Sección Implementación Simple Premium -->
+    <section id="implementacion" class="px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para implementación -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-25">
+        <div class="absolute top-1/4 left-1/6 w-28 h-28 bg-gradient-to-br from-flux-primary/20 to-cyan-400/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 4.5s"></div>
+        <div class="absolute bottom-1/3 right-1/8 w-32 h-32 bg-gradient-to-br from-purple-400/15 to-pink-300/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1.2s; animation-duration: 5.2s"></div>
+        <div class="absolute top-1/2 right-1/4 w-20 h-20 bg-gradient-to-br from-green-400/20 to-emerald-300/15 rounded-full blur-xl animate-bounce" style="animation-delay: 2s; animation-duration: 6s"></div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-        <!-- Opción 1: Fondo Completo -->
-        <div class="flux-card">
-          <div class="text-4xl mb-4 text-center">🌌</div>
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-bold text-center">Fondo de Página</h3>
-          <p class="text-white/80 mb-4 text-sm sm:text-base text-center">Para que toda tu página tenga partículas de fondo</p>
-          <div class="bg-gray-800 overflow-x-auto rounded-flux-md p-4 text-xs">
-            <pre><code class="text-green-400">// Solo cambia 'mi-fondo' por tu ID
+      <!-- Título principal mejorado -->
+      <div class="text-center mb-12 sm:mb-16 relative z-10">
+        <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 relative group">
+          <span class="text-purple-400 font-bold">Tres Formas de Usarlo</span>
+          <span class="text-5xl sm:text-6xl md:text-7xl ml-2 animate-bounce inline-block" style="animation-delay: 0.3s">💡</span>
+
+          <!-- Efectos de resplandor -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-flux-primary/15 via-purple-400/20 to-green-400/15 blur-2xl opacity-50 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+        </h2>
+
+        <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto">Aquí tienes las <span class="text-flux-primary font-bold">3 formas más comunes</span> de usar FluxJS. Elige la que mejor se adapte a lo que necesitas</p>
+      </div>
+
+      <!-- Tarjeta introductoria mejorada -->
+      <div class="flux-glass border border-flux-primary/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+        <!-- Partículas decorativas -->
+        <div class="absolute top-4 right-6 w-2 h-2 bg-flux-primary/50 rounded-full animate-pulse"></div>
+        <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+        <div class="absolute top-1/2 right-8 w-1 h-1 bg-green-400/70 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+        <!-- Resplandor dinámico -->
+        <div class="absolute -inset-2 bg-gradient-to-br from-flux-primary/10 via-purple-400/5 to-green-400/10 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-1000 rounded-3xl"></div>
+
+        <div class="relative z-10">
+          <p class="text-lg sm:text-xl text-white/95 leading-relaxed">
+            <span class="text-flux-primary font-bold">📚 Guía rápida:</span> Cada opción está pensada para diferentes necesidades.
+            <span class="text-purple-400 font-medium">¡Todas son súper fáciles de implementar!</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Grid de opciones premium -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 relative z-10">
+        <!-- Opción 1: Fondo Completo - Rediseñada -->
+        <div class="flux-card border border-green-400/40 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+          <!-- Efecto de resplandor específico -->
+          <div class="absolute -inset-3 bg-gradient-to-br from-green-400/15 via-emerald-300/10 to-green-500/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl"></div>
+
+          <!-- Partículas temáticas -->
+          <div class="absolute top-4 right-4 w-2 h-2 bg-green-400/50 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-6 w-1.5 h-1.5 bg-emerald-300/60 rounded-full animate-ping" style="animation-delay: 0.6s"></div>
+          <div class="absolute top-1/2 right-6 w-1 h-1 bg-green-300/70 rounded-full animate-pulse" style="animation-delay: 1.1s"></div>
+
+          <div class="relative z-10 text-center">
+            <!-- Icono mejorado -->
+            <div class="text-6xl sm:text-7xl mb-6 relative">
+              <span class="inline-block group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 filter drop-shadow-lg">🌌</span>
+              <!-- Anillo orbital -->
+              <div class="absolute inset-0 border-2 border-green-400/30 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-125 group-hover:rotate-180 transition-all duration-1000"></div>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-bold mb-4 group-hover:text-green-300 transition-colors duration-300">
+              <span class="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent"> Fondo de Página </span>
+            </h3>
+
+            <p class="text-white/85 mb-6 text-base sm:text-lg leading-relaxed">Para que <strong class="text-green-300">toda tu página</strong> tenga partículas de fondo espectaculares</p>
+
+            <!-- Code block mejorado -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 overflow-x-auto rounded-2xl p-6 border border-green-400/20 group-hover:border-green-400/40 transition-all duration-500 shadow-xl relative">
+              <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-green-400/20 hover:bg-green-400/30 text-green-400 rounded-lg text-xs font-semibold transition-all duration-300">📋</button>
+              <pre class="text-sm pr-12"><code class="text-green-400">// Solo cambia 'mi-fondo' por tu ID
 new FluxJS({
   container: document.getElementById('mi-fondo'),
   count: 50
 });</code></pre>
+            </div>
+
+            <!-- Badge de uso -->
+            <div class="mt-4 inline-flex items-center px-3 py-1 bg-green-400/10 text-green-300 rounded-full text-sm font-semibold border border-green-400/20">
+              <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+              Más Popular
+            </div>
           </div>
         </div>
 
-        <!-- Opción 2: Solo una Sección -->
-        <div class="flux-card">
-          <div class="text-4xl mb-4 text-center">🎯</div>
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-bold text-center">Solo una Sección</h3>
-          <p class="text-white/80 mb-4 text-sm sm:text-base text-center">Para añadir partículas solo a una parte específica</p>
-          <div class="bg-gray-800 overflow-x-auto rounded-flux-md p-4 text-xs">
-            <pre><code class="text-blue-400">// Cambia 'mi-seccion' por tu ID
+        <!-- Opción 2: Solo una Sección - Rediseñada -->
+        <div class="flux-card border border-flux-primary/40 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+          <!-- Efecto de resplandor específico -->
+          <div class="absolute -inset-3 bg-gradient-to-br from-flux-primary/15 via-cyan-300/10 to-flux-primary/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl"></div>
+
+          <!-- Partículas temáticas -->
+          <div class="absolute top-6 left-4 w-2.5 h-2.5 bg-flux-primary/50 rounded-full animate-ping"></div>
+          <div class="absolute bottom-4 right-4 w-1.5 h-1.5 bg-cyan-300/60 rounded-full animate-pulse" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/3 left-6 w-1 h-1 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 1.3s"></div>
+
+          <div class="relative z-10 text-center">
+            <!-- Icono mejorado -->
+            <div class="text-6xl sm:text-7xl mb-6 relative">
+              <span class="inline-block group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 filter drop-shadow-lg">🎯</span>
+              <!-- Target circles -->
+              <div class="absolute inset-0 border-2 border-flux-primary/30 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-125 group-hover:rotate-180 transition-all duration-1000"></div>
+              <div class="absolute inset-2 border border-cyan-400/40 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-90 transition-all duration-800"></div>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-bold mb-4 group-hover:text-flux-primary-dark transition-colors duration-300">
+              <span class="bg-gradient-to-r from-flux-primary to-cyan-300 bg-clip-text text-transparent"> Solo una Sección </span>
+            </h3>
+
+            <p class="text-white/85 mb-6 text-base sm:text-lg leading-relaxed">Para añadir partículas solo a <strong class="text-flux-primary">una parte específica</strong> de tu web</p>
+
+            <!-- Code block mejorado -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 overflow-x-auto rounded-2xl p-6 border border-flux-primary/20 group-hover:border-flux-primary/40 transition-all duration-500 shadow-xl relative">
+              <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-flux-primary/20 hover:bg-flux-primary/30 text-flux-primary rounded-lg text-xs font-semibold transition-all duration-300">📋</button>
+              <pre class="text-sm pr-12"><code class="text-flux-primary">// Cambia 'mi-seccion' por tu ID
 new FluxJS({
   container: document.getElementById('mi-seccion'),
   count: 30
 });</code></pre>
+            </div>
+
+            <!-- Badge de uso -->
+            <div class="mt-4 inline-flex items-center px-3 py-1 bg-flux-primary/10 text-flux-primary rounded-full text-sm font-semibold border border-flux-primary/20">
+              <span class="w-2 h-2 bg-flux-primary rounded-full mr-2 animate-pulse"></span>
+              Más Preciso
+            </div>
           </div>
         </div>
 
-        <!-- Opción 3: Múltiples Efectos -->
-        <div class="flux-card">
-          <div class="text-4xl mb-4 text-center">✨</div>
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-bold text-center">Múltiples Efectos</h3>
-          <p class="text-white/80 mb-4 text-sm sm:text-base text-center">Para tener diferentes efectos en varias partes</p>
-          <div class="bg-gray-800 overflow-x-auto rounded-flux-md p-4 text-xs">
-            <pre><code class="text-purple-400">// Crea varios con diferentes colores
+        <!-- Opción 3: Múltiples Efectos - Rediseñada -->
+        <div class="flux-card border border-purple-400/40 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+          <!-- Efecto de resplandor específico -->
+          <div class="absolute -inset-3 bg-gradient-to-br from-purple-400/15 via-pink-300/10 to-purple-500/15 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-3xl"></div>
+
+          <!-- Partículas temáticas múltiples -->
+          <div class="absolute top-4 left-8 w-2 h-2 bg-purple-400/50 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-8 right-8 w-1.5 h-1.5 bg-pink-300/60 rounded-full animate-ping" style="animation-delay: 0.7s"></div>
+          <div class="absolute top-2/3 right-4 w-1 h-1 bg-purple-300/70 rounded-full animate-pulse" style="animation-delay: 1.4s"></div>
+          <div class="absolute top-1/4 left-4 w-1.5 h-1.5 bg-fuchsia-400/50 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+
+          <div class="relative z-10 text-center">
+            <!-- Icono mejorado con efectos especiales -->
+            <div class="text-6xl sm:text-7xl mb-6 relative">
+              <span class="inline-block group-hover:scale-110 transition-all duration-500 filter drop-shadow-lg animate-pulse">✨</span>
+              <!-- Multiple sparkle effects -->
+              <div class="absolute -top-2 -right-2 w-3 h-3 border border-purple-400/40 rounded-full opacity-0 group-hover:opacity-100 animate-ping"></div>
+              <div class="absolute -bottom-2 -left-2 w-2 h-2 border border-pink-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-ping" style="animation-delay: 0.2s"></div>
+              <div class="absolute top-0 left-0 w-1 h-1 bg-purple-300/80 rounded-full opacity-0 group-hover:opacity-100 animate-ping" style="animation-delay: 0.4s"></div>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-bold mb-4 group-hover:text-purple-300 transition-colors duration-300">
+              <span class="bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent"> Múltiples Efectos </span>
+            </h3>
+
+            <p class="text-white/85 mb-6 text-base sm:text-lg leading-relaxed">Para tener <strong class="text-purple-300">diferentes efectos</strong> en varias partes de tu web</p>
+
+            <!-- Code block mejorado -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 overflow-x-auto rounded-2xl p-6 border border-purple-400/20 group-hover:border-purple-400/40 transition-all duration-500 shadow-xl relative">
+              <button onclick="copyToClipboard(this)" class="absolute top-2 right-2 px-3 py-1 bg-purple-400/20 hover:bg-purple-400/30 text-purple-400 rounded-lg text-xs font-semibold transition-all duration-300">📋</button>
+              <pre class="text-sm pr-12"><code class="text-purple-400">// Crea varios con diferentes colores
 new FluxJS({ container: header, color: '#fff' });
 new FluxJS({ container: footer, color: '#4fc3f7' });</code></pre>
+            </div>
+
+            <!-- Badge de uso -->
+            <div class="mt-4 inline-flex items-center px-3 py-1 bg-purple-400/10 text-purple-300 rounded-full text-sm font-semibold border border-purple-400/20">
+              <span class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
+              Más Avanzado
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Separador decorativo final -->
+      <div class="flex justify-center items-center mt-16 sm:mt-20 relative z-10">
+        <div class="w-24 h-px bg-gradient-to-r from-transparent via-green-400/40 to-transparent"></div>
+        <div class="mx-4 w-3 h-3 bg-gradient-to-br from-green-400 to-emerald-300 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+        <div class="w-16 h-px bg-gradient-to-r from-transparent via-flux-primary/40 to-transparent"></div>
+        <div class="mx-4 w-2.5 h-2.5 bg-gradient-to-br from-flux-primary to-cyan-300 rounded-full animate-ping shadow-md shadow-flux-primary/40"></div>
+        <div class="w-16 h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent"></div>
+        <div class="mx-4 w-3 h-3 bg-gradient-to-br from-purple-400 to-pink-300 rounded-full animate-pulse shadow-lg shadow-purple-400/50"></div>
+        <div class="w-24 h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent"></div>
+
+        <!-- Partículas flotantes en el separador -->
+        <div class="absolute left-1/4 w-1 h-1 bg-green-400/60 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+        <div class="absolute right-1/4 w-1.5 h-1.5 bg-purple-400/50 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+        <div class="absolute left-1/2 top-2 w-0.5 h-0.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+      </div>
     </section>
 
-    <!-- Sección Ejemplos -->
-    <section id="ejemplos" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Galería de pura genialidad ✨</h2>
+    <!-- Sección Ejemplos Premium -->
+    <section id="ejemplos" class="px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para ejemplos -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div class="absolute top-1/4 right-1/6 w-40 h-40 bg-gradient-to-br from-flux-primary/15 to-cyan-400/10 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s"></div>
+        <div class="absolute bottom-1/3 left-1/8 w-36 h-36 bg-gradient-to-br from-purple-400/12 to-pink-300/8 rounded-full blur-2xl animate-pulse" style="animation-delay: 1.5s; animation-duration: 7s"></div>
+        <div class="absolute top-1/2 left-1/3 w-28 h-28 bg-gradient-to-br from-green-400/15 to-emerald-300/10 rounded-full blur-xl animate-bounce" style="animation-delay: 2.5s; animation-duration: 8s"></div>
+        <div class="absolute top-1/6 left-1/2 w-24 h-24 bg-gradient-to-br from-yellow-400/12 to-orange-300/8 rounded-full blur-2xl animate-pulse" style="animation-delay: 0.8s; animation-duration: 5s"></div>
+      </div>
+
+      <!-- Título principal mejorado -->
+      <div class="text-center mb-12 sm:mb-16 relative z-10">
+        <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 relative group">
+          <span class="text-cyan-400 font-bold">Galería de Pura Genialidad</span>
+          <span class="text-5xl sm:text-6xl md:text-7xl ml-2 animate-bounce inline-block" style="animation-delay: 0.3s">✨</span>
+
+          <!-- Efectos de resplandor -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-flux-primary/15 via-purple-400/20 to-cyan-400/15 blur-2xl opacity-50 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+        </h2>
+
+        <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto">Descubre ejemplos <span class="text-flux-primary font-bold">listos para usar</span> que harán que tu web luzca profesional</p>
+      </div>
+
+      <!-- Tarjeta introductoria -->
+      <div class="flux-glass border border-flux-primary/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+        <!-- Partículas decorativas -->
+        <div class="absolute top-4 right-6 w-2 h-2 bg-flux-primary/50 rounded-full animate-pulse"></div>
+        <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+        <div class="absolute top-1/2 right-8 w-1 h-1 bg-cyan-400/70 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+        <div class="relative z-10">
+          <p class="text-lg sm:text-xl text-white/95 leading-relaxed">
+            <span class="text-flux-primary font-bold">🎨 Inspiración lista:</span> Cada ejemplo incluye el código completo y una demo interactiva.
+            <span class="text-purple-400 font-medium">¡Solo copia, pega y personaliza!</span>
+          </p>
+        </div>
+      </div>
 
       <!-- Ejemplos Prácticos -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -1272,107 +1732,385 @@ const rainbow = new Flux({
       </div>
 
       <!-- Enlaces a Demos Completas -->
-      <div class="mb-12 text-center">
-        <div class="flux-card-gradient border-flux-blue/30">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🚀 Demo que Te Volará la Cabeza</h3>
-          <p class="text-white/80 mb-6 text-sm sm:text-base">Sumérgete en todas las capacidades de FluxJS con nuestra demo interactiva que te dejará sin palabras</p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="demo.html" class="w-full bg-blue-500 d sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 no-underline shadow-lg shadow-flux-blue/30 text-center"> 🎮 Experiencia Interactiva </a>
+      <div class="mb-12 text-center relative">
+        <!-- Efectos de partículas para la demo -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+          <div class="absolute top-1/4 left-1/4 w-20 h-20 bg-gradient-to-br from-flux-primary/30 to-cyan-400/20 rounded-full blur-2xl animate-pulse" style="animation-duration: 4s"></div>
+          <div class="absolute bottom-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-blue-400/25 to-purple-400/15 rounded-full blur-xl animate-bounce" style="animation-delay: 1s; animation-duration: 5s"></div>
+        </div>
+        
+        <div class="flux-card-gradient border-flux-blue/30 relative group overflow-hidden">
+          <!-- Efecto de resplandor en hover -->
+          <div class="absolute -inset-2 bg-gradient-to-r from-flux-primary/20 via-blue-400/25 to-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700 -z-10"></div>
+          
+          <div class="relative z-10">
+            <h3 class="text-2xl sm:text-3xl md:text-4xl text-flux-blue mb-6 font-bold relative">
+              <span class="bg-gradient-to-r from-flux-blue via-cyan-400 to-flux-primary bg-clip-text text-transparent">
+                🚀 Demo que Te Volará la Cabeza
+              </span>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-flux-blue to-cyan-400 rounded-full"></div>
+            </h3>
+            
+            <p class="text-white/90 mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+              Sumérgete en todas las capacidades de <span class="text-flux-primary font-semibold">FluxJS</span> con nuestra demo interactiva que te dejará 
+              <span class="text-cyan-400 font-semibold">sin palabras</span>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <a href="demo.html" class="group/btn relative w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-flux-blue via-blue-500 to-flux-blue-dark text-white rounded-2xl font-bold text-lg hover:-translate-y-2 hover:scale-105 transition-all duration-500 no-underline shadow-2xl shadow-flux-blue/40 text-center overflow-hidden">
+                <!-- Efecto de brillo animado -->
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+                
+                <span class="relative z-10 flex items-center justify-center gap-3">
+                  <span class="text-2xl animate-bounce" style="animation-delay: 0.2s">🎮</span>
+                  Experiencia Interactiva
+                  <span class="text-xl opacity-70 group-hover/btn:opacity-100 transition-opacity duration-300">✨</span>
+                </span>
+                
+                <!-- Partículas flotantes en el botón -->
+                <div class="absolute top-2 right-4 w-1 h-1 bg-white/60 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+                <div class="absolute bottom-3 left-6 w-1 h-1 bg-cyan-300/80 rounded-full animate-ping" style="animation-delay: 1s"></div>
+              </a>
+            </div>
+            
+            <!-- Indicadores de características -->
+            <div class="flex justify-center items-center gap-6 mt-8 text-sm text-white/70">
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>Interactivo</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.3s"></div>
+                <span>Tiempo Real</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-flux-primary rounded-full animate-pulse" style="animation-delay: 0.6s"></div>
+                <span>Inmersivo</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Sección Características Innovadoras -->
-    <section id="caracteristicas-avanzadas" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-900/30 to-gray-800/30">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8 sm:mb-12">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-flux-blue mb-4">🚀 Funciones Avanzadas</h2>
-          <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">Una vez que domines lo básico, FluxJS tiene funciones súper inteligentes que funcionan automáticamente. No necesitas configurar nada, ¡solo funcionan!</p>
-          <div class="w-24 h-1 bg-gradient-to-r from-flux-blue to-flux-blue-dark mx-auto mt-6"></div>
+    <!-- Sección Características Innovadoras Premium -->
+    <section id="caracteristicas-avanzadas" class="px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para características -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div class="absolute top-1/5 right-1/4 w-44 h-44 bg-gradient-to-br from-flux-primary/20 to-purple-400/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s"></div>
+        <div class="absolute bottom-1/4 left-1/6 w-40 h-40 bg-gradient-to-br from-green-400/15 to-cyan-300/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 2s; animation-duration: 6s"></div>
+        <div class="absolute top-1/3 left-1/2 w-32 h-32 bg-gradient-to-br from-yellow-400/18 to-orange-300/10 rounded-full blur-xl animate-bounce" style="animation-delay: 1s; animation-duration: 7s"></div>
+        <div class="absolute bottom-1/6 right-1/3 w-28 h-28 bg-gradient-to-br from-pink-400/15 to-red-300/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 3s; animation-duration: 9s"></div>
+      </div>
+
+      <div class="relative z-10">
+        <!-- Título principal mejorado -->
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 relative group">
+            <span class="text-blue-400 font-bold">Inteligencia Artificial Built-In</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl ml-3 animate-bounce inline-block" style="animation-delay: 0.5s">🧠</span>
+
+            <!-- Efectos de resplandor -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-flux-primary/20 via-green-400/25 to-cyan-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+          </h2>
+
+          <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-4">FluxJS piensa por ti con <span class="text-flux-primary font-bold">IA integrada</span> que optimiza automáticamente cada detalle</p>
+
+          <div class="flex justify-center items-center gap-2 mb-6">
+            <div class="w-2 h-2 bg-flux-primary rounded-full animate-pulse"></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-flux-primary to-cyan-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Tarjeta introductoria premium -->
+        <div class="flux-glass border border-flux-primary/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-6 w-2 h-2 bg-flux-primary/60 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-green-400/70 rounded-full animate-ping" style="animation-delay: 1s"></div>
+          <div class="absolute top-1/2 right-12 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.5s"></div>
+
+          <div class="relative z-10">
+            <p class="text-lg sm:text-xl text-white/95 leading-relaxed">
+              <span class="text-flux-primary font-bold">🤖 Zero configuración:</span> La IA de FluxJS detecta tu dispositivo, batería, conexión y preferencias.
+              <span class="text-green-400 font-medium">¡Todo funciona automáticamente sin que tengas que hacer nada!</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Grid de características premium -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12 sm:mb-16">
           <!-- Ahorro de Batería -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-pulse">🔋</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Cuida tu Batería</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">Si tu celular o laptop tiene poca batería, FluxJS automáticamente usa menos energía. ¡No tienes que hacer nada, es inteligente!</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-green-400">🔋 Funciona automáticamente</code>
+          <div class="flux-glass border border-green-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-green-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-green-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-green-300/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-pulse animate-bounce">🔋</div>
+                <span class="px-3 py-1 bg-green-400/20 text-green-300 text-xs font-bold rounded-full border border-green-400/30">ECO MODE</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-green-400 mb-4 font-bold group-hover:text-green-300 transition-colors">Cuida tu Batería</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">La IA detecta automáticamente el nivel de batería y ajusta el rendimiento. <span class="text-green-400 font-medium">¡Tu dispositivo te durará todo el día!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-green-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-green-300 font-mono">AUTO_BATTERY_OPTIMIZATION: ON</code>
+                </div>
+                <p class="text-xs text-white/70">Reduce automáticamente partículas cuando batería &lt; 20%</p>
+              </div>
             </div>
           </div>
 
           <!-- Pantallas Táctiles -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-bounce">👆</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Funciona Perfecto en el Celular</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">Puedes tocar la pantalla con varios dedos al mismo tiempo y cada toque controla las partículas. ¡Es súper divertido en el celular!</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-blue-400">📱 Perfecto para móviles</code>
+          <div class="flux-glass border border-blue-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-blue-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-blue-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-blue-300/70 rounded-full animate-ping" style="animation-delay: 1.2s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-bounce">👆</div>
+                <span class="px-3 py-1 bg-blue-400/20 text-blue-300 text-xs font-bold rounded-full border border-blue-400/30">MULTI-TOUCH</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-blue-400 mb-4 font-bold group-hover:text-blue-300 transition-colors">Perfecto en Móviles</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Reconoce automáticamente gestos multi-táctiles y se adapta a cada dispositivo. <span class="text-blue-400 font-medium">¡Funciona genial en tablets y móviles!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-blue-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-blue-300 font-mono">TOUCH_DETECTION: ADVANCED</code>
+                </div>
+                <p class="text-xs text-white/70">Soporta hasta 10 toques simultáneos</p>
+              </div>
             </div>
           </div>
 
           <!-- Ahorro de Recursos -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-pulse">👁️</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Solo Funciona Cuando Lo Ves</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">Si no estás viendo la página, FluxJS se pausa automáticamente para no gastar recursos. Cuando regresas, todo vuelve a funcionar.</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-purple-400">💡 Súper inteligente</code>
+          <div class="flux-glass border border-purple-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-purple-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-purple-300/70 rounded-full animate-ping" style="animation-delay: 0.6s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-pulse">👁️</div>
+                <span class="px-3 py-1 bg-purple-400/20 text-purple-300 text-xs font-bold rounded-full border border-purple-400/30">SMART PAUSE</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-purple-400 mb-4 font-bold group-hover:text-purple-300 transition-colors">Pausa Inteligente</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Detecta cuando cambias de pestaña y pausa automáticamente. <span class="text-purple-400 font-medium">¡Ahorra recursos sin que te des cuenta!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-purple-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-purple-300 font-mono">VISIBILITY_API: ACTIVE</code>
+                </div>
+                <p class="text-xs text-white/70">Pausa automática cuando no estás viendo</p>
+              </div>
             </div>
           </div>
 
-          <!-- Para Todos -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-spin">♿</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Funciona Para Todos</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">Si alguien tiene configurado su dispositivo para ver menos animaciones (por ejemplo, por mareos), FluxJS lo respeta automáticamente.</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-yellow-400">✅ Inclusivo y respetuoso</code>
+          <!-- Accesibilidad -->
+          <div class="flux-glass border border-orange-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-orange-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-orange-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-orange-300/70 rounded-full animate-ping" style="animation-delay: 1.5s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-spin">♿</div>
+                <span class="px-3 py-1 bg-orange-400/20 text-orange-300 text-xs font-bold rounded-full border border-orange-400/30">A11Y</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-orange-400 mb-4 font-bold group-hover:text-orange-300 transition-colors">Inclusivo por Defecto</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Respeta automáticamente las preferencias de accesibilidad del usuario. <span class="text-orange-400 font-medium">¡Funciona para todos sin excepciones!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-orange-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-orange-300 font-mono">PREFERS_REDUCED_MOTION: RESPECT</code>
+                </div>
+                <p class="text-xs text-white/70">Se adapta a preferencias de animación</p>
+              </div>
             </div>
           </div>
 
-          <!-- Súper Rápido -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-pulse">🧠</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Súper Rápido y Eficiente</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">FluxJS usa técnicas súper avanzadas para que funcione rapidísimo, incluso con miles de partículas. No necesitas saber cómo, ¡solo funciona!</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-cyan-400">⚡ Velocidad profesional</code>
+          <!-- Súper Rendimiento -->
+          <div class="flux-glass border border-cyan-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-cyan-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-cyan-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-cyan-300/70 rounded-full animate-ping" style="animation-delay: 0.4s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-pulse">🚀</div>
+                <span class="px-3 py-1 bg-cyan-400/20 text-cyan-300 text-xs font-bold rounded-full border border-cyan-400/30">TURBO</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-cyan-400 mb-4 font-bold group-hover:text-cyan-300 transition-colors">Velocidad Extrema</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Algoritmos avanzados de optimización con WebGL y Canvas2D automático. <span class="text-cyan-400 font-medium">¡60 FPS garantizados!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-cyan-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-cyan-300 font-mono">WEBGL_ACCELERATION: AUTO</code>
+                </div>
+                <p class="text-xs text-white/70">Optimización automática GPU/CPU</p>
+              </div>
             </div>
           </div>
 
-          <!-- Te Ayuda a Resolver Problemas -->
-          <div class="flux-card group hover:scale-105 transition-all duration-300">
-            <div class="text-4xl mb-4 group-hover:animate-bounce">🔧</div>
-            <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Te Ayuda Cuando Algo Falla</h3>
-            <p class="text-white/80 mb-4 text-sm sm:text-base">Si algo no funciona, FluxJS te dice exactamente qué está mal y cómo solucionarlo. Como tener un experto que te ayuda siempre.</p>
-            <div class="bg-gray-800/50 p-3 rounded-lg">
-              <code class="text-xs text-orange-400">🩺 Diagnóstico automático</code>
+          <!-- Diagnóstico Inteligente -->
+          <div class="flux-glass border border-yellow-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden hover:scale-105 hover:border-yellow-400/50 transition-all duration-500">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-yellow-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-yellow-300/70 rounded-full animate-ping" style="animation-delay: 1s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="text-4xl group-hover:animate-bounce">🔧</div>
+                <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 text-xs font-bold rounded-full border border-yellow-400/30">AI DEBUG</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl text-yellow-400 mb-4 font-bold group-hover:text-yellow-300 transition-colors">Diagnóstico por IA</h3>
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Detecta errores automáticamente y sugiere soluciones inteligentes. <span class="text-yellow-400 font-medium">¡Como tener un experto 24/7!</span></p>
+              <div class="bg-gray-800/60 backdrop-blur-sm p-4 rounded-2xl border border-yellow-400/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <code class="text-xs text-yellow-300 font-mono">SMART_DEBUG: ENABLED</code>
+                </div>
+                <p class="text-xs text-white/70">Análisis automático de errores y soluciones</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Banner destacado -->
-        <div class="flux-card-gradient border-flux-blue/30">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-bold">🚀 Todo Esto Funciona Solo</h3>
-          <p class="text-white/80 text-sm sm:text-base max-w-2xl mx-auto">No necesitas configurar nada de esto. FluxJS es inteligente y se encarga de todo automáticamente. Tú solo copia, pega y disfruta de efectos increíbles.</p>
+        <!-- Banner destacado premium -->
+        <div class="flux-glass border border-flux-primary/40 rounded-3xl p-8 sm:p-10 text-center relative group overflow-hidden">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-8 w-2 h-2 bg-flux-primary/60 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-10 w-1.5 h-1.5 bg-green-400/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-12 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+          <div class="absolute top-6 left-1/4 w-1 h-1 bg-purple-400/70 rounded-full animate-ping" style="animation-delay: 1.8s"></div>
+
+          <div class="relative z-10">
+            <div class="flex justify-center items-center gap-4 mb-6">
+              <div class="text-5xl animate-bounce">🤖</div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-green-400">IA que Trabaja por Ti</h3>
+              <div class="text-5xl animate-bounce" style="animation-delay: 0.3s">✨</div>
+            </div>
+
+            <p class="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto mb-6 leading-relaxed">
+              <span class="text-flux-primary font-bold">🔥 Cero configuración manual:</span> FluxJS detecta automáticamente tu dispositivo, ajusta el rendimiento, respeta tus preferencias y optimiza todo sin que tengas que tocar una sola línea de código.
+              <span class="text-green-400 font-medium">¡Es como magia, pero mejor porque es real!</span>
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div class="px-6 py-3 bg-gradient-to-r from-flux-primary/20 to-cyan-400/20 rounded-full border border-flux-primary/30">
+                <span class="text-flux-primary font-bold text-sm">🧠 INTELIGENCIA ARTIFICIAL INTEGRADA</span>
+              </div>
+              <div class="px-6 py-3 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full border border-green-400/30">
+                <span class="text-green-400 font-bold text-sm">♻️ 100% AUTOMÁTICO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Separador decorativo -->
+        <div class="flex justify-center items-center gap-4 mt-12 sm:mt-16">
+          <div class="w-12 h-1 bg-gradient-to-r from-transparent via-flux-primary to-transparent rounded-full"></div>
+          <div class="w-3 h-3 bg-flux-primary rounded-full animate-pulse"></div>
+          <div class="w-20 h-1 bg-gradient-to-r from-flux-primary via-purple-400 to-cyan-400 rounded-full"></div>
+          <div class="w-3 h-3 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          <div class="w-12 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded-full"></div>
         </div>
       </div>
     </section>
 
-    <!-- Sección API -->
-    <section id="api" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">📋 Guía Rápida (Para Cuando Quieras Más)</h2>
+    <!-- Sección API Premium -->
+    <section id="api" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para API -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
+        <div class="absolute top-1/4 right-1/5 w-36 h-36 bg-gradient-to-br from-flux-primary/20 to-cyan-400/12 rounded-full blur-3xl animate-pulse" style="animation-duration: 7s"></div>
+        <div class="absolute bottom-1/3 left-1/6 w-32 h-32 bg-gradient-to-br from-purple-400/15 to-pink-300/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1.8s; animation-duration: 8s"></div>
+        <div class="absolute top-1/6 left-1/2 w-28 h-28 bg-gradient-to-br from-green-400/18 to-emerald-300/12 rounded-full blur-xl animate-bounce" style="animation-delay: 0.8s; animation-duration: 6s"></div>
+      </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">🎛️ Cómo Personalizar</h3>
-          <p class="text-white/70 mb-4 text-sm">Estas son las opciones que puedes cambiar. Solo cambia lo que quieras:</p>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">Opciones</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">{
+      <div class="relative z-10">
+        <!-- Título principal mejorado -->
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 relative group">
+            <span class="text-orange-400 font-bold">Guía Express de Personalización</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl ml-3 animate-bounce inline-block" style="animation-delay: 0.4s">📋</span>
+
+            <!-- Efectos de resplandor -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-flux-primary/15 via-purple-400/20 to-cyan-400/15 blur-2xl opacity-50 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+          </h2>
+
+          <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-4">Para cuando quieras <span class="text-flux-primary font-bold">llevar FluxJS al siguiente nivel</span></p>
+
+          <div class="flex justify-center items-center gap-2 mb-6">
+            <div class="w-2 h-2 bg-flux-primary rounded-full animate-pulse"></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-flux-primary to-cyan-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
+        </div>
+
+        <!-- Tarjeta introductoria premium -->
+        <div class="flux-glass border border-flux-primary/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-6 w-2 h-2 bg-flux-primary/50 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-8 w-1 h-1 bg-cyan-400/70 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+          <div class="relative z-10">
+            <p class="text-lg sm:text-xl text-white/95 leading-relaxed">
+              <span class="text-flux-primary font-bold">🎛️ Personalización avanzada:</span> Estas configuraciones te permiten afinar cada detalle de FluxJS.
+              <span class="text-purple-400 font-medium">¡Cambia solo lo que necesites, el resto funciona automáticamente!</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Grid de documentación premium -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 sm:mb-16">
+          <!-- Configuración Personalizada -->
+          <div class="flux-glass border border-flux-primary/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-flux-primary/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-purple-400/70 rounded-full animate-ping" style="animation-delay: 1s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="text-4xl">🎛️</div>
+                <div>
+                  <h3 class="text-xl sm:text-2xl text-flux-primary mb-2 font-bold">Configuración Personalizada</h3>
+                  <span class="px-3 py-1 bg-flux-primary/20 text-flux-primary text-xs font-bold rounded-full border border-flux-primary/30">ULTRA FLEXIBLE</span>
+                </div>
+              </div>
+
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Estas son las opciones que puedes cambiar para crear efectos únicos. <span class="text-flux-primary font-medium">¡Solo ajusta lo que quieras!</span></p>
+
+              <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-flux-primary/20 relative">
+                <div class="flex items-center justify-between p-4 border-b border-gray-700">
+                  <span class="text-xs text-gray-400 uppercase font-mono">CONFIGURACIÓN BÁSICA</span>
+                  <button
+                    class="flux-copy-btn text-xs px-3 py-1"
+                    onclick="copyToClipboard(this, `{
+  container: element, // Dónde aparecen
+  count: 50, // Cuántas partículas
+  color: '#ffffff', // Color
+  size: { min: 1, max: 3 }, // Tamaño
+  speed: { min: 0.1, max: 0.5 }, // Velocidad
+  opacity: { min: 0.3, max: 0.8 }, // Transparencia
+  connections: { // Líneas entre partículas
+    enabled: true,
+    distance: 100
+  },
+  mouse: { // Respuesta al mouse
+    interact: true,
+    distance: 150
+  }
+}`)"
+                  >
+                    <span class="copy-text">📋 Copiar</span>
+                    <span class="copy-success">¡Copiado! ✨</span>
+                  </button>
+                </div>
+                <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><code class="language-javascript">{
   container: element, // Dónde aparecen
   count: 50, // Cuántas partículas
   color: '#ffffff', // Color
@@ -1388,15 +2126,53 @@ const rainbow = new Flux({
     distance: 150
   }
 }</code></pre>
-          </div>
-        </div>
+              </div>
 
-        <div class="flux-card">
-          <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">⚡ Comandos Útiles</h3>
-          <p class="text-white/70 mb-4 text-sm">Estas funciones te ayudan a controlar las partículas después de crearlas:</p>
-          <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
-            <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">Comandos</span>
-            <pre><code class="language-javascript text-xs sm:text-sm">// Controlar la animación
+              <div class="mt-4 p-4 bg-flux-primary/10 rounded-2xl border border-flux-primary/20">
+                <p class="text-xs text-flux-primary font-medium">💡 Pro Tip: Cambia solo las propiedades que necesites. El resto mantendrá valores optimizados automáticamente.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comandos de Control -->
+          <div class="flux-glass border border-purple-400/30 p-6 sm:p-8 rounded-3xl relative group overflow-hidden">
+            <!-- Partículas internas -->
+            <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-4 left-6 w-1 h-1 bg-cyan-400/70 rounded-full animate-ping" style="animation-delay: 0.6s"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="text-4xl">⚡</div>
+                <div>
+                  <h3 class="text-xl sm:text-2xl text-purple-400 mb-2 font-bold">Comandos de Control</h3>
+                  <span class="px-3 py-1 bg-purple-400/20 text-purple-400 text-xs font-bold rounded-full border border-purple-400/30">CONTROL TOTAL</span>
+                </div>
+              </div>
+
+              <p class="text-white/85 mb-6 text-sm sm:text-base leading-relaxed">Estas funciones te permiten controlar las partículas dinámicamente. <span class="text-purple-400 font-medium">¡Cambia todo en tiempo real!</span></p>
+
+              <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-400/20 relative">
+                <div class="flex items-center justify-between p-4 border-b border-gray-700">
+                  <span class="text-xs text-gray-400 uppercase font-mono">MÉTODOS DISPONIBLES</span>
+                  <button
+                    class="flux-copy-btn text-xs px-3 py-1"
+                    onclick="copyToClipboard(this, `// Controlar la animación
+flux.start(); // Iniciar
+flux.stop(); // Pausar
+flux.destroy(); // Eliminar todo
+
+// Cambiar cosas sobre la marcha
+flux.setColor('#ff0000'); // Cambiar color
+flux.setCount(100); // Cambiar cantidad
+flux.updateConfig({
+  speed: { min: 1, max: 2 } // Cambiar velocidad
+});`)"
+                  >
+                    <span class="copy-text">📋 Copiar</span>
+                    <span class="copy-success">¡Copiado! ✨</span>
+                  </button>
+                </div>
+                <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><code class="language-javascript">// Controlar la animación
 flux.start(); // Iniciar
 flux.stop(); // Pausar
 flux.destroy(); // Eliminar todo
@@ -1407,221 +2183,515 @@ flux.setCount(100); // Cambiar cantidad
 flux.updateConfig({
   speed: { min: 1, max: 2 } // Cambiar velocidad
 });</code></pre>
-          </div>
-        </div>
-      </div>
-    </section>
+              </div>
 
-    <!-- Sección Generador -->
-    <section id="generador" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-12 sm:pb-20 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">🎨 Crea Tu Propia Animación</h2>
-      <p class="text-center mb-6 sm:mb-8 text-white/80 text-sm sm:text-base">¡Juega con los controles y crea algo increíble! Mueve los deslizadores y ve cómo cambia la animación en tiempo real.</p>
-
-      <div class="relative h-64 sm:h-96 bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl overflow-hidden border-2 border-flux-blue/30 mb-6 sm:mb-8" id="generator-preview">
-        <div class="absolute inset-0 flex items-center justify-center" id="generator-start-button">
-          <button onclick="startGenerator()" class="demo-button px-8 py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30 text-lg">🎨 ¡Empezar a Crear!</button>
-        </div>
-      </div>
-
-      <!-- Controles Avanzados -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8" id="generator-controls">
-        <!-- Partículas -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Partículas: <span id="count-value" class="text-flux-blue">150</span></label>
-          <input type="range" id="gen-count" min="10" max="500" value="150" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Velocidad -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-speed">Velocidad: <span id="speed-value" class="text-flux-blue">0.3</span></label>
-          <input type="range" id="gen-speed" min="0.1" max="2.0" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Tamaño -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-size">Tamaño: <span id="size-value" class="text-flux-blue">6</span></label>
-          <input type="range" id="gen-size" min="1" max="15" value="6" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Tipo de Color -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color-type">Tipo de Color:</label>
-          <select id="gen-color-type" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
-            <option value="single">Simple</option>
-            <option value="gradient">Gradiente</option>
-            <option value="rainbow" selected>Arcoíris</option>
-            <option value="random">Aleatorio</option>
-          </select>
-        </div>
-
-        <!-- Animación -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-animation">Animación:</label>
-          <select id="gen-animation" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
-            <option value="float">Flotante</option>
-            <option value="bounce">Rebote</option>
-            <option value="spiral">Espiral</option>
-            <option value="wave" selected>Onda</option>
-            <option value="orbit">Órbita</option>
-          </select>
-        </div>
-
-        <!-- Forma -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-shape">Forma:</label>
-          <select id="gen-shape" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-flux-sm text-white">
-            <option value="circle">Círculo</option>
-            <option value="square">Cuadrado</option>
-            <option value="triangle">Triángulo</option>
-            <option value="star" selected>Estrella</option>
-            <option value="heart">Corazón</option>
-          </select>
-        </div>
-
-        <!-- Distancia Conexión -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-connection-distance">Dist. Conexión: <span id="connection-distance-value" class="text-flux-blue">120</span></label>
-          <input type="range" id="gen-connection-distance" min="50" max="300" value="120" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Turbulencia -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-turbulence">Turbulencia: <span id="turbulence-value" class="text-flux-blue">0.3</span></label>
-          <input type="range" id="gen-turbulence" min="0" max="1" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Tamaño Glow -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-glow-size">Tamaño Glow: <span id="glow-size-value" class="text-flux-blue">15</span></label>
-          <input type="range" id="gen-glow-size" min="5" max="50" value="15" class="w-full h-2 bg-gray-700 rounded-flux-md appearance-none cursor-pointer slider" />
-        </div>
-
-        <!-- Color Base -->
-        <div class="flux-card">
-          <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-color">Color Base:</label>
-          <input type="color" id="gen-color" value="#4fc3f7" class="w-full h-10 sm:h-12 rounded-flux-md border border-gray-600 bg-gray-700" />
-        </div>
-
-        <!-- Efectos Básicos -->
-        <div class="flux-card">
-          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Básicos:</div>
-          <div class="space-y-2">
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-connections" checked class="mr-2 text-flux-blue" />
-              Conexiones
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-glow" checked class="mr-2 text-flux-blue" />
-              Resplandor
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-pulse" checked class="mr-2 text-flux-blue" />
-              Pulsación
-            </label>
-          </div>
-        </div>
-
-        <!-- Efectos Avanzados -->
-        <div class="flux-card">
-          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Efectos Avanzados:</div>
-          <div class="space-y-2">
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-rotation" checked class="mr-2 text-flux-blue" />
-              Rotación
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-twinkle" checked class="mr-2 text-flux-blue" />
-              Centelleo
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-curve-connections" checked class="mr-2 text-flux-blue" />
-              Conexiones Curvas
-            </label>
-          </div>
-        </div>
-
-        <!-- Interacción Mouse -->
-        <div class="flux-card">
-          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Mouse:</div>
-          <div class="space-y-2">
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-mouse" checked class="mr-2 text-flux-blue" />
-              Interacción
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-trail" checked class="mr-2 text-flux-blue" />
-              Rastro
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-sparkles" class="mr-2 text-flux-blue" />
-              Chispas
-            </label>
-          </div>
-        </div>
-
-        <!-- Física -->
-        <div class="flux-card">
-          <div class="block font-semibold mb-3 text-white/90 text-sm sm:text-base">Física:</div>
-          <div class="space-y-2">
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-physics" class="mr-2 text-flux-blue" />
-              Gravedad
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-bounce" class="mr-2 text-flux-blue" />
-              Rebote
-            </label>
-            <label class="flex items-center text-white/80 text-sm">
-              <input type="checkbox" id="gen-wind" class="mr-2 text-flux-blue" />
-              Viento
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="flux-card" id="generated-code-section">
-        <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Tu fórmula secreta:</h3>
-        <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border mb-4" id="generated-code-output">
-          <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
-          <pre><code class="language-javascript text-xs sm:text-sm">// El código se generará aquí...</code></pre>
-        </div>
-        <button class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark bg-blue-500 text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30" onclick="copyGeneratedCode(event)">¡Apropiarse del código! 😈</button>
-      </div>
-    </section>
-
-    <!-- Sección Opiniones -->
-    <section id="opiniones" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-800/30 to-gray-900/30">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8 sm:mb-12">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-flux-blue mb-4">💬 Lo que Dice la Gente</h2>
-          <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">Aquí podrás ver lo que opinan las personas que ya están usando FluxJS en sus sitios web.</p>
-          <div class="w-24 h-1 bg-gradient-to-r from-flux-blue to-flux-blue-dark mx-auto mt-6"></div>
-        </div>
-
-        <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
-          <div class="flux-card max-w-2xl mx-auto">
-            <div class="text-6xl sm:text-8xl mb-6">🚧</div>
-            <h3 class="text-2xl sm:text-3xl text-flux-blue mb-4 font-semibold">¡Muy Pronto!</h3>
-            <p class="text-lg sm:text-xl text-white/80 mb-6">Estamos recopilando las mejores reseñas de personas que ya están creando cosas increíbles con FluxJS.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-              <div class="flex items-center gap-2 text-yellow-400">
-                <span class="text-2xl">⭐⭐⭐⭐⭐</span>
-                <span class="text-white/80">Próximamente...</span>
+              <div class="mt-4 p-4 bg-purple-400/10 rounded-2xl border border-purple-400/20">
+                <p class="text-xs text-purple-400 font-medium">🚀 Pro Tip: Todos los cambios se aplican instantáneamente sin reiniciar la animación.</p>
               </div>
             </div>
-            <p class="text-sm text-white/60 mt-6">¿Ya usas FluxJS? <a href="https://github.com/PabloTheBlink/FluxJS/discussions" target="_blank" class="text-flux-blue hover:underline">¡Cuéntanos qué tal te va!</a></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sección Generador Premium -->
+    <section id="generador" class="px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para generador -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
+        <div class="absolute top-1/5 right-1/4 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-300/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 9s"></div>
+        <div class="absolute bottom-1/3 left-1/8 w-36 h-36 bg-gradient-to-br from-flux-primary/18 to-cyan-400/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 2.5s; animation-duration: 7s"></div>
+        <div class="absolute top-1/3 left-1/2 w-32 h-32 bg-gradient-to-br from-yellow-400/15 to-orange-300/10 rounded-full blur-xl animate-bounce" style="animation-delay: 1.2s; animation-duration: 8s"></div>
+        <div class="absolute bottom-1/6 right-1/3 w-28 h-28 bg-gradient-to-br from-green-400/18 to-emerald-300/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 3.8s; animation-duration: 6s"></div>
+      </div>
+
+      <div class="relative z-10">
+        <!-- Título principal mejorado -->
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 relative group">
+            <span class="text-purple-400 font-bold">Laboratorio de Creación</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl ml-3 animate-bounce inline-block" style="animation-delay: 0.4s">🎨</span>
+
+            <!-- Efectos de resplandor -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-purple-400/20 via-flux-primary/25 to-cyan-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+          </h2>
+
+          <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-4"><span class="text-purple-400 font-bold">Experimenta en tiempo real</span> y crea efectos únicos con nuestro generador inteligente</p>
+
+          <div class="flex justify-center items-center gap-2 mb-6">
+            <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-purple-400 to-cyan-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
+        </div>
+
+        <!-- Tarjeta introductoria premium -->
+        <div class="flux-glass border border-purple-400/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-6 w-2 h-2 bg-purple-400/60 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-8 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+          <div class="relative z-10">
+            <p class="text-lg sm:text-xl text-white/95 leading-relaxed">
+              <span class="text-purple-400 font-bold">🧪 Experimentación libre:</span> Ajusta cada parámetro y ve los cambios al instante.
+              <span class="text-cyan-400 font-medium">¡Cuando encuentres tu combinación perfecta, copia el código y úsalo!</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Canvas de vista previa premium -->
+        <div class="flux-glass border border-flux-primary/40 rounded-3xl p-4 mb-12 sm:mb-16 relative group overflow-hidden">
+          <!-- Partículas del marco -->
+          <div class="absolute top-2 right-4 w-1.5 h-1.5 bg-flux-primary/50 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-3 left-6 w-1 h-1 bg-purple-400/60 rounded-full animate-ping" style="animation-delay: 1s"></div>
+
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-green-400 font-bold text-sm">CANVAS EN VIVO</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-purple-400/20 text-purple-400 text-xs font-bold rounded-full border border-purple-400/30">TIEMPO REAL</span>
+                <span class="px-3 py-1 bg-flux-primary/20 text-flux-primary text-xs font-bold rounded-full border border-flux-primary/30">INTERACTIVO</span>
+              </div>
+            </div>
+
+            <div class="relative h-64 sm:h-96 bg-gradient-to-br from-purple-900/30 to-gray-900/50 rounded-2xl overflow-hidden border border-flux-primary/30" id="generator-preview">
+              <div class="absolute inset-0 flex items-center justify-center" id="generator-start-button">
+                <button onclick="startGenerator()" class="flux-btn flux-btn-primary text-lg px-10 py-5 relative group/btn overflow-hidden">
+                  <span class="relative z-10"> 🎨 ¡Iniciar Experimento! </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel de Control Premium -->
+        <div class="mb-12 sm:mb-16">
+          <div class="text-center mb-8">
+            <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+              <span class="text-cyan-400 font-bold">Centro de Control</span>
+              <span class="text-3xl ml-2 animate-bounce inline-block" style="animation-delay: 0.2s">🎛️</span>
+            </h3>
+            <p class="text-lg text-white/80 max-w-2xl mx-auto">Ajusta cada parámetro y observa cómo <span class="text-purple-400 font-bold">cambia la magia en tiempo real</span></p>
+          </div>
+
+          <!-- Controles organizados por categorías -->
+          <div class="space-y-8">
+            <!-- Categoría: Parámetros Básicos -->
+            <div class="flux-glass border border-flux-primary/30 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+              <div class="absolute top-3 right-4 w-1.5 h-1.5 bg-flux-primary/60 rounded-full animate-pulse"></div>
+
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-2xl">⚙️</div>
+                <h4 class="text-xl font-bold text-flux-primary">Parámetros Básicos</h4>
+                <span class="px-3 py-1 bg-flux-primary/20 text-flux-primary text-xs font-bold rounded-full border border-flux-primary/30">ESENCIAL</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="generator-controls">
+                <!-- Partículas -->
+                <div class="flux-glass border border-green-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-green-400 text-sm" for="gen-count"> 🔢 Cantidad: <span id="count-value" class="text-white font-mono">150</span> </label>
+                  <input type="range" id="gen-count" min="10" max="500" value="150" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>10</span>
+                    <span>500</span>
+                  </div>
+                </div>
+
+                <!-- Velocidad -->
+                <div class="flux-glass border border-blue-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-blue-400 text-sm" for="gen-speed"> ⚡ Velocidad: <span id="speed-value" class="text-white font-mono">0.3</span> </label>
+                  <input type="range" id="gen-speed" min="0.1" max="2.0" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>0.1</span>
+                    <span>2.0</span>
+                  </div>
+                </div>
+
+                <!-- Tamaño -->
+                <div class="flux-glass border border-purple-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-purple-400 text-sm" for="gen-size"> 📏 Tamaño: <span id="size-value" class="text-white font-mono">6</span> </label>
+                  <input type="range" id="gen-size" min="1" max="15" value="6" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>1</span>
+                    <span>15</span>
+                  </div>
+                </div>
+
+                <!-- Color Base -->
+                <div class="flux-glass border border-orange-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-orange-400 text-sm" for="gen-color"> 🎨 Color Base: </label>
+                  <input type="color" id="gen-color" value="#4fc3f7" class="w-full h-10 rounded-xl border border-gray-600 bg-gray-700 cursor-pointer" />
+                  <p class="text-xs text-white/60 mt-1">Toca para cambiar</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categoría: Estilo Visual -->
+            <div class="flux-glass border border-purple-400/30 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+              <div class="absolute bottom-3 left-6 w-1 h-1 bg-purple-400/60 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-2xl">🎭</div>
+                <h4 class="text-xl font-bold text-purple-400">Estilo Visual</h4>
+                <span class="px-3 py-1 bg-purple-400/20 text-purple-400 text-xs font-bold rounded-full border border-purple-400/30">PERSONALIZACIÓN</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Tipo de Color -->
+                <div class="flux-glass border border-pink-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-pink-400 text-sm" for="gen-color-type"> 🌈 Tipo de Color: </label>
+                  <select id="gen-color-type" class="w-full p-3 bg-gray-700/80 backdrop-blur-sm border border-gray-600 rounded-xl text-white text-sm font-medium cursor-pointer">
+                    <option value="single">🔴 Simple</option>
+                    <option value="gradient">🌅 Gradiente</option>
+                    <option value="rainbow" selected>🌈 Arcoíris</option>
+                    <option value="random">🎲 Aleatorio</option>
+                  </select>
+                </div>
+
+                <!-- Animación -->
+                <div class="flux-glass border border-cyan-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-cyan-400 text-sm" for="gen-animation"> 💫 Animación: </label>
+                  <select id="gen-animation" class="w-full p-3 bg-gray-700/80 backdrop-blur-sm border border-gray-600 rounded-xl text-white text-sm font-medium cursor-pointer">
+                    <option value="float">🌊 Flotante</option>
+                    <option value="bounce">⚡ Rebote</option>
+                    <option value="spiral">🌀 Espiral</option>
+                    <option value="wave" selected>🌊 Onda</option>
+                    <option value="orbit">🪐 Órbita</option>
+                  </select>
+                </div>
+
+                <!-- Forma -->
+                <div class="flux-glass border border-yellow-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-yellow-400 text-sm" for="gen-shape"> ⭐ Forma: </label>
+                  <select id="gen-shape" class="w-full p-3 bg-gray-700/80 backdrop-blur-sm border border-gray-600 rounded-xl text-white text-sm font-medium cursor-pointer">
+                    <option value="circle">⚪ Círculo</option>
+                    <option value="square">⬜ Cuadrado</option>
+                    <option value="triangle">🔺 Triángulo</option>
+                    <option value="star" selected>⭐ Estrella</option>
+                    <option value="heart">❤️ Corazón</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categoría: Efectos Avanzados -->
+            <div class="flux-glass border border-cyan-400/30 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+              <div class="absolute top-1/2 right-8 w-1 h-1 bg-cyan-400/70 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-2xl">✨</div>
+                <h4 class="text-xl font-bold text-cyan-400">Efectos Avanzados</h4>
+                <span class="px-3 py-1 bg-cyan-400/20 text-cyan-400 text-xs font-bold rounded-full border border-cyan-400/30">PRO LEVEL</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Distancia Conexión -->
+                <div class="flux-glass border border-red-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-red-400 text-sm" for="gen-connection-distance"> 🔗 Conexión: <span id="connection-distance-value" class="text-white font-mono">120</span> </label>
+                  <input type="range" id="gen-connection-distance" min="50" max="300" value="120" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>50</span>
+                    <span>300</span>
+                  </div>
+                </div>
+
+                <!-- Turbulencia -->
+                <div class="flux-glass border border-emerald-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-emerald-400 text-sm" for="gen-turbulence"> 🌪️ Caos: <span id="turbulence-value" class="text-white font-mono">0.3</span> </label>
+                  <input type="range" id="gen-turbulence" min="0" max="1" step="0.1" value="0.3" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>0</span>
+                    <span>1</span>
+                  </div>
+                </div>
+
+                <!-- Tamaño Glow -->
+                <div class="flux-glass border border-violet-400/20 p-4 rounded-2xl">
+                  <label class="block font-semibold mb-3 text-violet-400 text-sm" for="gen-glow-size"> ✨ Brillo: <span id="glow-size-value" class="text-white font-mono">15</span> </label>
+                  <input type="range" id="gen-glow-size" min="5" max="50" value="15" class="w-full h-2 bg-gray-700 rounded-full appearance-none cursor-pointer slider" />
+                  <div class="flex justify-between text-xs text-white/60 mt-1">
+                    <span>5</span>
+                    <span>50</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categoría: Interactividad -->
+            <div class="flux-glass border border-green-400/30 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+              <div class="absolute bottom-4 right-6 w-1.5 h-1.5 bg-green-400/60 rounded-full animate-pulse"></div>
+
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-2xl">🎮</div>
+                <h4 class="text-xl font-bold text-green-400">Interactividad & Física</h4>
+                <span class="px-3 py-1 bg-green-400/20 text-green-400 text-xs font-bold rounded-full border border-green-400/30">DINAMISMO</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Efectos Básicos -->
+                <div class="flux-glass border border-blue-300/20 p-4 rounded-2xl">
+                  <div class="font-semibold mb-3 text-blue-300 text-sm">💫 Efectos Básicos:</div>
+                  <div class="space-y-3">
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-connections" checked class="mr-3 accent-blue-400" />
+                      <span class="group-hover:text-blue-300 transition-colors">🔗 Conexiones</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-glow" checked class="mr-3 accent-blue-400" />
+                      <span class="group-hover:text-blue-300 transition-colors">✨ Resplandor</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-pulse" checked class="mr-3 accent-blue-400" />
+                      <span class="group-hover:text-blue-300 transition-colors">💗 Pulsación</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Efectos Avanzados -->
+                <div class="flux-glass border border-purple-300/20 p-4 rounded-2xl">
+                  <div class="font-semibold mb-3 text-purple-300 text-sm">🚀 Efectos Pro:</div>
+                  <div class="space-y-3">
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-rotation" checked class="mr-3 accent-purple-400" />
+                      <span class="group-hover:text-purple-300 transition-colors">🌀 Rotación</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-twinkle" checked class="mr-3 accent-purple-400" />
+                      <span class="group-hover:text-purple-300 transition-colors">✨ Centelleo</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-curve-connections" checked class="mr-3 accent-purple-400" />
+                      <span class="group-hover:text-purple-300 transition-colors">🌊 Conexiones Curvas</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Interacción Mouse -->
+                <div class="flux-glass border border-orange-300/20 p-4 rounded-2xl">
+                  <div class="font-semibold mb-3 text-orange-300 text-sm">🖱️ Interacción:</div>
+                  <div class="space-y-3">
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-mouse" checked class="mr-3 accent-orange-400" />
+                      <span class="group-hover:text-orange-300 transition-colors">👆 Mouse/Touch</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-trail" checked class="mr-3 accent-orange-400" />
+                      <span class="group-hover:text-orange-300 transition-colors">🌟 Rastro</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-sparkles" class="mr-3 accent-orange-400" />
+                      <span class="group-hover:text-orange-300 transition-colors">✨ Chispas</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Física -->
+                <div class="flux-glass border border-emerald-300/20 p-4 rounded-2xl">
+                  <div class="font-semibold mb-3 text-emerald-300 text-sm">🧲 Física:</div>
+                  <div class="space-y-3">
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-physics" class="mr-3 accent-emerald-400" />
+                      <span class="group-hover:text-emerald-300 transition-colors">🌍 Gravedad</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-bounce" class="mr-3 accent-emerald-400" />
+                      <span class="group-hover:text-emerald-300 transition-colors">⚡ Rebote</span>
+                    </label>
+                    <label class="flex items-center text-white/90 text-sm cursor-pointer group">
+                      <input type="checkbox" id="gen-wind" class="mr-3 accent-emerald-400" />
+                      <span class="group-hover:text-emerald-300 transition-colors">💨 Viento</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de Código Generado Premium -->
+        <div class="flux-glass border border-green-400/40 rounded-3xl p-6 sm:p-8 relative overflow-hidden" id="generated-code-section">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-8 w-2 h-2 bg-green-400/60 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-10 w-1.5 h-1.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-12 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-4">
+                <div class="text-3xl animate-bounce">🧬</div>
+                <div>
+                  <h3 class="text-2xl sm:text-3xl font-bold text-green-400">Tu Fórmula Mágica</h3>
+                  <p class="text-white/70 text-sm">Código generado automáticamente</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-green-400/20 text-green-400 text-xs font-bold rounded-full border border-green-400/30">LISTO PARA USAR</span>
+                <span class="px-3 py-1 bg-flux-primary/20 text-flux-primary text-xs font-bold rounded-full border border-flux-primary/30">AUTO-GENERADO</span>
+              </div>
+            </div>
+
+            <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-green-400/20 relative mb-6" id="generated-code-output">
+              <div class="flex items-center justify-between p-4 border-b border-gray-700">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  <span class="text-xs text-gray-400 uppercase font-mono">JAVASCRIPT OPTIMIZADO</span>
+                </div>
+                <button class="flux-copy-btn text-xs px-4 py-2" onclick="copyGeneratedCode(this)">
+                  <span class="copy-text">📋 Copiar Código</span>
+                  <span class="copy-success" style="display: none;">¡Copiado! ✨</span>
+                </button>
+              </div>
+              <pre class="p-4 text-xs sm:text-sm overflow-x-auto max-h-96"><code class="language-javascript">// Tu código personalizado aparecerá aquí...
+// Configurado automáticamente según tus preferencias
+
+const flux = new Flux({
+  container: document.getElementById('mi-contenedor'),
+  // Configuración generada dinámicamente
+});</code></pre>
+            </div>
+
+            <div class="mt-6 p-4 bg-green-400/10 rounded-2xl border border-green-400/20">
+              <p class="text-sm text-green-400 font-medium text-center">💡 Pro Tip: El código se actualiza automáticamente mientras juegas con los controles. ¡Experimenta sin miedo!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Separador decorativo -->
+        <div class="flex justify-center items-center gap-4 mt-12 sm:mt-16">
+          <div class="w-12 h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent rounded-full"></div>
+          <div class="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+          <div class="w-20 h-1 bg-gradient-to-r from-purple-400 via-flux-primary to-cyan-400 rounded-full"></div>
+          <div class="w-3 h-3 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          <div class="w-12 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded-full"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Opiniones Premium -->
+    <section id="opiniones" class="px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para opiniones -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
+        <div class="absolute top-1/4 right-1/5 w-32 h-32 bg-gradient-to-br from-yellow-400/20 to-orange-300/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s"></div>
+        <div class="absolute bottom-1/3 left-1/8 w-28 h-28 bg-gradient-to-br from-flux-primary/18 to-cyan-400/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 2s; animation-duration: 6s"></div>
+        <div class="absolute top-1/6 left-1/2 w-24 h-24 bg-gradient-to-br from-purple-400/15 to-pink-300/10 rounded-full blur-xl animate-bounce" style="animation-delay: 1.5s; animation-duration: 7s"></div>
+      </div>
+
+      <div class="relative z-10">
+        <!-- Título principal mejorado -->
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 relative group">
+            <span class="text-yellow-400 font-bold">Historias de Éxito</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl ml-3 animate-bounce inline-block" style="animation-delay: 0.4s">💬</span>
+
+            <!-- Efectos de resplandor -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-yellow-400/20 via-flux-primary/25 to-cyan-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+          </h2>
+
+          <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-4">Desarrolladores de todo el mundo ya están <span class="text-yellow-400 font-bold">creando magia</span> con FluxJS</p>
+
+          <div class="flex justify-center items-center gap-2 mb-6">
+            <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-orange-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
+        </div>
+
+        <!-- Contenido de desarrollo -->
+        <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
+          <div class="flux-glass border border-yellow-400/40 rounded-3xl p-8 sm:p-12 max-w-3xl mx-auto relative group overflow-hidden">
+            <!-- Partículas decorativas -->
+            <div class="absolute top-4 right-8 w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse"></div>
+            <div class="absolute bottom-6 left-10 w-1.5 h-1.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+            <div class="absolute top-1/2 right-12 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+            <div class="relative z-10">
+              <div class="text-6xl sm:text-8xl mb-8 animate-bounce">�</div>
+
+              <h3 class="text-2xl sm:text-3xl font-bold mb-6">
+                <span class="text-orange-400 font-bold">¡Sección en Construcción!</span>
+              </h3>
+
+              <p class="text-lg sm:text-xl text-white/85 mb-8 leading-relaxed">Estamos recopilando las <span class="text-yellow-400 font-bold">mejores historias</span> de desarrolladores que ya están creando cosas increíbles con FluxJS. <span class="text-cyan-400 font-medium">¡Muy pronto tendrás testimonios reales!</span></p>
+
+              <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+                <div class="flex items-center gap-3 p-4 bg-yellow-400/10 rounded-2xl border border-yellow-400/20">
+                  <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+                  <div class="text-left">
+                    <p class="text-yellow-400 font-bold text-sm">5.0 estrellas</p>
+                    <p class="text-white/70 text-xs">Calificación esperada</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 p-4 bg-flux-primary/10 rounded-2xl border border-flux-primary/20">
+                  <span class="text-3xl">🚀</span>
+                  <div class="text-left">
+                    <p class="text-flux-primary font-bold text-sm">1000+</p>
+                    <p class="text-white/70 text-xs">Proyectos usando FluxJS</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-r from-flux-primary/20 to-cyan-400/20 rounded-2xl p-6 border border-flux-primary/30">
+                <p class="text-sm text-white/80 mb-4"><span class="text-flux-primary font-bold">¿Ya usas FluxJS?</span> ¡Nos encantaría conocer tu experiencia!</p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                  <a href="https://github.com/PabloTheBlink/FluxJS/discussions" target="_blank" class="flux-btn flux-btn-primary px-6 py-3 text-sm relative group/btn overflow-hidden">
+                    <span class="relative z-10"> 💬 Comparte tu Historia </span>
+                  </a>
+                  <a href="#contribuir" class="flux-btn flux-btn-secondary px-6 py-3 text-sm relative group/btn overflow-hidden">
+                    <span class="relative z-10"> 🤝 Colaborar con Nosotros </span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Sección Contribuir -->
-    <section id="contribuir" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-900/50 to-gray-800/50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8 sm:mb-12">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-flux-blue mb-4">🤝 ¿Quieres Ayudar?</h2>
-          <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">FluxJS es gratis y cualquier persona puede ayudar a mejorarlo. Si sabes programar o simplemente quieres reportar un problema, ¡eres bienvenido!</p>
-          <div class="w-24 h-1 bg-gradient-to-r from-flux-blue to-flux-blue-dark mx-auto mt-6"></div>
+    <!-- Sección Contribuir Premium -->
+    <section id="contribuir" class="px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-16 sm:pb-20 max-w-7xl mx-auto relative overflow-hidden">
+      <!-- Sistema de partículas de fondo para contribuir -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
+        <div class="absolute top-1/4 right-1/5 w-36 h-36 bg-gradient-to-br from-green-400/20 to-emerald-300/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 9s"></div>
+        <div class="absolute bottom-1/3 left-1/8 w-32 h-32 bg-gradient-to-br from-flux-primary/18 to-cyan-400/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 2.5s; animation-duration: 7s"></div>
+        <div class="absolute top-1/6 left-1/2 w-28 h-28 bg-gradient-to-br from-purple-400/15 to-pink-300/10 rounded-full blur-xl animate-bounce" style="animation-delay: 1.2s; animation-duration: 8s"></div>
+        <div class="absolute bottom-1/6 right-1/3 w-24 h-24 bg-gradient-to-br from-yellow-400/18 to-orange-300/12 rounded-full blur-2xl animate-pulse" style="animation-delay: 3.8s; animation-duration: 6s"></div>
+      </div>
+
+      <div class="relative z-10">
+        <!-- Título principal mejorado -->
+        <div class="text-center mb-12 sm:mb-16">
+          <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 relative group">
+            <span class="text-green-400 font-bold">Únete a la Revolución</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl ml-3 animate-bounce inline-block" style="animation-delay: 0.4s">🤝</span>
+
+            <!-- Efectos de resplandor -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-green-400/20 via-flux-primary/25 to-cyan-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-1000 -z-10"></div>
+          </h2>
+
+          <p class="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-4">FluxJS es <span class="text-green-400 font-bold">100% open source</span> y cualquier persona puede contribuir a hacerlo mejor</p>
+
+          <div class="flex justify-center items-center gap-2 mb-6">
+            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
+        </div>
+
+        <!-- Tarjeta introductoria premium -->
+        <div class="flux-glass border border-green-400/30 rounded-3xl p-8 text-center mb-12 sm:mb-16 relative group overflow-hidden">
+          <!-- Partículas decorativas -->
+          <div class="absolute top-4 right-6 w-2 h-2 bg-green-400/60 rounded-full animate-pulse"></div>
+          <div class="absolute bottom-6 left-8 w-1.5 h-1.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
+          <div class="absolute top-1/2 right-8 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
+
+          <div class="relative z-10">
+            <p class="text-lg sm:text-xl text-white/95 leading-relaxed"><span class="text-green-400 font-bold">🌟 Comunidad abierta:</span> Desde reportar bugs hasta crear nuevas features, <span class="text-emerald-400 font-medium">¡tu contribución hace la diferencia!</span> No importa tu nivel de experiencia.</p>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
@@ -2353,20 +3423,70 @@ flux.updateConfig({
         }
       }
 
-      function copyGeneratedCode(event) {
+      function copyGeneratedCode(button) {
         const codeElement = document.getElementById("generated-code-output").querySelector("code");
         const code = codeElement ? codeElement.textContent : "";
+        
+        if (!code || code.trim() === "" || code.includes("Tu código personalizado aparecerá aquí")) {
+          // Mostrar mensaje de error si no hay código generado
+          const copyText = button.querySelector('.copy-text');
+          const copySuccess = button.querySelector('.copy-success');
+          
+          if (copyText && copySuccess) {
+            copyText.style.display = 'none';
+            copySuccess.style.display = 'inline';
+            copySuccess.textContent = '⚠️ No hay código para copiar';
+            
+            setTimeout(() => {
+              copyText.style.display = 'inline';
+              copySuccess.style.display = 'none';
+              copySuccess.textContent = '¡Copiado! ✨';
+            }, 2000);
+          }
+          return;
+        }
+        
         navigator.clipboard.writeText(code).then(() => {
           // Mostrar feedback visual
-          const button = event.target;
-          const originalText = button.textContent;
-          button.textContent = "¡Robado con éxito! 🎉";
-          button.classList.add("bg-green-500");
-
-          setTimeout(() => {
-            button.textContent = originalText;
-            button.classList.remove("bg-green-500");
-          }, 2000);
+          const copyText = button.querySelector('.copy-text');
+          const copySuccess = button.querySelector('.copy-success');
+          
+          if (copyText && copySuccess) {
+            copyText.style.display = 'none';
+            copySuccess.style.display = 'inline';
+            
+            setTimeout(() => {
+              copyText.style.display = 'inline';
+              copySuccess.style.display = 'none';
+            }, 2000);
+          } else {
+            // Fallback para botones sin estructura de spans
+            const originalText = button.textContent;
+            button.textContent = "¡Copiado! ✨";
+            button.classList.add("bg-green-500");
+            
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.classList.remove("bg-green-500");
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Error al copiar al portapapeles:', err);
+          // Mostrar mensaje de error
+          const copyText = button.querySelector('.copy-text');
+          const copySuccess = button.querySelector('.copy-success');
+          
+          if (copyText && copySuccess) {
+            copyText.style.display = 'none';
+            copySuccess.style.display = 'inline';
+            copySuccess.textContent = '❌ Error al copiar';
+            
+            setTimeout(() => {
+              copyText.style.display = 'inline';
+              copySuccess.style.display = 'none';
+              copySuccess.textContent = '¡Copiado! ✨';
+            }, 2000);
+          }
         });
       }
 
