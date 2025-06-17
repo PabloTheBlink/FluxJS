@@ -264,7 +264,7 @@
           this.config.effects.shadow = false;
           this.config.connections.animated = false;
           // Solo desactivar trail si no fue configurado explícitamente por el usuario
-          if (options.mouse?.trail !== true) {
+          if (this.originalConfig.mouse?.trail !== true) {
             this.config.mouse.trail = false;
           }
         }
