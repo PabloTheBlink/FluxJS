@@ -439,6 +439,25 @@
       #mobile-menu-button.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -6px);
       }
+
+      /* Estilos para botones de demo */
+      .demo-button {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .demo-button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .demo-button:active {
+        transform: translateY(0) scale(0.98);
+      }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -1118,7 +1137,11 @@ document.addEventListener('DOMContentLoaded', function() {
           <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto elegante de burbujas flotantes perfecto para fondos que enamoran</p>
 
           <!-- Preview -->
-          <div class="relative h-48 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-2xl overflow-hidden border border-blue-500/20 mb-6" id="bubbles-preview"></div>
+          <div class="relative h-48 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-2xl overflow-hidden border border-blue-500/20 mb-6" id="bubbles-preview">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button onclick="initializeBubblesDemo()" class="demo-button px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30">✨ Visualizar Demo</button>
+            </div>
+          </div>
 
           <!-- Código -->
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1157,7 +1180,11 @@ const bubbles = new Flux({
           <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas conectadas que bailan al ritmo de tu mouse como si fuera magia pura</p>
 
           <!-- Preview -->
-          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden border border-flux-blue/30 mb-6" id="network-preview"></div>
+          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden border border-flux-blue/30 mb-6" id="network-preview">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button onclick="initializeNetworkDemo()" class="demo-button px-6 py-3 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30">🔗 Visualizar Demo</button>
+            </div>
+          </div>
 
           <!-- Código -->
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1202,7 +1229,11 @@ const network = new Flux({
           <p class="text-white/80 mb-6 text-sm sm:text-base">Efecto hipnótico de partículas girando en espiral con gravedad central que te dejará en trance</p>
 
           <!-- Preview -->
-          <div class="relative h-48 bg-gradient-to-br from-purple-900/30 to-black rounded-2xl overflow-hidden border border-purple-500/30 mb-6" id="galaxy-preview"></div>
+          <div class="relative h-48 bg-gradient-to-br from-purple-900/30 to-black rounded-2xl overflow-hidden border border-purple-500/30 mb-6" id="galaxy-preview">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button onclick="initializeGalaxyDemo()" class="demo-button px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-purple-600/30">🌌 Visualizar Demo</button>
+            </div>
+          </div>
 
           <!-- Código -->
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1255,7 +1286,11 @@ const galaxy = new Flux({
           <p class="text-white/80 mb-6 text-sm sm:text-base">Partículas que cambian de color dinámicamente con efecto de rastro que parece sacado del futuro</p>
 
           <!-- Preview -->
-          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl overflow-hidden border border-pink-500/30 mb-6" id="rainbow-preview"></div>
+          <div class="relative h-48 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl overflow-hidden border border-pink-500/30 mb-6" id="rainbow-preview">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button onclick="initializeRainbowDemo()" class="demo-button px-6 py-3 bg-gradient-to-r from-pink-600 to-red-600 text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-pink-600/30">🎨 Visualizar Demo</button>
+            </div>
+          </div>
 
           <!-- Código -->
           <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border">
@@ -1352,10 +1387,14 @@ flux.updateConfig({
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-flux-blue text-center mb-8 sm:mb-12 font-bold">Laboratorio del científico loco 🧪</h2>
       <p class="text-center mb-6 sm:mb-8 text-white/80 text-sm sm:text-base">¡Juega, experimenta y desata la creatividad! Aquí puedes crear tu propia poción mágica de partículas digitales que dejará a todos boquiabiertos</p>
 
-      <div class="relative h-64 sm:h-96 bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl overflow-hidden border-2 border-flux-blue/30 mb-6 sm:mb-8" id="generator-preview"></div>
+      <div class="relative h-64 sm:h-96 bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl overflow-hidden border-2 border-flux-blue/30 mb-6 sm:mb-8" id="generator-preview">
+        <div class="absolute inset-0 flex items-center justify-center" id="generator-start-button">
+          <button onclick="startGenerator()" class="demo-button px-8 py-4 bg-gradient-to-r from-flux-blue to-flux-blue-dark text-white rounded-full font-semibold hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg shadow-flux-blue/30 text-lg">🧪 Iniciar Generador</button>
+        </div>
+      </div>
 
       <!-- Controles Avanzados -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8" id="generator-controls">
         <!-- Partículas -->
         <div class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 backdrop-blur-lg">
           <label class="block font-semibold mb-2 text-white/90 text-sm sm:text-base" for="gen-count">Partículas: <span id="count-value" class="text-flux-blue">150</span></label>
@@ -1510,7 +1549,7 @@ flux.updateConfig({
         </div>
       </div>
 
-      <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg">
+      <div class="bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10 backdrop-blur-lg" id="generated-code-section">
         <h3 class="text-xl sm:text-2xl text-flux-blue mb-4 font-semibold">Tu fórmula secreta:</h3>
         <div class="bg-gray-800 rounded-flux-md overflow-x-auto relative border mb-4" id="generated-code-output">
           <span class="absolute top-2 right-4 text-xs text-gray-400 uppercase">JS</span>
@@ -2068,6 +2107,18 @@ flux.updateConfig({
       }
 
       function updateGeneratorPreview() {
+        // Si el generador no está iniciado, iniciarlo primero
+        if (!generatorInitialized) {
+          // Marcar como iniciado antes de inicializar para evitar bucle infinito
+          generatorInitialized = true;
+          const startButton = document.getElementById("generator-start-button");
+          if (startButton) startButton.style.display = "none";
+
+          // Inicializar generador sin llamar a startGenerator
+          initializeGenerator();
+          return;
+        }
+
         const config = getGeneratorConfig();
 
         // Destruir instancia anterior
@@ -2277,11 +2328,66 @@ flux.updateConfig({
         }
       }
 
-      // Inicializar ejemplos de preview
-      function initializeExamples() {
-        // Ejemplo 1: Burbujas de fondo
+      // Funciones para destruir demos individuales
+      function destroyBubblesDemo() {
+        if (demos.bubbles) {
+          demos.bubbles.destroy();
+          demos.bubbles = null;
+          const bubblesContainer = document.getElementById("bubbles-preview");
+          const buttonContainer = bubblesContainer?.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "flex";
+        }
+      }
+
+      function destroyNetworkDemo() {
+        if (demos.network) {
+          demos.network.destroy();
+          demos.network = null;
+          const networkContainer = document.getElementById("network-preview");
+          const buttonContainer = networkContainer?.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "flex";
+        }
+      }
+
+      function destroyGalaxyDemo() {
+        if (demos.galaxy) {
+          demos.galaxy.destroy();
+          demos.galaxy = null;
+          const galaxyContainer = document.getElementById("galaxy-preview");
+          const buttonContainer = galaxyContainer?.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "flex";
+        }
+      }
+
+      function destroyRainbowDemo() {
+        if (demos.rainbow) {
+          demos.rainbow.destroy();
+          demos.rainbow = null;
+          const rainbowContainer = document.getElementById("rainbow-preview");
+          const buttonContainer = rainbowContainer?.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "flex";
+        }
+      }
+
+      function destroyGenerator() {
+        if (generatorFlux) {
+          generatorFlux.destroy();
+          generatorFlux = null;
+        }
+        generatorInitialized = false;
+
+        const startButton = document.getElementById("generator-start-button");
+        if (startButton) startButton.style.display = "flex";
+      }
+
+      // Inicializar ejemplos individuales bajo demanda
+      function initializeBubblesDemo() {
         const bubblesContainer = document.getElementById("bubbles-preview");
-        if (bubblesContainer) {
+        if (bubblesContainer && !demos.bubbles) {
+          // Ocultar el contenedor del botón
+          const buttonContainer = bubblesContainer.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "none";
+
           demos.bubbles = new FluxJS({
             container: bubblesContainer,
             count: 25,
@@ -2295,10 +2401,15 @@ flux.updateConfig({
             canvas: { background: "transparent" },
           });
         }
+      }
 
-        // Ejemplo 2: Red de conexiones
+      function initializeNetworkDemo() {
         const networkContainer = document.getElementById("network-preview");
-        if (networkContainer) {
+        if (networkContainer && !demos.network) {
+          // Ocultar el contenedor del botón
+          const buttonContainer = networkContainer.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "none";
+
           demos.network = new FluxJS({
             container: networkContainer,
             count: 40,
@@ -2320,10 +2431,15 @@ flux.updateConfig({
             canvas: { background: "transparent" },
           });
         }
+      }
 
-        // Ejemplo 3: Galaxia Rotante
+      function initializeGalaxyDemo() {
         const galaxyContainer = document.getElementById("galaxy-preview");
-        if (galaxyContainer) {
+        if (galaxyContainer && !demos.galaxy) {
+          // Ocultar el contenedor del botón
+          const buttonContainer = galaxyContainer.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "none";
+
           demos.galaxy = new FluxJS({
             container: galaxyContainer,
             count: 200,
@@ -2342,10 +2458,15 @@ flux.updateConfig({
             canvas: { background: "transparent" },
           });
         }
+      }
 
-        // Ejemplo 4: Partículas con Rastro de Colores
+      function initializeRainbowDemo() {
         const rainbowContainer = document.getElementById("rainbow-preview");
-        if (rainbowContainer) {
+        if (rainbowContainer && !demos.rainbow) {
+          // Ocultar el contenedor del botón
+          const buttonContainer = rainbowContainer.querySelector("div");
+          if (buttonContainer) buttonContainer.style.display = "none";
+
           demos.rainbow = new FluxJS({
             container: rainbowContainer,
             count: 60,
@@ -2375,16 +2496,24 @@ flux.updateConfig({
         }
       }
 
+      // Función para inicializar el generador bajo demanda
+      function startGenerator() {
+        // Si ya está iniciado, no hacer nada
+        if (generatorInitialized) return;
+
+        // Llamar directamente a updateGeneratorPreview que manejará la inicialización
+        updateGeneratorPreview();
+      }
+
       // Enhanced cleanup with error handling
       window.addEventListener("beforeunload", function () {
         try {
           if (currentFlux) currentFlux.destroy();
           if (generatorInitialized && generatorFlux) generatorFlux.destroy();
-          if (examplesInitialized) {
-            Object.values(demos).forEach((demo) => {
-              if (demo && demo.destroy) demo.destroy();
-            });
-          }
+          // Limpiar todos los demos que hayan sido inicializados
+          Object.values(demos).forEach((demo) => {
+            if (demo && demo.destroy) demo.destroy();
+          });
         } catch (error) {
           console.error("Error during cleanup:", error);
         }
@@ -2394,10 +2523,101 @@ flux.updateConfig({
       let generatorInitialized = false;
       let examplesInitialized = false;
 
+      // Sistema de observación para limpieza automática
+      function initializeVisibilityObserver() {
+        if ("IntersectionObserver" in window) {
+          const cleanupObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                const sectionId = entry.target.id;
+                const isVisible = entry.isIntersecting;
+
+                // Si la sección sale de la vista, destruir demos correspondientes
+                if (!isVisible) {
+                  switch (sectionId) {
+                    case "bubbles-preview":
+                      if (demos.bubbles) {
+                        setTimeout(() => {
+                          // Verificar que aún no esté visible antes de destruir
+                          const container = document.getElementById("bubbles-preview");
+                          if (container && !isElementInViewport(container)) {
+                            destroyBubblesDemo();
+                          }
+                        }, 2000);
+                      }
+                      break;
+                    case "network-preview":
+                      if (demos.network) {
+                        setTimeout(() => {
+                          const container = document.getElementById("network-preview");
+                          if (container && !isElementInViewport(container)) {
+                            destroyNetworkDemo();
+                          }
+                        }, 2000);
+                      }
+                      break;
+                    case "galaxy-preview":
+                      if (demos.galaxy) {
+                        setTimeout(() => {
+                          const container = document.getElementById("galaxy-preview");
+                          if (container && !isElementInViewport(container)) {
+                            destroyGalaxyDemo();
+                          }
+                        }, 2000);
+                      }
+                      break;
+                    case "rainbow-preview":
+                      if (demos.rainbow) {
+                        setTimeout(() => {
+                          const container = document.getElementById("rainbow-preview");
+                          if (container && !isElementInViewport(container)) {
+                            destroyRainbowDemo();
+                          }
+                        }, 2000);
+                      }
+                      break;
+                    case "generator-preview":
+                      if (generatorInitialized) {
+                        setTimeout(() => {
+                          const container = document.getElementById("generator-preview");
+                          if (container && !isElementInViewport(container)) {
+                            destroyGenerator();
+                          }
+                        }, 2000);
+                      }
+                      break;
+                  }
+                }
+              });
+            },
+            {
+              root: null,
+              rootMargin: "-150px", // Se considera fuera de vista cuando está 150px fuera del viewport
+              threshold: 0,
+            }
+          );
+
+          // Observar todos los contenedores de demo
+          const containersToObserve = ["bubbles-preview", "network-preview", "galaxy-preview", "rainbow-preview", "generator-preview"];
+
+          containersToObserve.forEach((containerId) => {
+            const container = document.getElementById(containerId);
+            if (container) {
+              cleanupObserver.observe(container);
+            }
+          });
+        }
+      }
+
+      // Función auxiliar para verificar si un elemento está en el viewport
+      function isElementInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top >= -100 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + 100 && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+      }
+
       // Función para inicializar componentes bajo demanda usando Intersection Observer
       function initializeLazyComponents() {
-        // Configurar observer para la sección de ejemplos
-        const examplesSection = document.getElementById("ejemplos");
+        // Configurar observer solo para la sección de generador
         const generatorSection = document.getElementById("generador");
 
         if ("IntersectionObserver" in window) {
@@ -2405,15 +2625,8 @@ flux.updateConfig({
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                  if (entry.target.id === "ejemplos" && !examplesInitialized) {
-                    console.log("🎯 Inicializando ejemplos bajo demanda...");
-                    initializeExamples();
-                    examplesInitialized = true;
-                    lazyObserver.unobserve(entry.target);
-                  } else if (entry.target.id === "generador" && !generatorInitialized) {
-                    console.log("🎯 Inicializando generador bajo demanda...");
-                    initializeGenerator();
-                    generatorInitialized = true;
+                  if (entry.target.id === "generador" && !generatorInitialized) {
+                    // Solo marcamos que el generador está listo, pero no lo inicializamos
                     lazyObserver.unobserve(entry.target);
                   }
                 }
@@ -2421,35 +2634,19 @@ flux.updateConfig({
             },
             {
               root: null,
-              rootMargin: "50px", // Inicializar 50px antes de que la sección sea visible
+              rootMargin: "50px",
               threshold: 0.1,
             }
           );
 
-          // Observar las secciones
-          if (examplesSection) lazyObserver.observe(examplesSection);
+          // Observar solo la sección del generador
           if (generatorSection) lazyObserver.observe(generatorSection);
 
-          // Fallback: también inicializar si el usuario navega directamente via hash
-          const handleHashChange = () => {
-            const hash = window.location.hash;
-            if (hash === "#ejemplos" && !examplesInitialized) {
-              initializeExamples();
-              examplesInitialized = true;
-            } else if (hash === "#generador" && !generatorInitialized) {
-              initializeGenerator();
-              generatorInitialized = true;
-            }
-          };
-
-          // Verificar hash inicial
-          setTimeout(handleHashChange, 100);
-          window.addEventListener("hashchange", handleHashChange);
+          // Los ejemplos ya no se inicializan automáticamente
+          examplesInitialized = true;
         } else {
           // Fallback para navegadores sin soporte de IntersectionObserver
-          console.log("⚠️ IntersectionObserver no soportado, inicializando todo inmediatamente");
-          setTimeout(initializeGenerator, 300);
-          setTimeout(initializeExamples, 300);
+          examplesInitialized = true;
         }
       }
 
@@ -2482,6 +2679,9 @@ flux.updateConfig({
           // Inicializar componentes bajo demanda en lugar de inmediatamente
           setTimeout(initializeLazyComponents, 200);
 
+          // Inicializar sistema de limpieza automática
+          setTimeout(initializeVisibilityObserver, 300);
+
           // Mobile optimizations
           const optimizeForMobile = () => {
             if (window.innerWidth < 768) {
@@ -2498,11 +2698,9 @@ flux.updateConfig({
               clearTimeout(resizeTimeout);
               resizeTimeout = setTimeout(() => {
                 // Solo redimensionar los demos que han sido inicializados
-                if (examplesInitialized) {
-                  Object.values(demos).forEach((demo) => {
-                    if (demo && demo.resize) demo.resize();
-                  });
-                }
+                Object.values(demos).forEach((demo) => {
+                  if (demo && demo.resize) demo.resize();
+                });
                 if (currentFlux && currentFlux.resize) currentFlux.resize();
                 if (generatorInitialized && generatorFlux && generatorFlux.resize) {
                   generatorFlux.resize();
@@ -2512,8 +2710,6 @@ flux.updateConfig({
             },
             { passive: true }
           );
-
-          console.log("🎉 FluxJS Index optimizado y listo!");
         } catch (error) {
           console.error("Error during initialization:", error);
         }

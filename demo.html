@@ -1242,12 +1242,8 @@
           // Eventos
           events: {
             onInit: () => {
-              console.log("FluxJS initialized");
               isInitialized = true;
             },
-            onStart: () => console.log("FluxJS started"),
-            onStop: () => console.log("FluxJS stopped"),
-            onResize: () => console.log("FluxJS resized"),
           },
         };
 
@@ -1485,8 +1481,6 @@
             updateToggleIcon();
           }
         });
-
-        console.log("🎉 FluxJS Demo optimizado y listo!");
       });
 
       // Mobile control panel functions
@@ -1566,16 +1560,6 @@
           cancelAnimationFrame(rafId);
         }
       });
-
-      // Performance monitoring (optional, can be enabled for debugging)
-      const enablePerformanceMonitoring = false;
-      if (enablePerformanceMonitoring) {
-        setInterval(() => {
-          if (currentFlux) {
-            console.log(`FPS: ${currentFlux.currentFPS || "N/A"}, Partículas: ${currentFlux.particles?.length || 0}`);
-          }
-        }, 5000);
-      }
     </script>
   </body>
 </html>
