@@ -8,7 +8,16 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 
 ## 🚀 Características Principales
 
-### 🎨 Sistema de Colores Avanzado
+### � Características Innovadoras
+
+- **🔋 Optimización Inteligente de Batería**: Detecta automáticamente el nivel de batería del dispositivo y ajusta el rendimiento para preservar la energía
+- **👁️ Lazy Loading con Viewport**: Solo inicia las animaciones cuando el elemento es visible en pantalla
+- **🎭 Multi-Touch Avanzado**: Soporte completo para múltiples toques simultáneos en dispositivos móviles
+- **🧠 IA de Rendimiento**: Sistema adaptativo que ajusta automáticamente la calidad según el dispositivo y condiciones
+- **♿ Accesibilidad Nativa**: Respeta las preferencias del sistema como `prefers-reduced-motion`
+- **🔧 Auto-Diagnóstico**: Sistema inteligente que detecta y soluciona problemas automáticamente
+
+### �🎨 Sistema de Colores Avanzado
 
 - **Colores simples**: Color sólido tradicional
 - **Gradientes**: Gradientes lineales multicolor
@@ -31,9 +40,12 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 
 - **Atracción/Repulsión**: Fuerzas configurables
 - **Magnetismo**: Atracción instantánea
-- **Trail del mouse**: Rastro visual
+- **Trail del mouse**: Rastro visual con efectos de glow
 - **Eventos personalizados**: onClick, onHover callbacks
 - **Detección de partículas**: Click en partículas individuales
+- **Sparkles**: Partículas brillantes que siguen al cursor
+- **Multi-touch**: Soporte completo para pantallas táctiles
+- **Configuración táctil**: Distancias y fuerzas optimizadas para móviles
 
 ### ✨ Efectos Especiales
 
@@ -76,6 +88,9 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 - **Breakpoints personalizables**: Mobile, tablet, desktop
 - **Ajuste automático**: Número de partículas según pantalla
 - **Escalado del contenedor**: Adaptación a contenedores
+- **Detección de dispositivo**: Identifica automáticamente el tipo de dispositivo
+- **Configuración por dispositivo**: Diferentes ajustes para móvil, tablet y escritorio
+- **Simplificación automática**: Desactiva efectos pesados en dispositivos móviles
 
 ### ⚙️ Optimización y Rendimiento
 
@@ -83,6 +98,33 @@ Una librería de partículas animadas ultra configurable para fondos web interac
 - **Pausa automática**: Al perder foco de ventana
 - **Calidad adaptativa**: Ajuste automático de calidad
 - **Optimización de conexiones**: Algoritmos eficientes
+- **🔋 Optimización de batería**: Detecta el nivel de batería y ajusta el rendimiento automáticamente
+- **Spatial partitioning**: Algoritmos avanzados de detección de colisiones
+- **Object pooling**: Reutilización de objetos para mejor rendimiento
+- **Cache de colores**: Sistema de cache inteligente para gradientes y colores
+
+### 📱 Características Móviles Avanzadas
+
+- **Detección inteligente de dispositivos**: Detecta automáticamente móviles, tablets y escritorio
+- **Multi-touch**: Soporte para múltiples toques simultáneos
+- **Optimización táctil**: Distancias y fuerzas ajustadas para pantallas táctiles
+- **Hardware acceleration**: Uso de transform3D y backface-visibility para mejor rendimiento
+- **Gestión de memoria**: Límites automáticos de partículas en dispositivos móviles
+- **Preferencias de accesibilidad**: Respeta `prefers-reduced-motion` del sistema
+
+### 👁️ Lazy Loading y Viewport
+
+- **Intersection Observer**: Inicia las animaciones solo cuando el elemento es visible
+- **Viewport threshold**: Configurable porcentaje de visibilidad para activar
+- **Lazy loading**: Ahorro de recursos en elementos fuera de pantalla
+- **Eventos de viewport**: Callbacks cuando entra/sale del viewport
+
+### 🎛️ Sistema de Eventos Avanzado
+
+- **Callbacks completos**: onInit, onStart, onStop, onResize, onParticleClick, onParticleHover
+- **Eventos de viewport**: onViewportEnter, onViewportExit
+- **Diagnóstico automático**: Sistema de diagnóstico para detectar problemas
+- **Manejo de errores**: Recuperación automática de errores de inicialización
 
 ## 📦 Instalación
 
