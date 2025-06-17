@@ -3640,10 +3640,17 @@ const flux = new Flux({
           // Crear instancia de FluxJS para el hero
           heroFlux = new FluxJS({
             container: heroContainer,
-            count: 80,
+            count: 200,
             color: {
               type: "gradient",
               gradient: ["#4fc3f7", "#29b6f6", "#00bcd4", "#26c6da", "#4dd0e1"]
+            },
+            animation: {
+              type: "spiral",
+              speed: 2.0, // Velocidad máxima
+              direction: "random",
+              wave: { amplitude: 100, frequency: 0.025, speed: 0.04 },
+              orbit: { radius: 150, speed: 0.02 },
             },
             size: { 
               min: 1.5, 
@@ -3654,7 +3661,7 @@ const flux = new Flux({
             },
             speed: { 
               min: 0.1, 
-              max: 0.3, 
+              max: 3, 
               turbulence: 0.2,
               turbulenceFrequency: 0.015
             },
@@ -3666,7 +3673,7 @@ const flux = new Flux({
             },
             connections: {
               enabled: true,
-              distance: 100,
+              distance: 50,
               color: "#4fc3f7",
               opacity: 0.3,
               width: 1,
@@ -3687,7 +3694,7 @@ const flux = new Flux({
             effects: {
               glow: true,
               glowColor: "#4fc3f7",
-              glowSize: 8,
+              glowSize: 100,
               twinkle: true
             },
             canvas: { 
