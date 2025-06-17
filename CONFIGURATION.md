@@ -79,12 +79,18 @@ color: {
 size: {
   min: 1,
   max: 5,
-  pulse: true,                    // Efecto de pulsación
-  pulseSpeed: 0.02,              // Velocidad de pulsación
-  pulseIntensity: 0.5,           // Intensidad del pulso
-  distribution: "gaussian"        // 'uniform', 'gaussian', 'exponential'
+  distribution: "gaussian",     // Tipos: 'uniform', 'gaussian', 'exponential'
+  pulse: true,                  // Efecto de pulsación
+  pulseSpeed: 0.02,            // Velocidad de pulsación
+  pulseIntensity: 0.5          // Intensidad del pulso (0-1)
 }
 ```
+
+### Tipos de Distribución:
+
+- **uniform**: Distribución uniforme (todos los tamaños igual de probables)
+- **gaussian**: Distribución normal (tamaños medios más probables)
+- **exponential**: Distribución exponencial (tamaños pequeños más probables)
 
 ## Sistema de Velocidad
 
@@ -143,6 +149,20 @@ mouse: {
   onClick: (event, flux) => {   // Callback de click
     console.log('Canvas clicked!');
   }
+}
+```
+
+## Trail del Mouse Avanzado
+
+```javascript
+mouse: {
+  trail: true,                  // Activar trail
+  trailLength: 30,             // Longitud del trail
+  trailWidth: 8,               // Ancho del trail
+  trailColor: "#8B00FF",       // Color del trail
+  trailGlow: true,             // Efecto glow en el trail
+  trailFadeTime: 1500,         // Tiempo de desvanecimiento (ms)
+  sparkles: true               // Partículas brillantes en el trail
 }
 ```
 
@@ -243,15 +263,112 @@ canvas: {
 }
 ```
 
+## Configuración de Hardware Acceleration
+
+```javascript
+canvas: {
+  background: "transparent",     // Fondo del canvas
+  blur: false,                  // Desenfoque del canvas
+  blurAmount: 1,               // Cantidad de desenfoque
+  zIndex: 1,                   // Z-index del canvas
+  opacity: 1                   // Opacidad del canvas completo
+},
+
+performance: {
+  mobile: {
+    useTransform3d: true,        // Activar hardware acceleration
+    // Esto aplicará automáticamente:
+    // transform: translateZ(0)
+    // backface-visibility: hidden
+    // perspective: 1000px
+  }
+}
+```
+
+## Configuración de Accesibilidad
+
+FluxJS respeta automáticamente las preferencias del sistema:
+
+```javascript
+// Se detecta automáticamente prefers-reduced-motion
+// Si el usuario tiene activada esta preferencia:
+// - Se reducen las animaciones
+// - Se limitan los efectos de movimiento
+// - Se mantiene la funcionalidad básica
+
+// También puedes configurarlo manualmente:
+performance: {
+  mobile: {
+    reducedMotion: true; // Forzar modo de movimiento reducido
+  }
+}
+```
+
 ## Optimización y Rendimiento
 
 ```javascript
 performance: {
   maxFPS: 60,                    // Límite de FPS
-  enableWebGL: false,            // WebGL (experimental)
-  optimizeConnections: true,     // Optimizar cálculo de conexiones
+  enableWebGL: false,            // WebGL (se detecta automáticamente)
+  optimizeConnections: true,     // Optimizar cálculo de conexiones con Spatial Grid
   pauseOnBlur: true,            // Pausar cuando se pierde el foco
-  adaptiveQuality: true         // Calidad adaptativa
+  adaptiveQuality: true,        // Calidad adaptativa automática
+
+  // Optimizaciones móviles
+  mobile: {
+    batteryOptimization: true,   // Monitoreo de batería
+    memoryLimit: 1000,          // Límite de partículas en móvil
+    useTransform3d: true,       // Hardware acceleration
+    reducedMotion: false        // Respetar preferencias del sistema
+  }
+}
+```
+
+**Modos de rendimiento automáticos:**
+
+- **normal**: Rendimiento completo (batería > 50%)
+- **reduced**: Rendimiento reducido (batería 20-50%)
+- **minimal**: Rendimiento mínimo (batería < 20%)
+
+## Optimización Avanzada de Rendimiento
+
+### Spatial Grid y Cache
+
+```javascript
+performance: {
+  optimizeConnections: true,     // Usar spatial grid para conexiones
+  adaptiveQuality: true,        // Calidad adaptativa automática
+  maxFPS: 60,                   // Límite de FPS
+  enableWebGL: false,           // WebGL experimental (se detecta automáticamente)
+  pauseOnBlur: true            // Pausar cuando se pierde el foco
+}
+```
+
+### Sistema de Cache Inteligente
+
+El sistema incluye cache automático para:
+
+- **Colores**: Cache de gradientes y colores calculados
+- **Distancias**: Cache de distancias calculadas para optimizar interacciones
+- **Objetos del trail**: Object pooling para reutilización de objetos
+
+```javascript
+// El cache se maneja automáticamente, pero puedes monitorearlo:
+flux.colorCache.size; // Tamaño del cache de colores
+flux.distanceCache.size; // Tamaño del cache de distancias
+flux.trailPool.length; // Objetos disponibles en el pool
+```
+
+### Multi-Touch Avanzado
+
+```javascript
+mouse: {
+  touch: {
+    enabled: true,              // Habilitar eventos táctiles
+    multiTouch: true,          // Soporte para múltiples dedos
+    touchDistance: 200,        // Distancia de interacción táctil (mayor que mouse)
+    touchAttraction: 0.08      // Fuerza de atracción táctil (mayor que mouse)
+  }
 }
 ```
 
@@ -517,6 +634,13 @@ flux.attract(x, y, force, radius);
 
 // Utilidades
 const particle = flux.getParticleAt(x, y);
+const diagnostics = flux.diagnose(); // Información de debugging
+const performance = flux.getPerformanceInfo(); // Estadísticas de rendimiento
+
+// Detección y optimización
+flux.getCurrentBreakpoint(); // Breakpoint responsive actual
+flux.optimizeForDevice(); // Optimización manual
+flux.optimizeForLowEndDevice(); // Modo de emergencia para dispositivos lentos
 ```
 
 ## Utilidades de Configuración
@@ -533,4 +657,45 @@ const earthPhysics = createFlux.utils.physics.earth;
 const spacePhysics = createFlux.utils.physics.space;
 ```
 
-Esta guía cubre todas las opciones de configuración disponibles en FluxJS. La librería está diseñada para ser extremadamente flexible y permitir crear cualquier tipo de efecto de partículas imaginable.
+## Auto-Diagnóstico
+
+FluxJS incluye un sistema de diagnóstico que puedes usar para debugging:
+
+```javascript
+const diagnostics = flux.diagnose();
+console.log(diagnostics);
+
+// Devuelve información sobre:
+// - Dispositivo y capacidades
+// - Estado del canvas
+// - Rendimiento actual
+// - Configuración crítica
+```
+
+## Resumen Técnico
+
+Esta guía cubre todas las opciones de configuración disponibles en FluxJS versión 1.0.3. La librería está diseñada para ser extremadamente flexible y permitir crear cualquier tipo de efecto de partículas imaginable, con optimizaciones automáticas para todos los dispositivos.
+
+### Características Técnicas Avanzadas
+
+- **Spatial Grid**: Algoritmo de particionado espacial para optimización de conexiones
+- **Object Pooling**: Reutilización de objetos para el trail del mouse
+- **Cache Inteligente**: Sistema de cache para colores, distancias y gradientes
+- **Hardware Acceleration**: Detección automática y uso de GPU cuando está disponible
+- **Battery API**: Monitoreo automático del nivel de batería para optimización
+- **Intersection Observer**: Lazy loading inteligente con configuración de threshold
+- **Multi-touch**: Soporte completo para gestos multi-táctiles
+- **Adaptive Quality**: Ajuste automático de calidad según el rendimiento del dispositivo
+
+### Modos de Optimización Automática
+
+1. **Normal**: Rendimiento completo (batería > 50%)
+2. **Reduced**: Efectos reducidos (batería 20-50%)
+3. **Minimal**: Modo supervivencia (batería < 20%)
+
+### Compatibilidad de Navegadores
+
+- **Chrome/Edge**: Soporte completo incluyendo Battery API
+- **Firefox**: Soporte completo excepto Battery API
+- **Safari**: Soporte completo con optimizaciones específicas para iOS
+- **Mobile**: Optimizaciones automáticas para todos los dispositivos móviles

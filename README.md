@@ -1,9 +1,12 @@
-<p align## 🚀 Característica### 🎨 Sistema de Colores Avanzado (Más opciones que en la carta de Starbucks)
+<p align="center">
+  <img src="icon.png" alt="Icono de FluxJS" width="160" height="160">
+</p>
 
-- **Colores simples**: Cuando quieres algo clásico y elegante
-- **Gradientes**: Porque la vida es mejor en degradé
-- **Arcoíris animado**: Para cuando tu inner niño toma el control
-- **Paletas aleatorias**: Déjalo al destino (pero con estilo)cipales
+# FluxJS ✨
+
+La librería de partículas que lee tu mente (y tu batería). Más inteligente que un smartphone y más suave que tu explicación cuando llegas tarde al trabajo. Con más de 100 opciones de personalización porque... ¿quién necesita simplicidad cuando puedes tener control total?
+
+## 🚀 Características Principales
 
 ### 🧠 Características Innovadoras (Porque lo básico es para básicos)
 
@@ -13,30 +16,13 @@
 - **🧠 IA de Rendimiento**: Sistema adaptativo que ajusta automáticamente la calidad según el dispositivo (sí, también funciona en esa tablet del 2015)
 - **♿ Accesibilidad Nativa**: Respeta las preferencias del sistema como `prefers-reduced-motion` porque somos civilizados
 - **🔧 Auto-Diagnóstico**: Sistema inteligente que detecta y soluciona problemas automáticamente (ojalá fuera así de fácil con los humanos)
-<img src="icon.png" alt="Icono de FluxJS" width="160" height="160">
-</p>
 
-# FluxJS ✨
+### 🎨 Sistema de Colores Avanzado (Más opciones que en la carta de Starbucks)
 
-La librería de partículas que lee tu mente (y tu batería). Más inteligente que un smartphone y más suave que tu explicación cuando llegas tarde al trabajo. Con más de 100 opciones de personalización porque... ¿quién necesita simplicidad cuando puedes tener control total?
-
-## 🚀 Características Principales
-
-### � Características Innovadoras
-
-- **🔋 Optimización Inteligente de Batería**: Detecta automáticamente el nivel de batería del dispositivo y ajusta el rendimiento para preservar la energía
-- **👁️ Lazy Loading con Viewport**: Solo inicia las animaciones cuando el elemento es visible en pantalla
-- **🎭 Multi-Touch Avanzado**: Soporte completo para múltiples toques simultáneos en dispositivos móviles
-- **🧠 IA de Rendimiento**: Sistema adaptativo que ajusta automáticamente la calidad según el dispositivo y condiciones
-- **♿ Accesibilidad Nativa**: Respeta las preferencias del sistema como `prefers-reduced-motion`
-- **🔧 Auto-Diagnóstico**: Sistema inteligente que detecta y soluciona problemas automáticamente
-
-### �🎨 Sistema de Colores Avanzado
-
-- **Colores simples**: Color sólido tradicional
-- **Gradientes**: Gradientes lineales multicolor
-- **Arcoíris animado**: Cambio de color automático
-- **Paletas aleatorias**: Colores al azar de una paleta personalizada
+- **Colores simples**: Cuando quieres algo clásico y elegante
+- **Gradientes**: Porque la vida es mejor en degradé
+- **Arcoíris animado**: Para cuando tu inner niño toma el control
+- **Paletas aleatorias**: Déjalo al destino (pero con estilo)
 
 <p align="center">
   <img src="captura2.png" alt="Icono de FluxJS">
@@ -58,8 +44,11 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 - **Eventos personalizados**: onClick, onHover callbacks porque la personalización es vida
 - **Detección de partículas**: Click en partículas individuales (cada una tiene su momento)
 - **Sparkles**: Partículas brillantes que siguen al cursor como fans obsesionados
-- **Multi-touch**: Soporte completo para pantallas táctiles (todos tus dedos importan)
+- **Multi-touch avanzado**: Soporte completo para pantallas táctiles (todos tus dedos importan)
 - **Configuración táctil**: Distancias y fuerzas optimizadas para móviles (porque tamaño sí importa)
+- **Cache de distancias**: Optimización de cálculos para mejor rendimiento
+- **Trail con glow**: Efectos visuales con sombras y transparencias
+- **Configuración independiente táctil**: Diferentes configuraciones para touch vs mouse
 
 ### ✨ Efectos Especiales (Hollywood llamó, quieren sus efectos de vuelta)
 
@@ -75,10 +64,12 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 - **Círculos**: La forma clásica que nunca pasa de moda
 - **Cuadrados**: Para los que prefieren las esquinas definidas en la vida
 - **Triángulos**: Geometría básica pero con actitud
-- **Estrellas**: Estrellas de 5 puntas porque mereces brillar
+- **Estrellas**: Configurables con cualquier número de puntas (5, 6, 8... ¡tú decides!)
 - **Corazones**: Para cuando tu web necesita más amor
 - **Polígonos**: Lados configurables porque ¿por qué limitarse?
 - **Formas custom**: Función de dibujo personalizada para los artistas rebeldes
+- **Rotación continua**: Porque todo se ve mejor girando
+- **Distribución de tamaño**: Uniforme, gaussiana o exponencial (matemáticamente hermoso)
 
 ### 🌊 Animaciones Avanzadas (Más fluido que tus excusas para llegar tarde)
 
@@ -106,32 +97,39 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 - **Configuración por dispositivo**: Diferentes ajustes para móvil, tablet y escritorio
 - **Simplificación automática**: Desactiva efectos pesados en dispositivos móviles
 
-### ⚙️ Optimización y Rendimiento
+### ⚙️ Optimización y Rendimiento Inteligente (Porque la velocidad sí importa)
 
-- **Control de FPS**: Límite de cuadros por segundo
-- **Pausa automática**: Al perder foco de ventana
-- **Calidad adaptativa**: Ajuste automático de calidad
-- **Optimización de conexiones**: Algoritmos eficientes
-- **🔋 Optimización de batería**: Detecta el nivel de batería y ajusta el rendimiento automáticamente
-- **Spatial partitioning**: Algoritmos avanzados de detección de colisiones
-- **Object pooling**: Reutilización de objetos para mejor rendimiento
-- **Cache de colores**: Sistema de cache inteligente para gradientes y colores
+- **Control de FPS**: Límite de cuadros por segundo configurable
+- **Pausa automática**: Al perder foco de ventana (ahorra batería)
+- **Calidad adaptativa**: Ajuste automático de calidad según el rendimiento
+- **Optimización de conexiones**: Algoritmos espaciales (Spatial Grid) para detección eficiente
+- **🔋 Detección de batería**: Monitorea el nivel de batería y reduce automáticamente partículas cuando < 20%
+- **Object Pooling**: Reutilización de objetos para el trail del mouse (cero garbage collection)
+- **Cache inteligente**: Sistema de cache para colores, distancias y gradientes
+- **WebGL automático**: Detección y uso automático de aceleración GPU cuando está disponible
+- **Hardware acceleration**: Transform3D y backface-visibility para móviles
+- **Culling**: Solo renderiza partículas visibles en pantalla
 
-### 📱 Características Móviles Avanzadas
+### 📱 Características Móviles Avanzadas (Porque tu tablet del 2015 también merece amor)
 
 - **Detección inteligente de dispositivos**: Detecta automáticamente móviles, tablets y escritorio
-- **Multi-touch**: Soporte para múltiples toques simultáneos
+- **Multi-touch**: Soporte para múltiples toques simultáneos (hasta 10 dedos)
 - **Optimización táctil**: Distancias y fuerzas ajustadas para pantallas táctiles
 - **Hardware acceleration**: Uso de transform3D y backface-visibility para mejor rendimiento
 - **Gestión de memoria**: Límites automáticos de partículas en dispositivos móviles
 - **Preferencias de accesibilidad**: Respeta `prefers-reduced-motion` del sistema
+- **Optimización de batería**: Monitoreo automático y ajuste de rendimiento
+- **Responsive automático**: Ajuste de partículas según breakpoints configurables
 
-### 👁️ Lazy Loading y Viewport
+### 👁️ Lazy Loading y Viewport (Solo trabaja cuando es necesario)
 
 - **Intersection Observer**: Inicia las animaciones solo cuando el elemento es visible
-- **Viewport threshold**: Configurable porcentaje de visibilidad para activar
-- **Lazy loading**: Ahorro de recursos en elementos fuera de pantalla
-- **Eventos de viewport**: Callbacks cuando entra/sale del viewport
+- **Viewport threshold**: Configurable porcentaje de visibilidad para activar (por defecto 10%)
+- **Root margin**: Configuración de margen para empezar antes de ser visible (por defecto 50px)
+- **Lazy loading inteligente**: Ahorro de recursos en elementos fuera de pantalla
+- **Eventos de viewport**: Callbacks `onViewportEnter` y `onViewportExit`
+- **Observación única**: Opción de observar solo una vez o continuamente
+- **Auto-limpieza**: Sistema que destruye demos cuando salen del viewport
 
 ### 🎛️ Sistema de Eventos Avanzado
 
@@ -139,6 +137,16 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 - **Eventos de viewport**: onViewportEnter, onViewportExit
 - **Diagnóstico automático**: Sistema de diagnóstico para detectar problemas
 - **Manejo de errores**: Recuperación automática de errores de inicialización
+
+### 🎮 Sistema de Eventos Completo (Callbacks para todo)
+
+- **onInit**: Cuando FluxJS cobra vida (como Pinocho pero mejor)
+- **onStart/onStop**: Control total del ciclo de vida
+- **onResize**: Responsive que realmente responde
+- **onParticleClick**: Click individual en partículas (cada una es especial)
+- **onParticleHover**: Hover con efectos dinámicos
+- **onViewportEnter/Exit**: Eventos de visibilidad inteligentes
+- **onClick del mouse**: Callbacks personalizados para interacción
 
 ## 📦 Instalación
 
@@ -385,12 +393,14 @@ const flux = new FluxJS({
 ## 🎮 Presets Incluidos
 
 - **stars**: Campo de estrellas con efecto twinkle
-- **network**: Red neural animada
+- **network**: Red neural animada estilo Matrix
 - **bubbles**: Burbujas con física realista
-- **spiral**: Partículas en movimiento espiral
+- **spiral**: Movimiento en espiral hipnótico
 - **galaxy**: Simulación de galaxia en órbita
-- **matrix**: Efecto Matrix con caída
+- **matrix**: Efecto Matrix con caída verde
 - **hearts**: Corazones flotantes románticos
+- **aurora**: Efectos de aurora boreal
+- **cosmic**: Espacio profundo con gradientes morados
 
 ## 📱 Responsive por Defecto
 
@@ -413,6 +423,10 @@ const flux = new FluxJS({
 2. **Limita las conexiones**: Usa `maxConnections` para optimizar (menos es más, como en el minimalismo)
 3. **Controla el FPS**: Usa `performance.maxFPS` para dispositivos que han visto mejores días
 4. **Pausa en blur**: `performance.pauseOnBlur` ahorra batería (y la paciencia de tus usuarios)
+5. **Usa Spatial Grid**: `optimizeConnections: true` para miles de partículas
+6. **WebGL automático**: Deja que FluxJS detecte y use GPU cuando esté disponible
+7. **Object Pooling**: El trail reutiliza objetos automáticamente (cero memory leaks)
+8. **Cache inteligente**: Los colores y distancias se cachean automáticamente
 
 ## 🔧 Configuración Completa
 
