@@ -4,81 +4,89 @@
 
 # FluxJS ✨
 
-La librería de partículas que lee tu mente (y tu batería). Más inteligente que un smartphone y más suave que tu explicación cuando llegas tarde al trabajo. Con más de 100 opciones de personalización porque... ¿quién necesita simplicidad cuando puedes tener control total?
+La librería de partículas más sed### 🎮 Sistema de Eventos Completo (Callbacks más responsivos que tu mejor amigo)
+
+- **onInit**: Cuando FluxJS cobra vida (más emocionante que desempacar un regalo)
+- **onStart/onStop**: Control total del ciclo de vida (tú tienes el poder)
+- **onResize**: Responsive que realmente responde (adaptabilidad instantánea)
+- **onParticleClick**: Click individual en partículas (cada una tiene su personalidad)
+- **onParticleHover**: Hover con efectos dinámicos (interacción que seduce)
+- **onViewportEnter/Exit**: Eventos de visibilidad más precisos que tu GPS
+- **onClick del mouse**: Callbacks personalizados para interacción máximal internet. Sí, has leído bien: **seduce** a tus visitantes con efectos visuales que los harán suspirar "¿cómo diablos hiciste esto?". Más adictiva que el scroll infinito y más irresistible que los memes de gatos. Con más de 100 opciones de personalización porque, seamos honestos, te gusta tener todo bajo control... 😏
 
 ## 🚀 Características Principales
 
-### 🧠 Características Innovadoras (Porque lo básico es para básicos)
+### 🧠 Características Innovadoras (Porque lo mediocre no está en nuestro vocabulario)
 
-- **🔋 Optimización Inteligente de Batería**: Más considerado que tu mejor amigo: detecta automáticamente el nivel de batería y ajusta el rendimiento para no dejarte colgado
-- **👁️ Lazy Loading con Viewport**: Solo trabaja cuando es necesario (como todos deberíamos hacer): inicia las animaciones solo cuando el elemento es visible
-- **🎭 Multi-Touch Avanzado**: Soporte completo para múltiples toques porque tus usuarios tienen 10 dedos y los van a usar todos
-- **🧠 IA de Rendimiento**: Sistema adaptativo que ajusta automáticamente la calidad según el dispositivo (sí, también funciona en esa tablet del 2015)
-- **♿ Accesibilidad Nativa**: Respeta las preferencias del sistema como `prefers-reduced-motion` porque somos civilizados
-- **🔧 Auto-Diagnóstico**: Sistema inteligente que detecta y soluciona problemas automáticamente (ojalá fuera así de fácil con los humanos)
+- **🔋 Optimización Inteligente de Batería**: Más consciente que tu mejor amigo cuando se trata de no agotarte: detecta automáticamente el nivel de batería y ajusta el rendimiento para mantenerte funcionando toda la noche 😉
+- **👁️ Lazy Loading con Viewport**: Solo se activa cuando alguien está mirando (como tú en una fiesta): inicia las animaciones únicamente cuando el elemento es visible en pantalla
+- **🎭 Multi-Touch Avanzado**: Soporte completo para múltiples toques porque sabemos que tus usuarios tienen manos ágiles y no van a contenerse
+- **🧠 IA de Rendimiento**: Sistema tan adaptativo que hace que Siri parezca tímida: ajusta automáticamente la calidad según el dispositivo (incluso funciona en esa reliquia tecnológica que aún guardas)
+- **♿ Accesibilidad Nativa**: Más respetuoso que un canadiense: honra las preferencias del sistema como `prefers-reduced-motion` porque la elegancia también es cuestión de buenos modales
+- **🔧 Auto-Diagnóstico**: Sistema tan inteligente que detecta y soluciona problemas antes de que te des cuenta (ojalá las relaciones funcionaran así)
 
-### 🎨 Sistema de Colores Avanzado (Más opciones que en la carta de Starbucks)
+### 🎨 Sistema de Colores Avanzado (Más variado que los gustos de Tinder)
 
-- **Colores simples**: Cuando quieres algo clásico y elegante
-- **Gradientes**: Porque la vida es mejor en degradé
-- **Arcoíris animado**: Para cuando tu inner niño toma el control
-- **Paletas aleatorias**: Déjalo al destino (pero con estilo)
+- **Colores simples**: Para cuando quieres algo clásico pero con clase
+- **Gradientes**: Porque la vida en monocromo es cosa del pasado
+- **Arcoíris animado**: Para cuando tu lado más juguetón toma las riendas del diseño
+- **Paletas aleatorias**: Déjalo al destino (pero con buen gusto garantizado)
 
 <p align="center">
   <img src="captura2.png" alt="Icono de FluxJS">
 </p>
 
-### ⚡ Física Realista (Más precisa que tu GPS en el centro comercial)
+### ⚡ Física Realista (Más precisa que tu GPS cuando necesitas llegar puntual)
 
-- **Gravedad**: Configurable en 4 direcciones porque Newton estaría orgulloso
-- **Viento**: Fuerza y dirección personalizables (sin necesidad de ventilador)
-- **Fricción**: Simulación de resistencia del aire más realista que tu presupuesto mensual
-- **Rebotes**: Factor de rebote configurable para cuando la vida te devuelve lo que das
-- **Turbulencia**: Movimiento caótico realista (como tu horario de trabajo)
+- **Gravedad**: Configurable en 4 direcciones porque Newton aprobaría este nivel de rebeldía
+- **Viento**: Fuerza y dirección personalizables (efectos atmosféricos sin la factura de electricidad)
+- **Fricción**: Simulación de resistencia del aire más realista que tus expectativas de lunes por la mañana
+- **Rebotes**: Factor de rebote configurable para cuando necesitas que las cosas regresen con más energía
+- **Turbulencia**: Movimiento caótico tan realista que hace que el tráfico parezca predecible
 
-### 🖱️ Interacción Avanzada con Mouse (Más receptivo que tu ex)
+### 🖱️ Interacción Avanzada con Mouse (Más receptivo que tu crush cuando le escribes)
 
-- **Atracción/Repulsión**: Fuerzas configurables para el drama que necesitas
-- **Magnetismo**: Atracción instantánea (ojalá funcionara así en Tinder)
-- **Trail del mouse**: Rastro visual con efectos de glow más brillante que tu futuro
-- **Eventos personalizados**: onClick, onHover callbacks porque la personalización es vida
-- **Detección de partículas**: Click en partículas individuales (cada una tiene su momento)
-- **Sparkles**: Partículas brillantes que siguen al cursor como fans obsesionados
-- **Multi-touch avanzado**: Soporte completo para pantallas táctiles (todos tus dedos importan)
-- **Configuración táctil**: Distancias y fuerzas optimizadas para móviles (porque tamaño sí importa)
-- **Cache de distancias**: Optimización de cálculos para mejor rendimiento
-- **Trail con glow**: Efectos visuales con sombras y transparencias
-- **Configuración independiente táctil**: Diferentes configuraciones para touch vs mouse
+- **Atracción/Repulsión**: Fuerzas configurables para crear esa tensión visual que todos necesitamos
+- **Magnetismo**: Atracción instantánea (más efectiva que cualquier línea de ligue)
+- **Trail del mouse**: Rastro visual con efectos de glow más brillante que tu sonrisa después del primer café
+- **Eventos personalizados**: onClick, onHover callbacks porque la personalización es tu segunda naturaleza
+- **Detección de partículas**: Click en partículas individuales (cada una merece su momento de gloria)
+- **Sparkles**: Partículas brillantes que siguen al cursor como si fueras una celebridad
+- **Multi-touch avanzado**: Soporte completo para pantallas táctiles (porque tus dedos merecen respeto)
+- **Configuración táctil**: Distancias y fuerzas optimizadas para móviles (el tamaño importa, pero la precisión más)
+- **Cache de distancias**: Optimización de cálculos que haría llorar de felicidad a cualquier matemático
+- **Trail con glow**: Efectos visuales tan seductores que hipnotizan
+- **Configuración independiente táctil**: Diferentes configuraciones para touch vs mouse (porque no todos los dedos son iguales)
 
-### ✨ Efectos Especiales (Hollywood llamó, quieren sus efectos de vuelta)
+### ✨ Efectos Especiales (Hollywood llamó, quieren contratar nuestros efectos)
 
-- **Glow**: Efecto de brillo configurable más radiante que tu selfie con filtros
-- **Sombras**: Sombras con desplazamiento y desenfoque para ese toque dramático
-- **Twinkle**: Efecto de centelleo porque todo merece brillar
-- **Pulse**: Pulsación de tamaño como el corazón después de subir escaleras
-- **Flicker**: Parpadeo de opacidad más sutil que un guiño
-- **FadeIn**: Aparición gradual más suave que tu transición a la vida adulta
+- **Glow**: Efecto de brillo configurable más radiante que tu ego después de un código perfecto
+- **Sombras**: Sombras con desplazamiento y desenfoque para ese drama visual que necesitas
+- **Twinkle**: Efecto de centelleo porque todo merece su momento de estrella
+- **Pulse**: Pulsación de tamaño más hipnótica que el latido de tu corazón en una cita
+- **Flicker**: Parpadeo de opacidad más sutil que un guiño coqueto
+- **FadeIn**: Aparición gradual más suave que la transición de soltero a comprometido
 
-### 🔵 Formas Personalizadas (Más variedad que un buffet internacional)
+### 🔵 Formas Personalizadas (Más variedad que las excusas para no hacer ejercicio)
 
-- **Círculos**: La forma clásica que nunca pasa de moda
-- **Cuadrados**: Para los que prefieren las esquinas definidas en la vida
-- **Triángulos**: Geometría básica pero con actitud
-- **Estrellas**: Configurables con cualquier número de puntas (5, 6, 8... ¡tú decides!)
-- **Corazones**: Para cuando tu web necesita más amor
-- **Polígonos**: Lados configurables porque ¿por qué limitarse?
-- **Formas custom**: Función de dibujo personalizada para los artistas rebeldes
-- **Rotación continua**: Porque todo se ve mejor girando
-- **Distribución de tamaño**: Uniforme, gaussiana o exponencial (matemáticamente hermoso)
+- **Círculos**: La forma clásica que nunca decepciona
+- **Cuadrados**: Para los que prefieren las cosas claras y definidas
+- **Triángulos**: Geometría básica pero con personalidad
+- **Estrellas**: Configurables con cualquier número de puntas (porque la perfección tiene muchas formas)
+- **Corazones**: Para cuando tu web necesita más amor del que está recibiendo
+- **Polígonos**: Lados configurables porque ¿por qué conformarse con lo convencional?
+- **Formas custom**: Función de dibujo personalizada para los artistas más rebeldes
+- **Rotación continua**: Porque todo se ve mejor en movimiento
+- **Distribución de tamaño**: Uniforme, gaussiana o exponencial (matemáticamente seductora)
 
-### 🌊 Animaciones Avanzadas (Más fluido que tus excusas para llegar tarde)
+### 🌊 Animaciones Avanzadas (Más fluidas que tus movimientos de baile después de dos copas)
 
-- **Float**: Movimiento libre como tu espíritu los viernes
-- **Bounce**: Rebotes en bordes más energéticos que tú después del café
-- **Spiral**: Movimiento espiral hipnótico
-- **Wave**: Ondas sinusoidales relajantes
-- **Orbit**: Órbitas circulares más precisas que los planetas
-- **Direcciones**: Up, down, left, right, random (como tu vida amorosa)
+- **Float**: Movimiento libre como tu espíritu en fin de semana
+- **Bounce**: Rebotes en bordes más energéticos que tú con tu playlist favorita
+- **Spiral**: Movimiento espiral tan hipnótico que te hace olvidar la hora
+- **Wave**: Ondas sinusoidales más relajantes que un masaje
+- **Orbit**: Órbitas circulares más precisas que tus planes de vida
+- **Direcciones**: Up, down, left, right, random (como tus decisiones amorosas)
 
 ### 🕸️ Sistema de Conexiones Mejorado
 
@@ -97,39 +105,39 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 - **Configuración por dispositivo**: Diferentes ajustes para móvil, tablet y escritorio
 - **Simplificación automática**: Desactiva efectos pesados en dispositivos móviles
 
-### ⚙️ Optimización y Rendimiento Inteligente (Porque la velocidad sí importa)
+### ⚙️ Optimización y Rendimiento Inteligente (Porque la velocidad es seductora)
 
-- **Control de FPS**: Límite de cuadros por segundo configurable
-- **Pausa automática**: Al perder foco de ventana (ahorra batería)
-- **Calidad adaptativa**: Ajuste automático de calidad según el rendimiento
-- **Optimización de conexiones**: Algoritmos espaciales (Spatial Grid) para detección eficiente
-- **🔋 Detección de batería**: Monitorea el nivel de batería y reduce automáticamente partículas cuando < 20%
-- **Object Pooling**: Reutilización de objetos para el trail del mouse (cero garbage collection)
-- **Cache inteligente**: Sistema de cache para colores, distancias y gradientes
-- **WebGL automático**: Detección y uso automático de aceleración GPU cuando está disponible
-- **Hardware acceleration**: Transform3D y backface-visibility para móviles
-- **Culling**: Solo renderiza partículas visibles en pantalla
+- **Control de FPS**: Límite de cuadros por segundo configurable (para que no se maree ni tu abuela)
+- **Pausa automática**: Al perder foco de ventana (ahorra batería y tu dignidad)
+- **Calidad adaptativa**: Ajuste automático de calidad según el rendimiento (más inteligente que tu autocorrector)
+- **Optimización de conexiones**: Algoritmos espaciales (Spatial Grid) para detección tan eficiente que da envidia
+- **🔋 Detección de batería**: Monitorea el nivel de batería y reduce automáticamente partículas cuando < 20% (más cuidadoso que tu mamá)
+- **Object Pooling**: Reutilización de objetos para el trail del mouse (cero desperdicios, máximo glamour)
+- **Cache inteligente**: Sistema de cache para colores, distancias y gradientes (memoria fotográfica digital)
+- **WebGL automático**: Detección y uso automático de aceleración GPU cuando está disponible (aprovecha cada pixel)
+- **Hardware acceleration**: Transform3D y backface-visibility para móviles (velocidad que impresiona)
+- **Culling**: Solo renderiza partículas visibles en pantalla (eficiencia nivel ninja)
 
-### 📱 Características Móviles Avanzadas (Porque tu tablet del 2015 también merece amor)
+### 📱 Características Móviles Avanzadas (Porque tu dispositivo del 2020 también merece cariño)
 
-- **Detección inteligente de dispositivos**: Detecta automáticamente móviles, tablets y escritorio
-- **Multi-touch**: Soporte para múltiples toques simultáneos (hasta 10 dedos)
-- **Optimización táctil**: Distancias y fuerzas ajustadas para pantallas táctiles
-- **Hardware acceleration**: Uso de transform3D y backface-visibility para mejor rendimiento
-- **Gestión de memoria**: Límites automáticos de partículas en dispositivos móviles
-- **Preferencias de accesibilidad**: Respeta `prefers-reduced-motion` del sistema
-- **Optimización de batería**: Monitoreo automático y ajuste de rendimiento
-- **Responsive automático**: Ajuste de partículas según breakpoints configurables
+- **Detección inteligente de dispositivos**: Detecta automáticamente móviles, tablets y escritorio (más certero que tu intuición)
+- **Multi-touch**: Soporte para múltiples toques simultáneos (hasta 10 dedos trabajando en armonía)
+- **Optimización táctil**: Distancias y fuerzas ajustadas para pantallas táctiles (cada toque cuenta)
+- **Hardware acceleration**: Uso de transform3D y backface-visibility para rendimiento que impresiona
+- **Gestión de memoria**: Límites automáticos de partículas en dispositivos móviles (cuidamos tu RAM como oro)
+- **Preferencias de accesibilidad**: Respeta `prefers-reduced-motion` del sistema (elegancia inclusiva)
+- **Optimización de batería**: Monitoreo automático y ajuste de rendimiento (tu batería nos lo agradecerá)
+- **Responsive automático**: Ajuste de partículas según breakpoints configurables (adaptabilidad nivel camaleón)
 
-### 👁️ Lazy Loading y Viewport (Solo trabaja cuando es necesario)
+### 👁️ Lazy Loading y Viewport (Solo trabaja cuando vale la pena)
 
-- **Intersection Observer**: Inicia las animaciones solo cuando el elemento es visible
-- **Viewport threshold**: Configurable porcentaje de visibilidad para activar (por defecto 10%)
-- **Root margin**: Configuración de margen para empezar antes de ser visible (por defecto 50px)
-- **Lazy loading inteligente**: Ahorro de recursos en elementos fuera de pantalla
-- **Eventos de viewport**: Callbacks `onViewportEnter` y `onViewportExit`
-- **Observación única**: Opción de observar solo una vez o continuamente
-- **Auto-limpieza**: Sistema que destruye demos cuando salen del viewport
+- **Intersection Observer**: Inicia las animaciones solo cuando el elemento es visible (eficiencia que enamora)
+- **Viewport threshold**: Configurable porcentaje de visibilidad para activar (por defecto 10%, pero tú decides)
+- **Root margin**: Configuración de margen para empezar antes de ser visible (por defecto 50px de anticipación)
+- **Lazy loading inteligente**: Ahorro de recursos en elementos fuera de pantalla (minimalismo digital)
+- **Eventos de viewport**: Callbacks `onViewportEnter` y `onViewportExit` (control total de la experiencia)
+- **Observación flexible**: Opción de observar solo una vez o continuamente (tu eliges el nivel de atención)
+- **Auto-limpieza**: Sistema que destruye demos cuando salen del viewport (limpieza automática nivel Marie Kondo)
 
 ### 🎛️ Sistema de Eventos Avanzado
 
@@ -417,16 +425,16 @@ const flux = new FluxJS({
 });
 ```
 
-## 💡 Tips de Rendimiento (Para que tu web vuele, no que se arrastre)
+## 💡 Tips de Rendimiento (Para que tu web vuele más alto que tus expectativas)
 
-1. **Usa menos partículas en móviles**: El sistema responsive ya lo hace automáticamente (somos considerados así)
-2. **Limita las conexiones**: Usa `maxConnections` para optimizar (menos es más, como en el minimalismo)
-3. **Controla el FPS**: Usa `performance.maxFPS` para dispositivos que han visto mejores días
-4. **Pausa en blur**: `performance.pauseOnBlur` ahorra batería (y la paciencia de tus usuarios)
-5. **Usa Spatial Grid**: `optimizeConnections: true` para miles de partículas
-6. **WebGL automático**: Deja que FluxJS detecte y use GPU cuando esté disponible
-7. **Object Pooling**: El trail reutiliza objetos automáticamente (cero memory leaks)
-8. **Cache inteligente**: Los colores y distancias se cachean automáticamente
+1. **Usa menos partículas en móviles**: El sistema responsive ya lo hace automáticamente (somos así de considerados)
+2. **Limita las conexiones**: Usa `maxConnections` para optimizar (menos conexiones, más seducción)
+3. **Controla el FPS**: Usa `performance.maxFPS` para dispositivos que necesitan un respiro
+4. **Pausa en blur**: `performance.pauseOnBlur` ahorra batería (y la cordura de tus usuarios)
+5. **Usa Spatial Grid**: `optimizeConnections: true` para manejar miles de partículas como un profesional
+6. **WebGL automático**: Deja que FluxJS detecte y use GPU cuando esté disponible (acelera tu corazón y tu web)
+7. **Object Pooling**: El trail reutiliza objetos automáticamente (cero desperdicios, máximo estilo)
+8. **Cache inteligente**: Los colores y distancias se cachean automáticamente (memoria que funciona mejor que la tuya)
 
 ## 🔧 Configuración Completa
 
@@ -439,40 +447,40 @@ Para ver todas las opciones disponibles, consulta [CONFIGURATION.md](CONFIGURATI
 
 ## 🤝 Contribuciones
 
-¡Las contribuciones son más bienvenidas que el viernes después de una semana larga! FluxJS es un proyecto de código abierto y valoramos cada tipo de contribución (sí, incluso esa que crees que no es importante).
+¡Las contribuciones son más bienvenidas que el Wi-Fi gratis en un café! FluxJS es un proyecto de código abierto que se alimenta de la creatividad y el talento de desarrolladores como tú (sí, estamos hablando contigo, genio).
 
-### Formas de Contribuir (Todas son válidas, todas son apreciadas)
+### Formas de Contribuir (Todas son sexys, todas son valiosas)
 
-- 🐛 **Reportar bugs**: Crea un issue describiendo el problema (mientras más detallado, mejor)
-- 💡 **Proponer features**: Sugiere nuevas funcionalidades (no tengas miedo de soñar grande)
-- 📝 **Mejorar documentación**: Ayuda con ejemplos y guías (la documentación clara es un arte)
-- 🔧 **Contribuir código**: Implementa fixes y nuevas características (tu código puede cambiar el mundo)
-- 🎨 **Crear ejemplos**: Desarrolla demos y casos de uso (la creatividad no tiene límites)
-- 🧪 **Testing**: Ayuda con pruebas y validaciones (los bugs no pasarán)
+- 🐛 **Reportar bugs**: Crea un issue describiendo el problema (mientras más detalles, más te amaremos)
+- 💡 **Proponer features**: Sugiere nuevas funcionalidades (no tengas miedo de ser ambicioso)
+- 📝 **Mejorar documentación**: Ayuda con ejemplos y guías (la documentación clara es pura seducción)
+- 🔧 **Contribuir código**: Implementa fixes y nuevas características (tu código puede cambiar el mundo web)
+- 🎨 **Crear ejemplos**: Desarrolla demos y casos de uso (la creatividad no conoce límites)
+- 🧪 **Testing**: Ayuda con pruebas y validaciones (los bugs no tendrán escapatoria)
 
-### Proceso de Contribución (Más fácil que armar un IKEA)
+### Proceso de Contribución (Más sencillo que explicar por qué usas modo oscuro)
 
-1. **Fork** del repositorio (como cuando copias la tarea, pero legal)
+1. **Fork** del repositorio (como cuando copias la tarea, pero aquí está permitido)
 2. **Clona** tu fork: `git clone https://github.com/tu-usuario/FluxJS.git`
 3. **Crea una rama**: `git checkout -b feature/nueva-caracteristica`
-4. **Implementa** tus cambios (aquí es donde brillas)
-5. **Testea** tu código (porque nadie quiere bugs en producción)
-6. **Commit**: `git commit -m "feat: descripción clara del cambio"`
+4. **Implementa** tus cambios (aquí es donde brillas como la estrella que eres)
+5. **Testea** tu código (porque nadie quiere bugs en producción, ¿verdad?)
+6. **Commit**: `git commit -m "feat: descripción irresistible del cambio"`
 7. **Push**: `git push origin feature/nueva-caracteristica`
-8. **Crea un Pull Request** (y espera la magia)
+8. **Crea un Pull Request** (y espera la magia colaborativa)
 
-### Convenciones de Código (Porque el orden nos hace felices)
+### Convenciones de Código (Porque el estilo es importante, incluso en el código)
 
-- Usa **camelCase** para variables y funciones (como todos los civilizados)
-- Comenta código complejo (tu yo del futuro te lo agradecerá)
-- Mantén consistencia con el estilo existente (la armonía es bella)
-- Incluye documentación para nuevos features (la ignorancia no es una bendición)
+- Usa **camelCase** para variables y funciones (como toda persona civilizada)
+- Comenta código complejo (tu yo del futuro te adorará por esto)
+- Mantén consistencia con el estilo existente (la armonía visual es irresistible)
+- Incluye documentación para nuevos features (el conocimiento compartido es poder multiplicado)
 
 Para más detalles, consulta [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 🏆 Colaboradores
 
-¡Gracias a todos los valientes que han contribuido a FluxJS! (Sin ustedes esto sería un monólogo muy aburrido)
+¡Gracias a todos los valientes desarrolladores que han contribuido a FluxJS! (Sin ustedes esto sería un monólogo muy solitario y considerablemente menos divertido)
 
 <!-- Aquí se pueden agregar colaboradores automáticamente con tools como all-contributors -->
 
