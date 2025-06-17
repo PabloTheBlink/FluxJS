@@ -2380,14 +2380,79 @@ flux.updateConfig({
       window.addEventListener("beforeunload", function () {
         try {
           if (currentFlux) currentFlux.destroy();
-          if (generatorFlux) generatorFlux.destroy();
-          Object.values(demos).forEach((demo) => {
-            if (demo && demo.destroy) demo.destroy();
-          });
+          if (generatorInitialized && generatorFlux) generatorFlux.destroy();
+          if (examplesInitialized) {
+            Object.values(demos).forEach((demo) => {
+              if (demo && demo.destroy) demo.destroy();
+            });
+          }
         } catch (error) {
           console.error("Error during cleanup:", error);
         }
       });
+
+      // Variables para controlar la inicialización bajo demanda
+      let generatorInitialized = false;
+      let examplesInitialized = false;
+
+      // Función para inicializar componentes bajo demanda usando Intersection Observer
+      function initializeLazyComponents() {
+        // Configurar observer para la sección de ejemplos
+        const examplesSection = document.getElementById("ejemplos");
+        const generatorSection = document.getElementById("generador");
+
+        if ("IntersectionObserver" in window) {
+          const lazyObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  if (entry.target.id === "ejemplos" && !examplesInitialized) {
+                    console.log("🎯 Inicializando ejemplos bajo demanda...");
+                    initializeExamples();
+                    examplesInitialized = true;
+                    lazyObserver.unobserve(entry.target);
+                  } else if (entry.target.id === "generador" && !generatorInitialized) {
+                    console.log("🎯 Inicializando generador bajo demanda...");
+                    initializeGenerator();
+                    generatorInitialized = true;
+                    lazyObserver.unobserve(entry.target);
+                  }
+                }
+              });
+            },
+            {
+              root: null,
+              rootMargin: "50px", // Inicializar 50px antes de que la sección sea visible
+              threshold: 0.1,
+            }
+          );
+
+          // Observar las secciones
+          if (examplesSection) lazyObserver.observe(examplesSection);
+          if (generatorSection) lazyObserver.observe(generatorSection);
+
+          // Fallback: también inicializar si el usuario navega directamente via hash
+          const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash === "#ejemplos" && !examplesInitialized) {
+              initializeExamples();
+              examplesInitialized = true;
+            } else if (hash === "#generador" && !generatorInitialized) {
+              initializeGenerator();
+              generatorInitialized = true;
+            }
+          };
+
+          // Verificar hash inicial
+          setTimeout(handleHashChange, 100);
+          window.addEventListener("hashchange", handleHashChange);
+        } else {
+          // Fallback para navegadores sin soporte de IntersectionObserver
+          console.log("⚠️ IntersectionObserver no soportado, inicializando todo inmediatamente");
+          setTimeout(initializeGenerator, 300);
+          setTimeout(initializeExamples, 300);
+        }
+      }
 
       // Initialize everything when DOM is ready
       document.addEventListener("DOMContentLoaded", function () {
@@ -2414,8 +2479,9 @@ flux.updateConfig({
         try {
           initializeNavigation();
           setTimeout(initializeBackgroundEffect, 100);
-          setTimeout(initializeGenerator, 100); // Delay to ensure background effect is ready
-          setTimeout(initializeExamples, 100); // Initialize examples after a short delay
+
+          // Inicializar componentes bajo demanda en lugar de inmediatamente
+          setTimeout(initializeLazyComponents, 200);
 
           // Mobile optimizations
           const optimizeForMobile = () => {
@@ -2432,11 +2498,16 @@ flux.updateConfig({
             () => {
               clearTimeout(resizeTimeout);
               resizeTimeout = setTimeout(() => {
-                Object.values(demos).forEach((demo) => {
-                  if (demo && demo.resize) demo.resize();
-                });
+                // Solo redimensionar los demos que han sido inicializados
+                if (examplesInitialized) {
+                  Object.values(demos).forEach((demo) => {
+                    if (demo && demo.resize) demo.resize();
+                  });
+                }
                 if (currentFlux && currentFlux.resize) currentFlux.resize();
-                if (generatorFlux && generatorFlux.resize) generatorFlux.resize();
+                if (generatorInitialized && generatorFlux && generatorFlux.resize) {
+                  generatorFlux.resize();
+                }
                 optimizeForMobile();
               }, 250);
             },
