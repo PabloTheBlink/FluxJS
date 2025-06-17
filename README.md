@@ -145,7 +145,7 @@ La librería de partículas que lee tu mente (y tu batería). Más inteligente q
 ### CDN (Recomendado)
 
 ```html
-<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.2/flux.js"></script>
+<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.3/flux.js"></script>
 ```
 
 ### Descarga Directa

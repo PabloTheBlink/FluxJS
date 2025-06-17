@@ -1,6 +1,6 @@
 {
   "name": "@pablotheblink/fluxjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Una librería de partículas animadas ultra configurable para fondos web interactivos, con más de 100 opciones de personalización",
   "main": "flux.js",
   "module": "flux.js",
