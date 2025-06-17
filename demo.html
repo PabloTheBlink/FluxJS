@@ -867,6 +867,187 @@
           physics: { gravity: 0.03, bounce: 0.95, wind: 0.05 },
           opacity: { min: 0.4, max: 1.0, flicker: true, flickerSpeed: 0.08 },
         },
+
+        stars: {
+          count: 250,
+          color: {
+            type: "random",
+            randomPalette: ["#FFFFFF", "#FFFACD", "#F0E68C", "#FFE4B5", "#FFEFD5", "#FFF8DC"],
+          },
+          size: { min: 1, max: 4, pulse: true, pulseSpeed: 0.02, pulseIntensity: 0.8 },
+          speed: { min: 0.05, max: 0.3, turbulence: 0.2 },
+          connections: { enabled: false },
+          animation: { type: "float", speed: 0.5 },
+          effects: {
+            glow: true,
+            glowColor: "#FFFFFF",
+            glowSize: 8,
+            twinkle: true,
+            twinkleSpeed: 0.03,
+          },
+          shape: { type: "star", rotation: false, sides: 5 },
+          physics: { gravity: 0, friction: 0 },
+          opacity: { min: 0.3, max: 0.9, flicker: true, flickerSpeed: 0.04 },
+        },
+
+        network: {
+          count: 80,
+          color: {
+            type: "single",
+            value: "#00BFFF",
+          },
+          size: { min: 2, max: 5, pulse: false },
+          speed: { min: 0.2, max: 0.6 },
+          connections: {
+            enabled: true,
+            distance: 200,
+            animated: true,
+            width: 2,
+            opacity: 0.8,
+            maxConnections: 8,
+            curve: false,
+          },
+          animation: { type: "linear", speed: 1.0 },
+          effects: {
+            glow: true,
+            glowColor: "#00BFFF",
+            glowSize: 12,
+          },
+          shape: { type: "circle", rotation: false },
+          physics: { gravity: 0, friction: 0.02 },
+        },
+
+        bubbles: {
+          count: 100,
+          color: {
+            type: "gradient",
+            gradient: ["#87CEEB", "#87CEFA", "#B0E0E6", "#ADD8E6", "#E0F6FF"],
+          },
+          size: { min: 3, max: 12, pulse: true, pulseSpeed: 0.04, pulseIntensity: 0.6 },
+          speed: { min: 0.1, max: 0.5, turbulence: 0.3 },
+          connections: { enabled: false },
+          animation: { type: "float", speed: 0.8 },
+          effects: {
+            glow: true,
+            glowColor: "#87CEEB",
+            glowSize: 15,
+            shadow: true,
+            shadowColor: "rgba(135,206,235,0.3)",
+          },
+          shape: { type: "circle", rotation: false },
+          physics: { gravity: -0.01, friction: 0.01, bounce: 0.8 },
+          opacity: { min: 0.4, max: 0.7 },
+        },
+
+        spiral: {
+          count: 120,
+          color: {
+            type: "rainbow",
+            rainbowSpeed: 0.05,
+          },
+          size: { min: 2, max: 6, pulse: true, pulseSpeed: 0.04 },
+          speed: { min: 0.3, max: 1.0 },
+          connections: {
+            enabled: true,
+            distance: 100,
+            animated: true,
+            curve: true,
+            opacity: 0.6,
+          },
+          animation: {
+            type: "spiral",
+            speed: 1.5,
+            direction: "clockwise",
+          },
+          effects: {
+            glow: true,
+            glowSize: 18,
+            twinkle: true,
+            twinkleSpeed: 0.06,
+          },
+          shape: { type: "circle", rotation: true, rotationSpeed: 0.03 },
+          physics: { gravity: 0, friction: 0 },
+        },
+
+        galaxy: {
+          count: 300,
+          color: {
+            type: "gradient",
+            gradient: ["#663399", "#9933CC", "#CC33FF", "#FF33CC", "#FF6699", "#FFCCFF"],
+          },
+          size: { min: 1, max: 8, distribution: "exponential", pulse: true },
+          speed: { min: 0.05, max: 0.4 },
+          connections: {
+            enabled: true,
+            distance: 80,
+            animated: true,
+            opacity: 0.3,
+            maxConnections: 3,
+          },
+          animation: {
+            type: "orbit",
+            orbit: { radius: 250, speed: 0.01 },
+          },
+          effects: {
+            glow: true,
+            glowColor: "#9933CC",
+            glowSize: 20,
+            twinkle: true,
+          },
+          shape: { type: "star", rotation: true, rotationSpeed: 0.02, sides: 6 },
+          physics: { gravity: 0, friction: 0 },
+          opacity: { min: 0.2, max: 0.8 },
+        },
+
+        matrix: {
+          count: 150,
+          color: {
+            type: "random",
+            randomPalette: ["#00FF00", "#00CC00", "#00AA00", "#008800", "#CCFFCC"],
+          },
+          size: { min: 1, max: 3, pulse: false },
+          speed: { min: 0.5, max: 1.5 },
+          connections: {
+            enabled: true,
+            distance: 120,
+            animated: true,
+            width: 1,
+            opacity: 0.7,
+          },
+          animation: { type: "linear", direction: "down", speed: 2.0 },
+          effects: {
+            glow: true,
+            glowColor: "#00FF00",
+            glowSize: 10,
+            shadow: true,
+            shadowColor: "rgba(0,255,0,0.5)",
+          },
+          shape: { type: "square", rotation: false },
+          physics: { gravity: 0.02, friction: 0 },
+          opacity: { min: 0.5, max: 1.0, flicker: true, flickerSpeed: 0.1 },
+        },
+
+        hearts: {
+          count: 60,
+          color: {
+            type: "random",
+            randomPalette: ["#FF69B4", "#FF1493", "#DC143C", "#B22222", "#FFB6C1", "#FFC0CB"],
+          },
+          size: { min: 4, max: 10, pulse: true, pulseSpeed: 0.06, pulseIntensity: 1.2 },
+          speed: { min: 0.2, max: 0.8, turbulence: 0.4 },
+          connections: { enabled: false },
+          animation: { type: "float", speed: 1.2 },
+          effects: {
+            glow: true,
+            glowColor: "#FF69B4",
+            glowSize: 25,
+            twinkle: true,
+            twinkleSpeed: 0.05,
+          },
+          shape: { type: "heart", rotation: true, rotationSpeed: 0.02 },
+          physics: { gravity: -0.005, friction: 0.01 },
+          opacity: { min: 0.6, max: 1.0 },
+        },
       };
 
       // Initialize with optimized configuration
