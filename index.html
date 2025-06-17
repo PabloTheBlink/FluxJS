@@ -3959,6 +3959,7 @@ const flux = new Flux({
                 }
                 if (heroFlux && heroFlux.resize) {
                   heroFlux.resize();
+                  heroFlux.setCount(200);
                 }
                 optimizeForMobile();
               }, 250);
