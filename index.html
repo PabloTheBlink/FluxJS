@@ -3645,6 +3645,12 @@ const flux = new Flux({
               type: "gradient",
               gradient: ["#4fc3f7", "#29b6f6", "#00bcd4", "#26c6da", "#4dd0e1"]
             },
+            event: {
+              onViewportEnter: () => {
+                heroFlux.setCount(200)
+              },
+            },
+
             animation: {
               type: "spiral",
               speed: 2.0, // Velocidad máxima
