@@ -274,16 +274,6 @@
 
         const isMobile = isMobileUA || (isTouchDevice && isSmallScreen) || isAndroid || isIOS;
 
-        console.log("FluxJS: Detección de dispositivo:", {
-          userAgent: userAgent.substring(0, 50) + "...",
-          isMobileUA,
-          isTouchDevice,
-          isSmallScreen,
-          isAndroid,
-          isIOS,
-          finalResult: isMobile,
-        });
-
         return isMobile;
       } catch (error) {
         console.warn("FluxJS: Error en detección móvil, asumiendo escritorio:", error);
@@ -389,8 +379,6 @@
 
     init() {
       try {
-        console.log("FluxJS: Iniciando inicialización...");
-
         this.optimizeForDevice();
 
         const canvasCreated = this.createCanvas();
@@ -410,7 +398,6 @@
           this.start();
         }
 
-        console.log("FluxJS: Inicialización completada exitosamente");
         return true;
       } catch (error) {
         console.error("FluxJS: Error durante la inicialización:", error);
@@ -539,8 +526,6 @@
           this.gradientCache = null;
           this.createGradient();
         }
-
-        console.log("FluxJS: Canvas creado exitosamente");
       } catch (error) {
         console.error("FluxJS: Error al crear canvas:", error);
 
@@ -842,8 +827,6 @@
           this.canvas.addEventListener("touchstart", this.touchStartHandler, touchOptions);
           this.canvas.addEventListener("touchmove", this.touchMoveHandler, touchOptions);
           this.canvas.addEventListener("touchend", this.touchEndHandler, touchOptions);
-
-          console.log("FluxJS: Eventos táctiles configurados");
         } catch (error) {
           console.warn("FluxJS: Error configurando eventos táctiles:", error);
           // Fallback: intentar sin opciones
@@ -851,7 +834,6 @@
             this.canvas.addEventListener("touchstart", this.touchStartHandler);
             this.canvas.addEventListener("touchmove", this.touchMoveHandler);
             this.canvas.addEventListener("touchend", this.touchEndHandler);
-            console.log("FluxJS: Eventos táctiles configurados (fallback)");
           } catch (fallbackError) {
             console.error("FluxJS: No se pudieron configurar eventos táctiles:", fallbackError);
           }
@@ -917,8 +899,6 @@
         if (this.config.responsive.enabled) {
           this.adjustParticleCount();
         }
-
-        console.log(`FluxJS: Canvas redimensionado a ${width}x${height}`);
       } catch (error) {
         console.error("FluxJS: Error durante resize:", error);
 
@@ -2162,7 +2142,6 @@
         },
       };
 
-      console.log("FluxJS: Diagnóstico completo:", diagnostics);
       return diagnostics;
     }
 
