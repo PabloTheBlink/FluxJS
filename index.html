@@ -740,7 +740,7 @@
     </header>
 
     <!-- Hero Section - Diseño Alternativo Moderno -->
-    <section id="inicio" class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 lg:px-8 pt-20 pb-16 max-w-7xl mx-auto">
+    <section id="inicio" class="flex items-center justify-center relative px-4 sm:px-6 lg:px-8 pt-20 pb-16 max-w-7xl mx-auto">
    
       
       <!-- Grid de dos columnas -->
@@ -754,15 +754,24 @@
             v1.0.3 - Listo para usar
           </div>
           
+          <!-- Nombre de la aplicación destacado -->
+          <div class="mb-6">
+            <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black leading-none">
+              <span class="bg-gradient-to-r from-flux-primary via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                FluxJS
+              </span>
+            </h1>
+          </div>
+          
           <!-- Título principal -->
           <div class="space-y-4">
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
               <span class="text-white">Partículas</span>
               <br />
               <span class="text-flux-primary">Increíbles</span>
               <br />
               <span class="text-white/80">Sin Esfuerzo</span>
-            </h1>
+            </h2>
             
             <p class="text-xl sm:text-2xl text-white/70 leading-relaxed max-w-xl">
               Añade efectos visuales que harán suspirar a tus visitantes en solo <span class="text-flux-primary font-semibold">5 minutos</span>. 
@@ -800,35 +809,7 @@
         <!-- Columna Derecha - Demo Visual -->
         <div class="relative">
           <!-- Canvas de demo interactivo con FluxJS real -->
-          <div id="hero-flux-container" class="aspect-square bg-gradient-to-br from-black/40 to-black/60 rounded-3xl border border-white/10 relative overflow-hidden group hover:border-flux-primary/30 transition-all duration-500">
-            <!-- Overlay con texto demo solo visible al inicio -->
-            <div id="hero-overlay" class="absolute inset-0 flex items-center justify-center z-10 opacity-100 transition-opacity duration-1000">
-              <div class="text-center space-y-2">
-                <div class="text-4xl">✨</div>
-                <div class="text-white/80 font-medium">FluxJS en acción</div>
-                <div class="text-white/60 text-sm">Cargando partículas...</div>
-              </div>
-            </div>
-            
-            <!-- Indicador de interactividad -->
-            <div class="absolute bottom-4 right-4 text-white/40 text-xs z-20">
-              Demo interactivo real ↗
-            </div>
-          </div>
-          
-          <!-- Features destacadas -->
-          <div class="mt-8 grid grid-cols-2 gap-4">
-            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-              <div class="text-green-400 text-2xl mb-2">🎯</div>
-              <div class="text-white font-medium text-sm">Súper Seductor</div>
-              <div class="text-white/60 text-xs">Copia y seduce</div>
-            </div>
-            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-              <div class="text-flux-primary text-2xl mb-2">🚀</div>
-              <div class="text-white font-medium text-sm">Ultra Veloz</div>
-              <div class="text-white/60 text-xs">Carga como rayo</div>
-            </div>
-          </div>
+          <div id="hero-flux-container" class="aspect-square"></div>
         </div>
       </div>
       
@@ -3713,7 +3694,7 @@ const flux = new Flux({
             },
             canvas: { 
               background: "transparent",
-              zIndex: 1
+              zIndex: 1,
             }
           });
           

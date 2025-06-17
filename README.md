@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icon.png" alt="Icono de FluxJS" width="160" height="160">
+  <img src="captura1.png" alt="Captura de la web">
 </p>
 
 # FluxJS ✨
