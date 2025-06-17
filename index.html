@@ -3972,7 +3972,10 @@ const flux = new Flux({
                 if (generatorInitialized && generatorFlux && generatorFlux.resize) {
                   generatorFlux.resize();
                 }
-                if (heroFlux && heroFlux.resize) heroFlux.resize();
+                if (heroFlux && heroFlux.resize) {
+                  heroFlux.resize();
+                  heroFlux.setCount(200); // Ajustar el número de partículas en el hero
+                }
                 optimizeForMobile();
               }, 250);
             },
