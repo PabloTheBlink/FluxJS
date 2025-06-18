@@ -931,8 +931,24 @@
         
         <!-- Columna Derecha - Demo Visual -->
         <div class="relative">
+          
+          
           <!-- Canvas de demo interactivo con FluxJS real -->
           <div id="hero-flux-container" class="aspect-square"></div>
+
+          <!-- Controles de Audio - Disimulado -->
+          <div class="relative">
+            <div class="absolute top-2 right-2 z-10">
+              <button id="playAudioBtn" class="bg-white/10 hover:bg-white/20 text-white/60 hover:text-white w-8 h-8 rounded-full transition-all duration-300 flex items-center justify-center text-xs border border-white/20">
+                <span class="play-icon">▶️</span>
+              </button>
+            </div>
+            <audio id="heroAudioPlayer" loop class="hidden">
+              <source src="music.mp3" type="audio/wav">
+              <!-- Aquí puedes poner la URL de tu audio -->
+            </audio>
+            <div id="audioStatus" class="text-white/30 text-xs absolute top-12 right-2 hidden">Audio activo</div>
+          </div>
         </div>
       </div>
       
@@ -3738,14 +3754,97 @@ const flux = new Flux({
         }
       }
 
+      // Variables para el análisis de audio
+      let audioContext;
+      let analyser;
+      let audioSource;
+      let audioElement;
+      let audioData;
+      let isAudioActive = false;
+      let originalHeroConfig;
+
+      // Función para inicializar el análisis de audio
+      function initializeAudioAnalysis() {
+        try {
+          // Crear contexto de audio
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = audioContext.createAnalyser();
+          
+          // Configurar el analizador
+          analyser.fftSize = 256;
+          analyser.smoothingTimeConstant = 0.8;
+          
+          // Buffer para los datos de frecuencia
+          audioData = new Uint8Array(analyser.frequencyBinCount);
+          
+          return true;
+        } catch (error) {
+          console.error('Error inicializando análisis de audio:', error);
+          return false;
+        }
+      }
+
+      // Función para conectar fuente de audio
+      function connectAudioSource(source) {
+        if (audioContext && analyser) {
+          try {
+            if (audioSource) {
+              audioSource.disconnect();
+            }
+            
+            audioSource = audioContext.createMediaElementSource(source);
+            audioSource.connect(analyser);
+            analyser.connect(audioContext.destination);
+            
+            return true;
+          } catch (error) {
+            console.error('Error conectando fuente de audio:', error);
+            return false;
+          }
+        }
+        return false;
+      }
+
+      // Función para analizar audio y actualizar partículas
+      function updateParticlesWithAudio() {
+        if (!isAudioActive || !analyser || !audioData || !heroFlux) return;
+        
+        // Obtener datos de frecuencia
+        analyser.getByteFrequencyData(audioData);
+
+        
+        // Calcular diferentes rangos de frecuencia
+        const bassRange = audioData.slice(0, 32);
+        const midRange = audioData.slice(32, 128);
+        
+        // Calcular promedios
+        const bassAvg = bassRange.reduce((a, b) => a + b, 0) / bassRange.length;
+        const midAvg = midRange.reduce((a, b) => a + b, 0) / midRange.length;
+        
+        const canvas = document.querySelector("#hero-flux-container canvas");
+
+        const mult = heroFlux.isMobile ? 0.55 : 1.0;
+
+        heroFlux.config.effects.glowSize = bassAvg;
+        heroFlux.config.count = bassAvg;
+
+
+        heroFlux.config.connections.distance = bassAvg * 0.5 * mult;
+ 
+        heroFlux.explode(canvas.width / 2, canvas.height / 2, bassAvg, bassAvg * mult);
+      
+        // Continuar el bucle de análisis
+        setTimeout(updateParticlesWithAudio, 100);
+      }
+
       // Función para inicializar el demo hero
       function initializeHeroDemo() {
         const heroContainer = document.getElementById("hero-flux-container");
         const heroOverlay = document.getElementById("hero-overlay");
         
         if (heroContainer && !heroFlux) {
-          // Crear instancia de FluxJS para el hero
-          heroFlux = new FluxJS({
+          // Guardar configuración original
+          originalHeroConfig = {
             container: heroContainer,
             count: 200,
             color: {
@@ -3755,10 +3854,9 @@ const flux = new Flux({
             viewport: {
               enabled: false,
             },
-
             animation: {
               type: "spiral",
-              speed: 2.0, // Velocidad máxima
+              speed: 2.0,
               direction: "random",
               wave: { amplitude: 100, frequency: 0.025, speed: 0.04 },
               orbit: { radius: 150, speed: 0.02 },
@@ -3776,7 +3874,7 @@ const flux = new Flux({
               mobile: {
                 reducedMotion: false,
                 batteryOptimization: false,
-                memoryLimit: 200, // Límite de partículas en móvil
+                memoryLimit: 200,
                 useTransform3d: false,
               }
             },
@@ -3822,7 +3920,16 @@ const flux = new Flux({
               background: "transparent",
               zIndex: 1,
             }
-          });
+          };
+
+          // Crear instancia de FluxJS para el hero
+          heroFlux = new FluxJS(originalHeroConfig);
+          
+          // Inicializar análisis de audio
+          if (initializeAudioAnalysis()) {
+            // Configurar controles de audio
+            setupAudioControlEvents();
+          }
           
           // Ocultar overlay después de un momento
           setTimeout(() => {
@@ -3834,6 +3941,96 @@ const flux = new Flux({
             }
           }, 1500);
         }
+      }
+
+      // Función para configurar eventos de controles de audio
+      function setupAudioControlEvents() {
+        const playBtn = document.getElementById('playAudioBtn');
+        const audioPlayer = document.getElementById('heroAudioPlayer');
+        const playIcon = playBtn?.querySelector('.play-icon');
+ 
+        // Conectar fuente de audio al analizador
+        if (audioPlayer && connectAudioSource(audioPlayer)) {
+          // Configurar eventos de reproducción
+          playBtn?.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+              audioPlayer.play();
+              playIcon.textContent = '⏸️';
+              startAudioReactivity();
+            } else {
+              audioPlayer.pause();
+              // reset audio player to start
+              audioPlayer.currentTime = 0;
+              playIcon.textContent = '▶️';
+              stopAudioReactivity();
+            }
+          });
+
+          // Evento cuando termina el audio
+          audioPlayer.addEventListener('ended', () => {
+            playIcon.textContent = '▶️';
+            stopAudioReactivity();
+          });
+        }
+      }
+
+      // Función para iniciar reactividad de audio
+      function startAudioReactivity() {
+        if (audioContext && audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+        
+        isAudioActive = true;
+        document.getElementById('audioStatus').textContent = 'Audio reactivo activo 🎵';
+       
+        
+
+        heroFlux.setColor({
+            type: "gradient",
+            gradient: ["#FF4500", "#FF6347", "#FF7F50", "#FF8C00"]
+        });
+
+        heroFlux.config.connections.color = "#FF4500"
+        heroFlux.config.connections.opacity = 0.5;
+        heroFlux.config.mouse.trailColor = "#FF4500";
+        heroFlux.config.mouse.sparklesColor = "#FF4500";
+        heroFlux.config.effects.glowColor = "#FF4500";
+        heroFlux.config.effects.glowSize = 50;
+        heroFlux.config.effects.twinkle = true;
+        heroFlux.config.effects.twinkleSpeed = 0.05;
+        heroFlux.config.size.pulse = true;
+        heroFlux.config.size.pulseSpeed = 0.05;
+        heroFlux.config.size.pulseIntensity = 0.8;
+        heroFlux.config.speed.turbulence = 0.3;
+        heroFlux.config.speed.turbulenceFrequency = 0.02; 
+
+        updateParticlesWithAudio();
+      }
+
+      // Función para detener reactividad de audio
+      function stopAudioReactivity() {
+        isAudioActive = false;
+       
+        
+        // Restaurar la configuración original del hero
+        if (heroFlux && originalHeroConfig) {
+          heroFlux.setColor(originalHeroConfig.color);
+          heroFlux.config.connections.color = originalHeroConfig.connections.color;
+          heroFlux.config.connections.opacity = originalHeroConfig.connections.opacity;
+          heroFlux.config.mouse.trailColor = originalHeroConfig.mouse.trailColor;
+          heroFlux.config.mouse.sparklesColor = originalHeroConfig.mouse.sparklesColor;
+          heroFlux.config.effects.glowColor = originalHeroConfig.effects.glowColor;
+          heroFlux.config.effects.glowSize = originalHeroConfig.effects.glowSize;
+          heroFlux.config.effects.twinkle = originalHeroConfig.effects.twinkle;
+          heroFlux.config.effects.twinkleSpeed = originalHeroConfig.effects.twinkleSpeed;
+          heroFlux.config.size.pulse = originalHeroConfig.size.pulse;
+          heroFlux.config.size.pulseSpeed = originalHeroConfig.size.pulseSpeed;
+          heroFlux.config.size.pulseIntensity = originalHeroConfig.size.pulseIntensity;
+          heroFlux.config.speed.turbulence = originalHeroConfig.speed.turbulence;
+          heroFlux.config.speed.turbulenceFrequency = originalHeroConfig.speed.turbulenceFrequency;
+          heroFlux.config.connections.distance = originalHeroConfig.connections.distance;
+        }
+
       }
 
       function initializeRainbowDemo() {
