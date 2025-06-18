@@ -3681,8 +3681,10 @@ const flux = new Flux({
             },
 
             events: {
-              onStart: function (element) {
-                element.isMobile = false; // Desactivar modo móvil para el hero
+              onResize: function (element) {
+                if (element.config.count != 200) {
+                  element.setCount(200);
+                } 
               },
             },
 
@@ -3706,7 +3708,7 @@ const flux = new Flux({
               mobile: {
                 reducedMotion: false,
                 batteryOptimization: false,
-                memoryLimit: 10000, // Límite de partículas en móvil
+                memoryLimit: 200, // Límite de partículas en móvil
                 useTransform3d: false,
               }
             },
