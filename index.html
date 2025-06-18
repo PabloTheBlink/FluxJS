@@ -3680,16 +3680,6 @@ const flux = new Flux({
               enabled: false,
             },
 
-            events: {
-              onStart: function (element) {
-                setInterval(() => {
-                  if (element.config.count != 200) {
-                    element.config.count = 200;
-                  }
-                }, 100);
-              },
-            },
-
             animation: {
               type: "spiral",
               speed: 2.0, // Velocidad máxima
@@ -3766,6 +3756,12 @@ const flux = new Flux({
                 heroOverlay.style.display = "none";
               }, 1000);
             }
+
+            setInterval(() => {
+              if (heroFlux && heroFlux.config.count != 200) {
+                heroFlux.config.count = 200;
+              }
+            }, 100);
           }, 1500);
         }
       }
