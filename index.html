@@ -3830,7 +3830,7 @@ const flux = new Flux({
           const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
             (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document);
           if (isIOS) {
-            mult = 1;
+            mult = 0.7;
           } else {
             mult = 0.55 * (window.devicePixelRatio || 1);
           }
