@@ -657,6 +657,70 @@
       .demo-button:active {
         transform: translateY(0) scale(0.98);
       }
+
+      /* Estilos para destacar el botón Crear */
+      .btn-crear {
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
+        border: 1px solid var(--flux-primary);
+        border-radius: 8px;
+        padding: 8px 16px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 16px rgba(79, 195, 247, 0.3);
+        color: white !important;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-crear:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 24px rgba(79, 195, 247, 0.4);
+        background: linear-gradient(135deg, var(--flux-primary-dark), var(--flux-primary));
+        border-color: var(--flux-primary-dark);
+        color: white !important;
+      }
+
+      .btn-crear:active {
+        transform: translateY(-1px) scale(1.02);
+      }
+
+      .btn-crear::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s;
+      }
+
+      .btn-crear:hover::before {
+        left: 100%;
+      }
+
+      /* Estilos para el botón Crear en móvil */
+      .btn-crear-mobile {
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
+        border-radius: 8px;
+        margin: 8px 16px;
+        padding: 12px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--flux-primary);
+        box-shadow: 0 4px 16px rgba(79, 195, 247, 0.3);
+        color: white !important;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-crear-mobile:hover {
+        background: linear-gradient(135deg, var(--flux-primary-dark), var(--flux-primary));
+        box-shadow: 0 6px 20px rgba(79, 195, 247, 0.4);
+        color: white !important;
+      }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -710,7 +774,7 @@
             <a href="#api" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Guía</a>
           </li>
           <li>
-            <a href="#generador" class="text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Crear</a>
+            <a href="#generador" class="btn-crear text-white/80 font-medium hover:text-flux-primary transition-colors duration-300 no-underline">Crear</a>
           </li>
         </ul>
 
@@ -730,7 +794,7 @@
               <a href="#api" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Guía</a>
             </li>
             <li>
-              <a href="#generador" class="block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Crear</a>
+              <a href="#generador" class="btn-crear-mobile block px-6 py-3 text-white/80 font-medium hover:text-flux-primary hover:bg-white/5 transition-all duration-300 no-underline">Crear</a>
             </li>
           </ul>
         </div>
