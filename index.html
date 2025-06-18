@@ -4003,14 +4003,14 @@ const flux = new Flux({
                 Object.values(demos).forEach((demo) => {
                   if (demo && demo.resize) demo.resize();
                 });
-                // if (currentFlux && currentFlux.resize) currentFlux.resize();
+                if (currentFlux && currentFlux.resize) currentFlux.resize();
                 if (generatorInitialized && generatorFlux && generatorFlux.resize) {
                   generatorFlux.resize();
                 }
-                // if (heroFlux && heroFlux.resize) {
-                //   heroFlux.resize();
-                //   heroFlux.setCount(200);
-                // }
+                if (heroFlux && heroFlux.resize && heroFlux.config.count != 200) {
+                  heroFlux.resize();
+                  heroFlux.setCount(200);
+                }
                 optimizeForMobile();
               }, 250);
             },
