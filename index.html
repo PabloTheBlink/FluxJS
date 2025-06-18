@@ -3681,11 +3681,8 @@ const flux = new Flux({
             },
 
             events: {
-              onInit: function () {
-                heroFlux.isMobile = false; // Desactivar modo móvil para el hero
-              },
-              onResize: function () {
-                heroFlux.setCount(200);
+              onInit: function (element) {
+                element.isMobile = false; // Desactivar modo móvil para el hero
               },
             },
 
