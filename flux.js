@@ -284,7 +284,7 @@
     optimizeForDevice() {
       if (this.isMobile) {
         // Reducir partículas automáticamente en móviles
-        this.config.count = Math.min(this.config.count, this.config.performance.mobile.memoryLimit);
+        // this.config.count = Math.min(this.config.count, this.config.performance.mobile.memoryLimit);
 
         // Ajustar FPS para móviles
         const breakpoint = this.getCurrentBreakpoint();
@@ -2210,7 +2210,7 @@
     optimizeForLowEndDevice() {
       this.performanceMode = "minimal";
       this.config.performance.maxFPS = 15;
-      this.config.count = Math.min(this.config.count, 15);
+      // this.config.count = Math.min(this.config.count, 15);
       this.config.effects.glow = false;
       this.config.effects.shadow = false;
       this.config.connections.enabled = false;

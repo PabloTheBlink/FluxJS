@@ -180,7 +180,7 @@
         }
       }
     </script>
-    <script src="flux.js?v=1.0.3"></script>
+    <script src="flux.js?v=1.0.3x"></script>
 
     <!-- Anti-FOUC Script - Runs immediately -->
     <script>
@@ -3756,12 +3756,6 @@ const flux = new Flux({
                 heroOverlay.style.display = "none";
               }, 1000);
             }
-
-            setInterval(() => {
-              if (heroFlux && heroFlux.config.count != 200) {
-                heroFlux.setCount(200);
-              }
-            }, 100);
           }, 1500);
         }
       }
