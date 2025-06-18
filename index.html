@@ -277,6 +277,72 @@
         --flux-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
+      /* Botón de volver arriba */
+      .scroll-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        background: linear-gradient(135deg, var(--flux-primary), var(--flux-primary-dark));
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: var(--flux-transition);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px) scale(0.8);
+        box-shadow: var(--flux-shadow-lg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .scroll-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+
+      .scroll-to-top:hover {
+        transform: translateY(-4px) scale(1.1);
+        box-shadow: 0 12px 40px rgba(79, 195, 247, 0.4);
+        background: linear-gradient(135deg, var(--flux-primary-dark), var(--flux-primary));
+      }
+
+      .scroll-to-top:active {
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .scroll-to-top svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke: white;
+        stroke-width: 2.5;
+        transition: var(--flux-transition-fast);
+      }
+
+      .scroll-to-top:hover svg {
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .scroll-to-top {
+          bottom: 1.5rem;
+          right: 1.5rem;
+          width: 3rem;
+          height: 3rem;
+        }
+        
+        .scroll-to-top svg {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+      }
+
       @keyframes fadeInUp {
         from {
           opacity: 0;
@@ -4070,6 +4136,54 @@ const flux = new Flux({
           button.style.backgroundColor = "";
         }, 2000);
       }
+
+      // Funcionalidad del botón de volver arriba
+      function initScrollToTop() {
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        if (!scrollToTopBtn) return;
+
+        // Mostrar/ocultar botón basado en scroll
+        function toggleScrollButton() {
+          const scrollY = window.scrollY || document.documentElement.scrollTop;
+          const shouldShow = scrollY > 300; // Mostrar después de 300px de scroll
+          
+          if (shouldShow) {
+            scrollToTopBtn.classList.add('visible');
+          } else {
+            scrollToTopBtn.classList.remove('visible');
+          }
+        }
+
+        // Scroll suave hacia arriba
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', toggleScrollButton, { passive: true });
+        scrollToTopBtn.addEventListener('click', scrollToTop);
+
+        // Inicializar estado
+        toggleScrollButton();
+      }
+
+      // Inicializar cuando el DOM esté listo
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollToTop);
+      } else {
+        initScrollToTop();
+      }
     </script>
+
+    <!-- Botón de volver arriba -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Volver arriba">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
   </body>
 </html>
