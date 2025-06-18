@@ -281,7 +281,7 @@ Si es aplicable, añade screenshots para ayudar a explicar el problema.
 - OS: [ej. iOS]
 - Navegador: [ej. chrome, safari]
 - Versión: [ej. 22]
-- Versión de FluxJS: [ej. 1.0.4]
+- Versión de FluxJS: [ej. 1.0.5]
 
 **Contexto Adicional**
 Añade cualquier otro contexto sobre el problema aquí.
