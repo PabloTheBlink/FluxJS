@@ -3823,7 +3823,9 @@ const flux = new Flux({
         
         const canvas = document.querySelector("#hero-flux-container canvas");
 
-        const mult = heroFlux.isMobile ? 0.6 : 1.0;
+        // Ajustar el multiplicador según el pixel ratio del dispositivo
+        const pixelRatio = window.devicePixelRatio || 1;
+        const mult = (heroFlux.isMobile ? 0.6 : 1.0) * pixelRatio;
 
         heroFlux.config.effects.glowSize = bassAvg;
         heroFlux.config.count = bassAvg;
