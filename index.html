@@ -3823,9 +3823,20 @@ const flux = new Flux({
         
         const canvas = document.querySelector("#hero-flux-container canvas");
 
-        // Ajustar el multiplicador según el pixel ratio del dispositivo
-        const pixelRatio = window.devicePixelRatio || 1;
-        const mult = (heroFlux.isMobile ? 0.6 : 1.0) * pixelRatio;
+        // Ajustar el multiplicador según el dispositivo y pixel ratio
+        let mult;
+        if (heroFlux.isMobile) {
+          // Detectar iOS (iPhone/iPad/iPod)
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+            (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document);
+          if (isIOS) {
+            mult = 1;
+          } else {
+            mult = 0.55 * (window.devicePixelRatio || 1);
+          }
+        } else {
+          mult = 1;
+        }
 
         heroFlux.config.effects.glowSize = bassAvg;
         heroFlux.config.count = bassAvg;
