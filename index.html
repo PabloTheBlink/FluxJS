@@ -3758,8 +3758,9 @@ const flux = new Flux({
             }
 
             setInterval(() => {
-              alert(heroFlux.config.count)
+
               if (heroFlux && heroFlux.config.count != 200) {
+                              alert(heroFlux.config.count)
                 heroFlux.setCount(200);
               }
             }, 100);
