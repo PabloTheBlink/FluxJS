@@ -572,19 +572,34 @@
     }
 
     setupEventListeners() {
-      // Redimensionar canvas
+      // Redimensionar canvas con debounce para evitar problemas en iOS
+      let resizeTimeout;
       this.resizeHandler = () => {
-        this.resize();
-        if (this.config.events.onResize) {
-          this.config.events.onResize(this);
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout);
         }
+
+        // Debounce más agresivo en móviles, especialmente iOS
+        const debounceTime = this.isMobile ? 150 : 50;
+
+        resizeTimeout = setTimeout(() => {
+          this.resize();
+          if (this.config.events.onResize) {
+            this.config.events.onResize(this);
+          }
+        }, debounceTime);
       };
       window.addEventListener("resize", this.resizeHandler);
 
       // Manejar cambios de orientación en móviles
       if (this.isMobile) {
         this.orientationChangeHandler = () => {
-          setTimeout(this.resizeHandler, 100); // Pequeño delay para que la orientación se complete
+          setTimeout(() => {
+            this.resize();
+            if (this.config.events.onResize) {
+              this.config.events.onResize(this);
+            }
+          }, 200); // Delay más largo para orientación
         };
         window.addEventListener("orientationchange", this.orientationChangeHandler);
       }
@@ -868,6 +883,14 @@
           height = height <= 0 ? 200 : height;
         }
 
+        // Evitar resize innecesarios si las dimensiones no han cambiado significativamente
+        const currentWidth = this.canvas.style.width ? parseInt(this.canvas.style.width) : this.canvas.width;
+        const currentHeight = this.canvas.style.height ? parseInt(this.canvas.style.height) : this.canvas.height;
+
+        if (Math.abs(width - currentWidth) < 10 && Math.abs(height - currentHeight) < 10) {
+          return; // Cambio muy pequeño, probablemente scroll en iOS
+        }
+
         // Manejar dispositivos de alta densidad de píxeles de forma más compatible
         if (this.isMobile && window.devicePixelRatio > 1) {
           // En móviles, mantener 1:1 para mejor rendimiento
@@ -913,7 +936,15 @@
     }
 
     adjustParticleCount() {
-      const width = this.canvas.width;
+      // Usar window.innerWidth en lugar de canvas.width para evitar problemas con iOS scroll
+      let width;
+      if (this.config.container === document.body) {
+        width = window.innerWidth;
+      } else {
+        const rect = this.config.container.getBoundingClientRect();
+        width = this.config.container.offsetWidth || rect.width || window.innerWidth;
+      }
+
       let multiplier = 1;
 
       // Determinar multiplicador basado en breakpoints
@@ -928,7 +959,8 @@
 
       const adjustedCount = Math.max(5, Math.floor(this.config.count * multiplier));
 
-      if (adjustedCount !== this.particles.length) {
+      // Evitar cambios innecesarios, especialmente en móviles durante scroll
+      if (adjustedCount !== this.particles.length && Math.abs(adjustedCount - this.particles.length) > 2) {
         this.particles = [];
         this.createParticlesWithCount(adjustedCount);
       }
