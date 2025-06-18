@@ -1,6 +1,6 @@
 /**
  * FluxJS - Librería de partículas animadas ultra configurable
- * Versión: 1.0.3
+ * Versión: 1.0.4
  * Autor: Pablo Martínez
  */
 
@@ -688,7 +688,9 @@
 
         // Asegurar que las coordenadas estén dentro del canvas
         // Si están fuera, devolver coordenadas inválidas
-        if (coords.x < 0 || coords.x > this.canvas.width || coords.y < 0 || coords.y > this.canvas.height) {
+        const effectiveWidth = this.getEffectiveCanvasWidth();
+        const effectiveHeight = this.getEffectiveCanvasHeight();
+        if (coords.x < 0 || coords.x > effectiveWidth || coords.y < 0 || coords.y > effectiveHeight) {
           return { x: -1000, y: -1000 };
         }
 
@@ -711,8 +713,10 @@
       // Función para verificar si el toque está dentro del canvas
       const isTouchInCanvas = (touch) => {
         const coords = getCoordinates(touch);
+        const effectiveWidth = this.getEffectiveCanvasWidth();
+        const effectiveHeight = this.getEffectiveCanvasHeight();
         // Verificar límites del canvas con margen de seguridad
-        return coords.x >= 0 && coords.x <= this.canvas.width && coords.y >= 0 && coords.y <= this.canvas.height && coords.x !== -1000 && coords.y !== -1000; // Coordenadas válidas
+        return coords.x >= 0 && coords.x <= effectiveWidth && coords.y >= 0 && coords.y <= effectiveHeight && coords.x !== -1000 && coords.y !== -1000; // Coordenadas válidas
       };
 
       // Eventos táctiles (móvil)
@@ -863,6 +867,25 @@
       }
     }
 
+    // Obtener dimensiones efectivas del canvas (considerando escalado)
+    getEffectiveCanvasWidth() {
+      if (this.isMobile && window.devicePixelRatio > 1) {
+        return this.canvas.width; // En móviles mantenemos 1:1
+      } else {
+        const dpr = window.devicePixelRatio || 1;
+        return this.canvas.width / dpr;
+      }
+    }
+
+    getEffectiveCanvasHeight() {
+      if (this.isMobile && window.devicePixelRatio > 1) {
+        return this.canvas.height; // En móviles mantenemos 1:1
+      } else {
+        const dpr = window.devicePixelRatio || 1;
+        return this.canvas.height / dpr;
+      }
+    }
+
     resize() {
       try {
         let width, height;
@@ -971,9 +994,9 @@
     }
 
     createParticlesWithCount(count) {
-      // Pre-calcular valores constantes
-      const canvasWidth = this.canvas.width;
-      const canvasHeight = this.canvas.height;
+      // Pre-calcular valores constantes usando dimensiones efectivas
+      const canvasWidth = this.getEffectiveCanvasWidth();
+      const canvasHeight = this.getEffectiveCanvasHeight();
       const speedRange = this.config.speed.max - this.config.speed.min;
       const sizeRange = this.config.size.max - this.config.size.min;
       const opacityRange = this.config.opacity.max - this.config.opacity.min;
@@ -1015,7 +1038,7 @@
     }
 
     createParticle() {
-      return this.createParticleOptimized(this.canvas.width, this.canvas.height, this.config.speed.max - this.config.speed.min, this.config.size.max - this.config.size.min, this.config.opacity.max - this.config.opacity.min);
+      return this.createParticleOptimized(this.getEffectiveCanvasWidth(), this.getEffectiveCanvasHeight(), this.config.speed.max - this.config.speed.min, this.config.size.max - this.config.size.min, this.config.opacity.max - this.config.opacity.min);
     }
 
     getRandomSpeed() {
@@ -1269,20 +1292,23 @@
       particle.x += particle.vx;
       particle.y += particle.vy;
 
-      // Rebotar en los bordes
+      // Rebotar en los bordes usando dimensiones efectivas
+      const effectiveWidth = this.getEffectiveCanvasWidth();
+      const effectiveHeight = this.getEffectiveCanvasHeight();
+
       if (particle.x <= particle.size) {
         particle.x = particle.size;
         particle.vx *= -this.config.physics.bounce;
-      } else if (particle.x >= this.canvas.width - particle.size) {
-        particle.x = this.canvas.width - particle.size;
+      } else if (particle.x >= effectiveWidth - particle.size) {
+        particle.x = effectiveWidth - particle.size;
         particle.vx *= -this.config.physics.bounce;
       }
 
       if (particle.y <= particle.size) {
         particle.y = particle.size;
         particle.vy *= -this.config.physics.bounce;
-      } else if (particle.y >= this.canvas.height - particle.size) {
-        particle.y = this.canvas.height - particle.size;
+      } else if (particle.y >= effectiveHeight - particle.size) {
+        particle.y = effectiveHeight - particle.size;
         particle.vy *= -this.config.physics.bounce;
       }
     }
@@ -1293,11 +1319,11 @@
       particle.x += particle.vx * 0.3 + Math.cos(particle.angle) * 2;
       particle.y += particle.vy * 0.3 + Math.sin(particle.angle) * 2;
 
-      const centerX = this.canvas.width / 2;
-      const centerY = this.canvas.height / 2;
+      const centerX = this.getEffectiveCanvasWidth() / 2;
+      const centerY = this.getEffectiveCanvasHeight() / 2;
       const distanceFromCenter = Math.sqrt(Math.pow(particle.x - centerX, 2) + Math.pow(particle.y - centerY, 2));
 
-      if (distanceFromCenter > Math.min(this.canvas.width, this.canvas.height) / 3) {
+      if (distanceFromCenter > Math.min(this.getEffectiveCanvasWidth(), this.getEffectiveCanvasHeight()) / 3) {
         const attractionForce = 0.005;
         particle.vx += (centerX - particle.x) * attractionForce;
         particle.vy += (centerY - particle.y) * attractionForce;
@@ -1316,8 +1342,8 @@
     }
 
     updateOrbitParticle(particle) {
-      const centerX = this.config.animation.orbit.centerX || this.canvas.width / 2;
-      const centerY = this.config.animation.orbit.centerY || this.canvas.height / 2;
+      const centerX = this.config.animation.orbit.centerX || this.getEffectiveCanvasWidth() / 2;
+      const centerY = this.config.animation.orbit.centerY || this.getEffectiveCanvasHeight() / 2;
 
       particle.orbitAngle += this.config.animation.orbit.speed;
 
@@ -1367,8 +1393,11 @@
     }
 
     updateMouseInteraction(particle) {
+      const effectiveWidth = this.getEffectiveCanvasWidth();
+      const effectiveHeight = this.getEffectiveCanvasHeight();
+
       // Verificar que las coordenadas del ratón estén dentro del canvas
-      if (this.mouse.x < 0 || this.mouse.x > this.canvas.width || this.mouse.y < 0 || this.mouse.y > this.canvas.height) {
+      if (this.mouse.x < 0 || this.mouse.x > effectiveWidth || this.mouse.y < 0 || this.mouse.y > effectiveHeight) {
         // Si el ratón está fuera del canvas, restaurar opacidad y aplicar fricción
         particle.opacity = particle.originalOpacity;
         particle.vx *= 0.98;
@@ -1408,7 +1437,7 @@
           }
 
           // Verificar que el toque esté dentro del canvas
-          if (touch.x >= 0 && touch.x <= this.canvas.width && touch.y >= 0 && touch.y <= this.canvas.height) {
+          if (touch.x >= 0 && touch.x <= effectiveWidth && touch.y >= 0 && touch.y <= effectiveHeight) {
             this.updatePointerInteraction(particle, touch.x, touch.y, "touch");
           }
         });
@@ -1485,17 +1514,20 @@
         return;
       }
 
+      const effectiveWidth = this.getEffectiveCanvasWidth();
+      const effectiveHeight = this.getEffectiveCanvasHeight();
+
       if (this.config.animation.type === "wave") {
-        if (particle.x > this.canvas.width + 10) {
+        if (particle.x > effectiveWidth + 10) {
           particle.x = -10;
         }
-        if (particle.y < -10) particle.y = this.canvas.height + 10;
-        if (particle.y > this.canvas.height + 10) particle.y = -10;
+        if (particle.y < -10) particle.y = effectiveHeight + 10;
+        if (particle.y > effectiveHeight + 10) particle.y = -10;
       } else {
-        if (particle.x < -10) particle.x = this.canvas.width + 10;
-        if (particle.x > this.canvas.width + 10) particle.x = -10;
-        if (particle.y < -10) particle.y = this.canvas.height + 10;
-        if (particle.y > this.canvas.height + 10) particle.y = -10;
+        if (particle.x < -10) particle.x = effectiveWidth + 10;
+        if (particle.x > effectiveWidth + 10) particle.x = -10;
+        if (particle.y < -10) particle.y = effectiveHeight + 10;
+        if (particle.y > effectiveHeight + 10) particle.y = -10;
       }
     }
 
@@ -1602,12 +1634,12 @@
         this.ctx.shadowOffsetY = this.config.effects.shadowOffset.y;
       }
 
-      // Culling bounds
+      // Culling bounds usando dimensiones efectivas
       const margin = 50; // Margen para partículas parcialmente visibles
       const minX = -margin;
-      const maxX = this.canvas.width + margin;
+      const maxX = this.getEffectiveCanvasWidth() + margin;
       const minY = -margin;
-      const maxY = this.canvas.height + margin;
+      const maxY = this.getEffectiveCanvasHeight() + margin;
 
       for (let i = 0; i < this.particles.length; i++) {
         const particle = this.particles[i];

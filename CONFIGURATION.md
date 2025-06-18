@@ -670,7 +670,7 @@ console.log(diagnostics);
 
 ## Resumen Técnico
 
-Esta guía cubre todas las opciones de configuración disponibles en FluxJS versión 1.0.3. La librería está diseñada para ser extremadamente flexible y permitir crear cualquier tipo de efecto de partículas imaginable, con optimizaciones automáticas para todos los dispositivos.
+Esta guía cubre todas las opciones de configuración disponibles en FluxJS versión 1.0.4. La librería está diseñada para ser extremadamente flexible y permitir crear cualquier tipo de efecto de partículas imaginable, con optimizaciones automáticas para todos los dispositivos.
 
 ### Características Técnicas Avanzadas
 

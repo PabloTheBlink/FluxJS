@@ -161,7 +161,7 @@ La librería de partículas más sed### 🎮 Sistema de Eventos Completo (Callba
 ### CDN (Recomendado)
 
 ```html
-<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.3/flux.js"></script>
+<script src="https://unpkg.com/@pablotheblink/fluxjs@1.0.4/flux.js"></script>
 ```
 
 ### Descarga Directa
