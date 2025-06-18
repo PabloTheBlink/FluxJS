@@ -3684,7 +3684,7 @@ const flux = new Flux({
               onStart: function (element) {
                 setInterval(() => {
                   if (element.config.count != 200) {
-                    element.setCount(200);
+                    element.config.count = 200;
                   }
                 }, 100);
               },
