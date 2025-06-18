@@ -3681,10 +3681,12 @@ const flux = new Flux({
             },
 
             events: {
-              onResize: function (element) {
-                if (element.config.count != 200) {
-                  element.setCount(200);
-                } 
+              onStart: function (element) {
+                setInterval(() => {
+                  if (element.config.count != 200) {
+                    element.setCount(200);
+                  }
+                }, 100);
               },
             },
 
