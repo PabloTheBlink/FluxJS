@@ -65,6 +65,12 @@ export interface FluxMouseConfig {
   repulsionForce?: number;
   trail?: boolean;
   trailLength?: number;
+  // Nuevos tipos para trail avanzado
+  trailWidth?: number;
+  trailColor?: string;
+  trailGlow?: boolean;
+  trailFadeTime?: number;
+  sparkles?: boolean;
   onClick?: (() => void) | null;
   magnetism?: boolean;
   magnetismStrength?: number;
@@ -152,6 +158,11 @@ export interface FluxMobilePerformanceConfig {
   batteryOptimization?: boolean;
   memoryLimit?: number;
   useTransform3d?: boolean;
+  // Nuevos tipos para optimizaciones móviles
+  enableHardwareAcceleration?: boolean;
+  touchThrottling?: number;
+  simplifyShapes?: boolean;
+  reduceTrail?: boolean;
 }
 
 export interface FluxPerformanceConfig {
@@ -160,6 +171,12 @@ export interface FluxPerformanceConfig {
   optimizeConnections?: boolean;
   pauseOnBlur?: boolean;
   adaptiveQuality?: boolean;
+  // Nuevos tipos para rendimiento avanzado
+  cullingEnabled?: boolean;
+  spatialGrid?: boolean;
+  objectPooling?: boolean;
+  cacheOptimization?: boolean;
+  batteryMonitoring?: boolean;
   mobile?: FluxMobilePerformanceConfig;
 }
 
@@ -179,6 +196,16 @@ export interface FluxEventsConfig {
   onParticleHover?: ((particle: FluxParticle, flux: FluxJS) => void) | null;
   onViewportEnter?: ((flux: FluxJS, entry: IntersectionObserverEntry) => void) | null;
   onViewportExit?: ((flux: FluxJS, entry: IntersectionObserverEntry) => void) | null;
+  // Nuevos eventos para dispositivos móviles
+  onTouchStart?: ((touches: TouchList, flux: FluxJS) => void) | null;
+  onTouchMove?: ((touches: TouchList, flux: FluxJS) => void) | null;
+  onTouchEnd?: ((touches: TouchList, flux: FluxJS) => void) | null;
+  onOrientationChange?: ((orientation: string, flux: FluxJS) => void) | null;
+  onBatteryLow?: ((batteryInfo: FluxBatteryInfo, flux: FluxJS) => void) | null;
+  onPerformanceChange?: ((performanceInfo: FluxPerformanceInfo, flux: FluxJS) => void) | null;
+  // Eventos de diagnóstico
+  onError?: ((error: Error, flux: FluxJS) => void) | null;
+  onWarning?: ((warning: string, flux: FluxJS) => void) | null;
 }
 
 export interface FluxOptions {
@@ -200,6 +227,10 @@ export interface FluxOptions {
   performance?: FluxPerformanceConfig;
   viewport?: FluxViewportConfig;
   events?: FluxEventsConfig;
+  // Nuevas opciones para características móviles
+  gestures?: FluxGestureConfig;
+  accessibility?: FluxAccessibilityConfig;
+  diagnostics?: FluxDiagnosticsConfig;
 }
 
 export interface FluxParticle {
@@ -234,8 +265,37 @@ export interface FluxMouse {
   x: number;
   y: number;
   trail: FluxPoint[];
+  // Nuevos tipos para información del mouse
+  isMoving?: boolean;
+  velocity?: FluxPoint;
+  lastMoveTime?: number;
 }
 
+// Nuevo tipo para información de dispositivos móviles
+export interface FluxDeviceInfo {
+  isMobile: boolean;
+  isTablet: boolean;
+  isDesktop: boolean;
+  touchSupport: boolean;
+  maxTouchPoints: number;
+  orientation?: "portrait" | "landscape";
+  pixelRatio: number;
+  screenSize: {
+    width: number;
+    height: number;
+  };
+}
+
+// Nuevo tipo para información de batería
+export interface FluxBatteryInfo {
+  level?: number;
+  charging?: boolean;
+  chargingTime?: number;
+  dischargingTime?: number;
+  supported: boolean;
+}
+
+// Nuevo tipo para información de rendimiento extendida
 export interface FluxPerformanceInfo {
   fps: number;
   maxFPS: number;
@@ -248,12 +308,54 @@ export interface FluxPerformanceInfo {
     width: number;
     height: number;
   };
+  // Nuevos campos para información extendida
+  memoryUsage?: number;
+  batteryInfo?: FluxBatteryInfo;
+  deviceInfo?: FluxDeviceInfo;
+  renderTime?: number;
+  updateTime?: number;
+  connectionCount?: number;
+}
+
+// Nuevos tipos para características específicas de móviles
+export interface FluxGestureConfig {
+  enabled?: boolean;
+  pinchZoom?: boolean;
+  swipeDirection?: "all" | "horizontal" | "vertical" | "none";
+  tapSensitivity?: number;
+  longPressDuration?: number;
+  doubleTapDelay?: number;
+}
+
+export interface FluxAccessibilityConfig {
+  respectReducedMotion?: boolean;
+  highContrast?: boolean;
+  screenReaderSupport?: boolean;
+  keyboardNavigation?: boolean;
+  focusIndicators?: boolean;
+}
+
+export interface FluxDiagnosticsConfig {
+  enabled?: boolean;
+  collectPerformanceMetrics?: boolean;
+  logErrors?: boolean;
+  logWarnings?: boolean;
+  collectDeviceInfo?: boolean;
+  collectBatteryInfo?: boolean;
 }
 
 export interface FluxUtils {
   generateColorPalette: (baseColor: string, count?: number) => string[];
   createGradient: (colors: string[], type?: string) => FluxColorConfig;
   createLazyFlux: (selector: string, baseConfig?: FluxOptions) => FluxJS[];
+  // Nuevas utilidades para dispositivos móviles
+  detectDevice: () => FluxDeviceInfo;
+  isTouchDevice: () => boolean;
+  getBatteryStatus: () => Promise<FluxBatteryInfo>;
+  optimizeConfigForDevice: (config: FluxOptions, device: FluxDeviceInfo) => FluxOptions;
+  // Utilidades de rendimiento
+  measurePerformance: (callback: () => void) => number;
+  createPerformancePreset: (device: FluxDeviceInfo) => Partial<FluxOptions>;
   physics: {
     earth: FluxPhysicsConfig;
     space: FluxPhysicsConfig;
@@ -264,6 +366,13 @@ export interface FluxUtils {
     lazy: FluxViewportConfig;
     eager: FluxViewportConfig;
     strict: FluxViewportConfig;
+  };
+  // Nuevos presets para dispositivos
+  device: {
+    mobile: Partial<FluxOptions>;
+    tablet: Partial<FluxOptions>;
+    desktop: Partial<FluxOptions>;
+    lowEnd: Partial<FluxOptions>;
   };
 }
 
@@ -294,6 +403,11 @@ export class FluxJS {
   currentFPS: number;
   performanceMode: string;
   devicePixelRatio: number;
+  // Nuevas propiedades para funcionalidades móviles
+  batteryInfo?: FluxBatteryInfo;
+  deviceInfo?: FluxDeviceInfo;
+  touchHandler?: any;
+  intersectionObserver?: IntersectionObserver;
 
   constructor(options?: FluxOptions);
 
@@ -324,9 +438,17 @@ export class FluxJS {
   // Métodos de optimización
   forceMobileOptimization(): void;
   optimizeForLowEndDevice(): void;
+  // Nuevos métodos para información de dispositivo
+  getDeviceInfo(): FluxDeviceInfo;
+  getBatteryInfo(): Promise<FluxBatteryInfo>;
+  checkBatteryLevel(): Promise<void>;
+  optimizeForBattery(): void;
 
   // Métodos de información
   getPerformanceInfo(): FluxPerformanceInfo;
+  // Nuevos métodos para diagnóstico
+  runDiagnostics(): Promise<any>;
+  getMemoryUsage(): number;
 }
 
 export interface CreateFluxFunction {
