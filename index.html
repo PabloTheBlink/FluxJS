@@ -2701,53 +2701,313 @@ const flux = new Flux({
           </div>
         </div>
 
-        <!-- Contenido de desarrollo -->
-        <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
-          <div class="flux-glass border border-yellow-400/40 rounded-3xl p-8 sm:p-12 max-w-3xl mx-auto relative group overflow-hidden">
-            <!-- Partículas decorativas -->
-            <div class="absolute top-4 right-8 w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse"></div>
-            <div class="absolute bottom-6 left-10 w-1.5 h-1.5 bg-flux-primary/70 rounded-full animate-ping" style="animation-delay: 0.8s"></div>
-            <div class="absolute top-1/2 right-12 w-1 h-1 bg-cyan-400/80 rounded-full animate-pulse" style="animation-delay: 1.2s"></div>
-
+        <!-- Grid de testimonios reales -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
+          <!-- Testimonio 1 - Javier Fernández -->
+          <div class="flux-glass border border-yellow-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse"></div>
             <div class="relative z-10">
-              <div class="text-6xl sm:text-8xl mb-8 animate-bounce">�</div>
-
-              <h3 class="text-2xl sm:text-3xl font-bold mb-6">
-                <span class="text-orange-400 font-bold">¡Sección en Construcción!</span>
-              </h3>
-
-              <p class="text-lg sm:text-xl text-white/85 mb-8 leading-relaxed">Estamos recopilando las <span class="text-yellow-400 font-bold">mejores historias</span> de desarrolladores que ya están creando cosas increíbles con FluxJS. <span class="text-cyan-400 font-medium">¡Muy pronto tendrás testimonios reales!</span></p>
-
-              <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
-                <div class="flex items-center gap-3 p-4 bg-yellow-400/10 rounded-2xl border border-yellow-400/20">
-                  <span class="text-3xl">⭐⭐⭐⭐⭐</span>
-                  <div class="text-left">
-                    <p class="text-yellow-400 font-bold text-sm">5.0 estrellas</p>
-                    <p class="text-white/70 text-xs">Calificación esperada</p>
-                  </div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  JF
                 </div>
-
-                <div class="flex items-center gap-3 p-4 bg-flux-primary/10 rounded-2xl border border-flux-primary/20">
-                  <span class="text-3xl">🚀</span>
-                  <div class="text-left">
-                    <p class="text-flux-primary font-bold text-sm">1000+</p>
-                    <p class="text-white/70 text-xs">Proyectos usando FluxJS</p>
-                  </div>
+                <div>
+                  <h4 class="text-yellow-400 font-bold text-sm">Javier Fernández Gutiérrez</h4>
+                  <p class="text-white/70 text-xs">Programador Senior</p>
                 </div>
               </div>
-
-              <div class="bg-gradient-to-r from-flux-primary/20 to-cyan-400/20 rounded-2xl p-6 border border-flux-primary/30">
-                <p class="text-sm text-white/80 mb-4"><span class="text-flux-primary font-bold">¿Ya usas FluxJS?</span> ¡Nos encantaría conocer tu experiencia!</p>
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                  <a href="https://www.linkedin.com/feed/update/urn:li:activity:7341160219382591489/" target="_blank" class="flux-btn flux-btn-primary px-6 py-3 text-sm relative group/btn overflow-hidden">
-                    <span class="relative z-10"> 💬 Comparte tu Historia </span>
-                  </a>
-                  <a href="#contribuir" class="flux-btn flux-btn-secondary px-6 py-3 text-sm relative group/btn overflow-hidden">
-                    <span class="relative z-10"> 🤝 Colaborar con Nosotros </span>
-                  </a>
-                </div>
+              <div class="text-yellow-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"¡Impresionante!"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-yellow-400/20">
+                <span class="text-yellow-400 text-sm">🔥</span>
+                <span class="text-xs text-white/60">Hace 6 horas</span>
               </div>
             </div>
+          </div>
+
+          <!-- Testimonio 2 - Julian Videla -->
+          <div class="flux-glass border border-flux-primary/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-flux-primary/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-flux-primary to-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  JV
+                </div>
+                <div>
+                  <h4 class="text-flux-primary font-bold text-sm">Julian Videla</h4>
+                  <p class="text-white/70 text-xs">Frontend Developer | React · Next.js</p>
+                </div>
+              </div>
+              <div class="text-flux-primary text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Muy bueno, la landing quedó increíble!"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-flux-primary/20">
+                <span class="text-flux-primary text-sm">👍</span>
+                <span class="text-xs text-white/60">Hace 1 hora</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 3 - Luis Chicaiza -->
+          <div class="flux-glass border border-green-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-green-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  LC
+                </div>
+                <div>
+                  <h4 class="text-green-400 font-bold text-sm">Luis Chicaiza</h4>
+                  <p class="text-white/70 text-xs">Frontend Developer | React</p>
+                </div>
+              </div>
+              <div class="text-green-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Lo estuve probando y es una pasada! Gracias por tus aportaciones 🚀"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-green-400/20">
+                <span class="text-green-400 text-sm">🚀</span>
+                <span class="text-xs text-white/60">Hace 19 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 4 - Simeí Lavalle -->
+          <div class="flux-glass border border-purple-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-purple-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  SL
+                </div>
+                <div>
+                  <h4 class="text-purple-400 font-bold text-sm">Simeí Lavalle</h4>
+                  <p class="text-white/70 text-xs">Full Stack Developer</p>
+                </div>
+              </div>
+              <div class="text-purple-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Se ve increíble, seguramente la usaré en algún proyecto."</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-purple-400/20">
+                <span class="text-purple-400 text-sm">❤️</span>
+                <span class="text-xs text-white/60">Hace 21 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 5 - Caled Flores -->
+          <div class="flux-glass border border-orange-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-orange-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  CF
+                </div>
+                <div>
+                  <h4 class="text-orange-400 font-bold text-sm">Caled Flores</h4>
+                  <p class="text-white/70 text-xs">Full Stack Developer</p>
+                </div>
+              </div>
+              <div class="text-orange-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"La estás rompiendo mi bro 🔥 gracias por compartir de tu gran creatividad 🥳"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-orange-400/20">
+                <span class="text-orange-400 text-sm">🔥</span>
+                <span class="text-xs text-white/60">Hace 20 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 6 - Juan Ramón Rodríguez -->
+          <div class="flux-glass border border-cyan-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-cyan-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  JR
+                </div>
+                <div>
+                  <h4 class="text-cyan-400 font-bold text-sm">Juan Ramón Rodríguez</h4>
+                  <p class="text-white/70 text-xs">Senior Full-Stack AI Engineer</p>
+                </div>
+              </div>
+              <div class="text-cyan-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"✨🔭👀"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-cyan-400/20">
+                <span class="text-cyan-400 text-sm">✨</span>
+                <span class="text-xs text-white/60">Hace 18 horas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segunda fila de testimonios -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
+          <!-- Testimonio 7 - Denise Lara -->
+          <div class="flux-glass border border-pink-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-pink-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  DL
+                </div>
+                <div>
+                  <h4 class="text-pink-400 font-bold text-sm">Denise Lara</h4>
+                  <p class="text-white/70 text-xs">Frontend Developer</p>
+                </div>
+              </div>
+              <div class="text-pink-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Buenísimo, voy a probarlo para ver qué tal, gracias por compartir!"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-pink-400/20">
+                <span class="text-pink-400 text-sm">👍</span>
+                <span class="text-xs text-white/60">Hace 15 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 8 - Paul Uzcategui -->
+          <div class="flux-glass border border-indigo-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-indigo-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  PU
+                </div>
+                <div>
+                  <h4 class="text-indigo-400 font-bold text-sm">Paul Uzcategui</h4>
+                  <p class="text-white/70 text-xs">Desarrollador Full Stack</p>
+                </div>
+              </div>
+              <div class="text-indigo-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Realmente asombroso 😮‍💨👌"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-indigo-400/20">
+                <span class="text-indigo-400 text-sm">😮‍💨</span>
+                <span class="text-xs text-white/60">Hace 17 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 9 - Brayan Reyes -->
+          <div class="flux-glass border border-emerald-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-emerald-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  BR
+                </div>
+                <div>
+                  <h4 class="text-emerald-400 font-bold text-sm">Brayan Reyes Rodríguez</h4>
+                  <p class="text-white/70 text-xs">Software Engineer</p>
+                </div>
+              </div>
+              <div class="text-emerald-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Wow🙌"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-emerald-400/20">
+                <span class="text-emerald-400 text-sm">🙌</span>
+                <span class="text-xs text-white/60">Hace 43 minutos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 10 - Andrés Medina -->
+          <div class="flux-glass border border-lime-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-lime-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-lime-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  AM
+                </div>
+                <div>
+                  <h4 class="text-lime-400 font-bold text-sm">Andrés Medina</h4>
+                  <p class="text-white/70 text-xs">Frontend React Developer</p>
+                </div>
+              </div>
+              <div class="text-lime-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"¡Muy bien, Pablo!"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-lime-400/20">
+                <span class="text-lime-400 text-sm">👏</span>
+                <span class="text-xs text-white/60">Hace 1 hora</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 11 - Axel Domingo -->
+          <div class="flux-glass border border-amber-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-amber-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  AD
+                </div>
+                <div>
+                  <h4 class="text-amber-400 font-bold text-sm">Axel Domingo Lara Parés</h4>
+                  <p class="text-white/70 text-xs">Frontend/Game Developer</p>
+                </div>
+              </div>
+              <div class="text-amber-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"Interesante gracias por compartir"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-amber-400/20">
+                <span class="text-amber-400 text-sm">👍</span>
+                <span class="text-xs text-white/60">Hace 17 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonio 12 - Reinaldo González -->
+          <div class="flux-glass border border-violet-400/30 rounded-3xl p-6 relative group overflow-hidden hover:scale-105 transition-all duration-500">
+            <div class="absolute top-3 right-4 w-2 h-2 bg-violet-400/60 rounded-full animate-pulse"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-violet-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  RG
+                </div>
+                <div>
+                  <h4 class="text-violet-400 font-bold text-sm">Reinaldo González</h4>
+                  <p class="text-white/70 text-xs">Software Engineer</p>
+                </div>
+              </div>
+              <div class="text-violet-400 text-xl mb-3">⭐⭐⭐⭐⭐</div>
+              <p class="text-white/90 italic">"¡Excelente trabajo!"</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 border-t border-violet-400/20">
+                <span class="text-violet-400 text-sm">🎉</span>
+                <span class="text-xs text-white/60">Hace 12 horas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadísticas de la comunidad -->
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+          <div class="flex items-center gap-3 p-6 bg-yellow-400/10 rounded-2xl border border-yellow-400/20 backdrop-blur-sm">
+            <span class="text-4xl">⭐⭐⭐⭐⭐</span>
+            <div class="text-left">
+              <p class="text-yellow-400 font-bold text-lg">5.0 estrellas</p>
+              <p class="text-white/70 text-sm">12+ testimonios reales</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-6 bg-flux-primary/10 rounded-2xl border border-flux-primary/20 backdrop-blur-sm">
+            <span class="text-4xl">🚀</span>
+            <div class="text-left">
+              <p class="text-flux-primary font-bold text-lg">100%</p>
+              <p class="text-white/70 text-sm">Satisfacción de usuarios</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-6 bg-green-400/10 rounded-2xl border border-green-400/20 backdrop-blur-sm">
+            <span class="text-4xl">👥</span>
+            <div class="text-left">
+              <p class="text-green-400 font-bold text-lg">LinkedIn</p>
+              <p class="text-white/70 text-sm">Comunidad activa</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="bg-gradient-to-r from-flux-primary/20 to-cyan-400/20 rounded-3xl p-8 border border-flux-primary/30 text-center">
+          <p class="text-lg text-white/90 mb-6"><span class="text-flux-primary font-bold">¿Ya usas FluxJS?</span> ¡Únete a nuestra increíble comunidad de desarrolladores!</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7341160219382591489/" target="_blank" class="flux-btn flux-btn-primary px-8 py-4 text-base relative group/btn overflow-hidden">
+              <span class="relative z-10"> 💬 Comparte tu Historia </span>
+            </a>
+            <a href="#contribuir" class="flux-btn flux-btn-secondary px-8 py-4 text-base relative group/btn overflow-hidden">
+              <span class="relative z-10"> 🤝 Colaborar con Nosotros </span>
+            </a>
           </div>
         </div>
       </div>
