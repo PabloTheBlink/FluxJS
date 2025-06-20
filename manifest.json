@@ -1,0 +1,23 @@
+{
+  "name": "Flux.js - Librería de Partículas JavaScript",
+  "short_name": "Flux.js",
+  "description": "La librería de partículas más seductora del internet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020202",
+  "theme_color": "#4fc3f7",
+  "lang": "es",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

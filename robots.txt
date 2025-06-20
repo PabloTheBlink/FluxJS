@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pablotheblink.github.io/FluxJS/sitemap.xml
+
+# Disallow
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.vscode/
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Social media bots
+User-agent: facebookexternalhit/*
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
